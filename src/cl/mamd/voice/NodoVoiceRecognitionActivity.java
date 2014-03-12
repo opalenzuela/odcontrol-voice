@@ -1,0 +1,212 @@
+package cl.mamd.voice;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class NodoVoiceRecognitionActivity extends Activity {
+
+	private TextView ipaddress;
+	private TextView name;
+	private TextView location;
+	private TextView username;
+	private TextView passwd;
+	private ListView listview;
+	private String[] values;
+	private ArrayAdapter<String> adapter;
+	
+	private final String TAGNAME = "NodoVoiceRecognitionActivity";
+	private int RESULT_SPEECH = 1;
+	
+	//For voice Recognition
+	private SpeechRecognizer sr;
+	private RecognitionListener rlistener;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_nodo_voice_recognition);
+		
+		this.ipaddress = (TextView)findViewById(R.id.textView_nodoipaddress);        
+	    this.name = (TextView)findViewById(R.id.textView_nodoname);
+	    this.location = (TextView)findViewById(R.id.textView_nodolocation);
+	    this.username = (TextView)findViewById(R.id.textView_nodousername);
+	    this.passwd = (TextView)findViewById(R.id.textView_nodopasswd);
+		
+	    this.listview = (ListView)findViewById(R.id.listView_voicerecognition);
+	    
+	    //String[] values = new String[] { };
+	    final List<String> values = new ArrayList<String>();
+	    values.add("Hola");
+	    
+	    adapter = new ArrayAdapter<String>(this,
+	            android.R.layout.simple_list_item_1, values);
+	    
+	    this.listview.setAdapter(adapter);
+	    
+	    //ArrayAdapter<Item> adapter = new ArrayAdapter<Item>(this,android.R.layout.simple_list_item_1);
+	    
+	    
+	    
+		Bundle extras = getIntent().getExtras();
+        if (extras != null){
+        	this.ipaddress.setText(extras.getString("IPADDRESS"));        
+            this.name.setText(extras.getString("NAME"));
+            this.location.setText(extras.getString("LOCATION"));
+            this.username.setText(extras.getString("USERNAME"));
+            this.passwd.setText(extras.getString("PASSWD"));
+        }
+		
+        
+        //
+        
+        
+        rlistener = new RecognitionListener(){
+
+			@Override
+			public void onBeginningOfSpeech() {
+				// TODO Auto-generated method stub
+				Log.i(TAGNAME, "onReadyForSpeech");
+			}
+
+			@Override
+			public void onBufferReceived(byte[] arg0) {
+				// TODO Auto-generated method stub
+				Log.i(TAGNAME, "onBeginningOfSpeech");
+			}
+
+			@Override
+			public void onEndOfSpeech() {
+				// TODO Auto-generated method stub
+				Log.i(TAGNAME, "onEndofSpeech");
+				/**
+				 * if (nombre.length() > 10 ){
+				 
+		        	Toast.makeText(getApplicationContext(), "Nombre:"+nombre,Toast.LENGTH_LONG).show();
+		        }
+		        */
+			}
+
+			@Override
+			public void onError(int error) {
+				// TODO Auto-generated method stub
+				Log.i(TAGNAME,  "error " +  error);
+			}
+
+			@Override
+			public void onEvent(int eventType, Bundle params) {
+				// TODO Auto-generated method stub
+				Log.i(TAGNAME, "onEvent " + eventType);
+			}
+
+			@Override
+			public void onPartialResults(Bundle partialResults) {
+				// TODO Auto-generated method stub
+				Log.i(TAGNAME, "onPartialResults");
+			}
+
+			@Override
+			public void onReadyForSpeech(Bundle params) {
+				// TODO Auto-generated method stub
+				Log.i(TAGNAME,"onReadyForSpeech");
+			}
+
+			@Override
+			public void onResults(Bundle results) {
+				// TODO Auto-generated method stub
+				String str = new String();
+                Log.i(TAGNAME, "onResults " + results);
+                ArrayList data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                for (int i = 0; i < data.size(); i++)
+                {
+                		  //if (String.valueOf(data.get(i)).length() > 10){
+                			  //nombre = (String) data.get(i);
+                			  //escribirLog(nombre);
+                			  Log.i(TAGNAME,"Length of data:"+String.valueOf(data.get(i)).length());
+                		  //}
+                		  
+                          Log.i(TAGNAME, "result " + data.get(i));
+                          str += data.get(i);
+                }
+               if (str.length() > 10){
+            	  // values
+            	   Log.i(TAGNAME, "Addign result to LISTVIEW");
+            	   values.add(str);
+            	   Log.i(TAGNAME, "values count:"+Integer.toString(values.size()));
+            	   
+            	   adapter.add(str);
+           	       listview.setAdapter(adapter);
+           	    	
+               }
+               Log.i(TAGNAME,"results: "+String.valueOf(data.size()));
+                
+			}
+
+			@Override
+			public void onRmsChanged(float rmsdB) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+        };
+
+        
+        sr = SpeechRecognizer.createSpeechRecognizer(this);
+        sr.setRecognitionListener(rlistener); 
+        
+	}
+	
+	public void buttonStartSpeech(View view){
+		Log.i(TAGNAME, "BUTTON START");
+		
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);        
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        //intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,"voice.recognition.test");
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
+        startActivityForResult(intent, RESULT_SPEECH);
+        //sr.startListening(intent);
+        
+        Log.i(TAGNAME, "POST START");
+	}
+
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+ 
+        switch (requestCode) {
+        	case 1: 
+        		if (resultCode == RESULT_OK && null != data) {
+        			Log.i(TAGNAME, "RESULT_OK");
+        				ArrayList<String> text = data
+        						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+ 
+        				//txtText.setText(text.get(0));
+        				adapter.add(text.get(0));
+        		}
+        		break;
+        	
+        }
+    }
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.nodo_voice_recognition, menu);
+		return true;
+	}
+
+}
