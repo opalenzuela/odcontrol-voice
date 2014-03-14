@@ -25,7 +25,8 @@ public class NodoVoiceRecognitionActivity extends Activity {
 	private TextView username;
 	private TextView passwd;
 	private ListView listview;
-	private String[] values;
+	private List<String> values;
+	private List<String> keywords;
 	private ArrayAdapter<String> adapter;
 	
 	private final String TAGNAME = "NodoVoiceRecognitionActivity";
@@ -48,9 +49,15 @@ public class NodoVoiceRecognitionActivity extends Activity {
 		
 	    this.listview = (ListView)findViewById(R.id.listView_voicerecognition);
 	    
-	    //String[] values = new String[] { };
-	    final List<String> values = new ArrayList<String>();
-	    values.add("Hola");
+	    //Keywords for voice recognition 
+	    keywords = new ArrayList<String>();
+	    this.keywords.add("apagar");
+	    this.keywords.add("encender");
+	    this.keywords.add("cortar");
+	    this.keywords.add("activar");
+	    this.keywords.add("leer");
+	    
+	    values = new ArrayList<String>();
 	    
 	    adapter = new ArrayAdapter<String>(this,
 	            android.R.layout.simple_list_item_1, values);
@@ -194,7 +201,19 @@ public class NodoVoiceRecognitionActivity extends Activity {
         						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
  
         				//txtText.setText(text.get(0));
-        				adapter.add(text.get(0));
+        				int i;
+        				for ( i = 0; i < this.keywords.size() ; i++){
+        					if ( text.get(0).contains(this.keywords.get(i)) ){
+        						Log.i(TAGNAME,"Correct Match: '"+text.get(0)+"' contains the word:"+this.keywords.get(i));
+        						adapter.add(text.get(0));
+        					}
+        					else {
+        						Log.i(TAGNAME, "Not match with keywords");
+        					}
+        				}
+        				
+        				
+        				
         		}
         		break;
         	
