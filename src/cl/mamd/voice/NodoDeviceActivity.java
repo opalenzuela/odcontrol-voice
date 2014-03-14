@@ -8,6 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * 
+ * @author mmoscoso	
+ * @version 0.1
+ * @comment Activity for create and view data of device
+ */
 public class NodoDeviceActivity extends Activity {
 	
 	private EditText ipaddress;

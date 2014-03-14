@@ -1,5 +1,13 @@
 package cl.mamd.entity;
 
+
+
+/**
+ * 
+ * @author mmoscoso	
+ * @version 0.1
+ * @comment Class for store data of device
+ */
 public class NodoDevice {
 	private Integer id;
 	private String name;

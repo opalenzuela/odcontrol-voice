@@ -12,6 +12,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+/**
+ * 
+ * @author mmoscoso	
+ * @version 0.1
+ * @comment Class for create adapter of Devices
+ */
 public class NodoDeviceAdapter extends BaseAdapter {
 	  private Context mcontext;
 	  private List<NodoDevice> values;

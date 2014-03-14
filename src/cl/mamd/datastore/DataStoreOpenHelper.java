@@ -5,6 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+
+/**
+ * 
+ * @author mmoscoso	
+ * @version 0.1
+ */
 public class DataStoreOpenHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 2;

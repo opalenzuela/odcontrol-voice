@@ -12,6 +12,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+
+/**
+ * 
+ * @author mmoscoso	
+ * @version 0.1
+ */
 public class DataStoreManager {
 	/**
 	 * allColumnsX = X Name of Entity/Table

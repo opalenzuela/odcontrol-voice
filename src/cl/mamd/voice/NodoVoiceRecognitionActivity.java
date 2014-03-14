@@ -15,8 +15,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+/**
+ * 
+ * @author mmoscoso	
+ * @version 0.1
+ * @comment Activity for launch voice recognition
+ */
 public class NodoVoiceRecognitionActivity extends Activity {
 
 	private TextView ipaddress;
@@ -64,10 +69,6 @@ public class NodoVoiceRecognitionActivity extends Activity {
 	    
 	    this.listview.setAdapter(adapter);
 	    
-	    //ArrayAdapter<Item> adapter = new ArrayAdapter<Item>(this,android.R.layout.simple_list_item_1);
-	    
-	    
-	    
 		Bundle extras = getIntent().getExtras();
         if (extras != null){
         	this.ipaddress.setText(extras.getString("IPADDRESS"));        
@@ -77,121 +78,89 @@ public class NodoVoiceRecognitionActivity extends Activity {
             this.passwd.setText(extras.getString("PASSWD"));
         }
 		
-        
-        //
-        
-        
-        rlistener = new RecognitionListener(){
-
+        this.rlistener = new RecognitionListener(){
 			@Override
 			public void onBeginningOfSpeech() {
 				// TODO Auto-generated method stub
 				Log.i(TAGNAME, "onReadyForSpeech");
 			}
-
 			@Override
 			public void onBufferReceived(byte[] arg0) {
 				// TODO Auto-generated method stub
 				Log.i(TAGNAME, "onBeginningOfSpeech");
 			}
-
 			@Override
 			public void onEndOfSpeech() {
 				// TODO Auto-generated method stub
 				Log.i(TAGNAME, "onEndofSpeech");
-				/**
-				 * if (nombre.length() > 10 ){
-				 
-		        	Toast.makeText(getApplicationContext(), "Nombre:"+nombre,Toast.LENGTH_LONG).show();
-		        }
-		        */
 			}
-
 			@Override
 			public void onError(int error) {
 				// TODO Auto-generated method stub
 				Log.i(TAGNAME,  "error " +  error);
 			}
-
 			@Override
 			public void onEvent(int eventType, Bundle params) {
 				// TODO Auto-generated method stub
 				Log.i(TAGNAME, "onEvent " + eventType);
 			}
-
 			@Override
 			public void onPartialResults(Bundle partialResults) {
 				// TODO Auto-generated method stub
 				Log.i(TAGNAME, "onPartialResults");
 			}
-
 			@Override
 			public void onReadyForSpeech(Bundle params) {
 				// TODO Auto-generated method stub
 				Log.i(TAGNAME,"onReadyForSpeech");
 			}
-
 			@Override
 			public void onResults(Bundle results) {
 				// TODO Auto-generated method stub
 				String str = new String();
                 Log.i(TAGNAME, "onResults " + results);
-                ArrayList data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 for (int i = 0; i < data.size(); i++)
                 {
-                		  //if (String.valueOf(data.get(i)).length() > 10){
-                			  //nombre = (String) data.get(i);
-                			  //escribirLog(nombre);
-                			  Log.i(TAGNAME,"Length of data:"+String.valueOf(data.get(i)).length());
-                		  //}
-                		  
-                          Log.i(TAGNAME, "result " + data.get(i));
-                          str += data.get(i);
+                	Log.i(TAGNAME,"Length of data:"+String.valueOf(data.get(i)).length());
+                	Log.i(TAGNAME, "result :" + data.get(i));
+                    str += data.get(i);
                 }
-               if (str.length() > 10){
-            	  // values
-            	   Log.i(TAGNAME, "Addign result to LISTVIEW");
-            	   values.add(str);
-            	   Log.i(TAGNAME, "values count:"+Integer.toString(values.size()));
-            	   
-            	   adapter.add(str);
-           	       listview.setAdapter(adapter);
-           	    	
-               }
-               Log.i(TAGNAME,"results: "+String.valueOf(data.size()));
-                
+                if (str.length() > 10){
+                	Log.i(TAGNAME, "Addign result to LISTVIEW");
+                	values.add(str);
+                	Log.i(TAGNAME, "values count:"+Integer.toString(values.size()));
+                	adapter.add(str);
+                	listview.setAdapter(adapter);
+           	    }
+                Log.i(TAGNAME,"results: "+String.valueOf(data.size()));
 			}
-
 			@Override
 			public void onRmsChanged(float rmsdB) {
 				// TODO Auto-generated method stub
-				
 			}
         	
         };
 
-        
         sr = SpeechRecognizer.createSpeechRecognizer(this);
         sr.setRecognitionListener(rlistener); 
         
 	}
-	
 	public void buttonStartSpeech(View view){
-		Log.i(TAGNAME, "BUTTON START");
+		
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);        
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         //intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,"voice.recognition.test");
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
         startActivityForResult(intent, RESULT_SPEECH);
+        //Checking alternative with settings
         //sr.startListening(intent);
-        
-        Log.i(TAGNAME, "POST START");
+        Log.i(TAGNAME, "Stop recognition");
 	}
 
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
- 
         switch (requestCode) {
         	case 1: 
         		if (resultCode == RESULT_OK && null != data) {
@@ -199,7 +168,6 @@ public class NodoVoiceRecognitionActivity extends Activity {
         				ArrayList<String> text = data
         						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
  
-        				//txtText.setText(text.get(0));
         				int i;
         				for ( i = 0; i < this.keywords.size() ; i++){
         					if ( text.get(0).contains(this.keywords.get(i)) ){
@@ -210,16 +178,10 @@ public class NodoVoiceRecognitionActivity extends Activity {
         						Log.i(TAGNAME, "Not match with keywords");
         					}
         				}
-        				
-        				
-        				
         		}
         		break;
-        	
         }
     }
-	
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

@@ -31,6 +31,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * 
+ * @author mmoscoso	
+ * @version 0.1
+ * @comment Activity for Display list of device
+ */
 public class VoiceMainActivity extends Activity implements OnItemClickListener,OnItemLongClickListener {
 	
 	private ListView listView;
@@ -42,32 +48,26 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	private final int NODOVOICE_REQUEST = 3;
 	private EditText ipaddress_for_add;
 	private List<NodoDevice> values;
-	//curl --user mmoscoso:1qazxsw2 http://localhost
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         setContentView(R.layout.activity_voice_main);
        
         this.listView = (ListView)findViewById(R.id.listView);
         this.ipaddress_for_add = (EditText)findViewById(R.id.edittext_ipaddress);
+
         //Checking system
         checkWifiAvailability();
-       //connectToDataBase();
         
         dsm = new DataStoreManager(this);
         dsm.openDataBase();
         this.values = dsm.getAllNodoDevice();
-        
-
-        //ArrayAdapter<NodoDevice> adapter = new ArrayAdapter<NodoDevice>(this,android.R.layout.simple_list_item_1,values);
-        
-        adapter = new NodoDeviceAdapter(this,values);
+        this.adapter = new NodoDeviceAdapter(this,values);
         		
         this.listView.setAdapter(adapter);
         this.listView.setOnItemClickListener(this);
         this.listView.setOnItemLongClickListener(this);
-        //this.listView.setOnLongClickListener(this);
         
         dsm.closeDataBase();
     }
@@ -95,8 +95,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         	WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
         	WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
         	DhcpInfo dhcpInfo = wifiMgr.getDhcpInfo();
-        	
-        	
+                	
         	//Get Connection Info 
         	String netMask = intToIp(dhcpInfo.netmask);
         	String SSID = wifiInfo.getSSID();
@@ -150,12 +149,11 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     	}
     	else {
     		if ( ipaddress.length == 4 ){
-    			//try {
+
     			Log.i(TAGNAME,"NUMBER_1:"+ipaddress[0]);
     			Log.i(TAGNAME,"NUMBER_2:"+ipaddress[1]);
     			Log.i(TAGNAME,"NUMBER_3:"+ipaddress[2]);
     			Log.i(TAGNAME,"NUMBER_4:"+ipaddress[3]);
-    				
     			//Check if IP Address Exists
     			//this.dsm = new DataStoreManager(this);
     			this.dsm.openDataBase();
@@ -170,7 +168,6 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     			}
     			else {
     				Log.e(TAGNAME,"PROBLE:ip address already exists");
-
     				//Creating dialog for show error
     				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -183,8 +180,6 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     				       });
     				AlertDialog dialog = builder.create();
     				dialog.show();
-    				
-    				
     			}
     		}
     		else {
@@ -268,16 +263,11 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-    	
     	Log.i(TAGNAME, "ID MENU ITEM:"+item.getItemId());
     	switch (item.getItemId()) {
-        case R.id.addDevice:
-        	Toast.makeText(this, "Creating new device",Toast.LENGTH_LONG).show();
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
+        	default:
+        		return super.onOptionsItemSelected(item);
     	}
-    	
     }
    
 
@@ -325,7 +315,6 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	            	   switch(which){
 	            	   		case 0:
 	            	   			//Deleting device
-	            	   			//TextView ipvalue = (TextView)v.findViewById(R.id.textViewIpAddress);
 	            	   			dsm.openDataBase();
 	            	   			dsm.deleteDevice(ipvalue.getText().toString());
 	            	   			
@@ -337,7 +326,6 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	            	   		case 1:
 	            	   			Intent updatedevice = new Intent(VoiceMainActivity.this,NodoDeviceActivity.class);
 	            	   			//Getting all data from device
-	            	   			//TextView ipget = (TextView)v.findViewById(R.id.textViewIpAddress);
 	            	   			dsm.openDataBase();
 	            	   			NodoDevice nodo = dsm.getDevice(ipvalue.getText().toString());
 	            	   			

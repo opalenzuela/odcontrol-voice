@@ -33,7 +33,6 @@ public final class R {
     }
     public static final class id {
         public static final int action_settings=0x7f0a0013;
-        public static final int addDevice=0x7f0a0014;
         public static final int button_adddevice=0x7f0a0008;
         public static final int button_searchdevice=0x7f0a0007;
         public static final int editText_ipaddress=0x7f0a000d;
@@ -66,27 +65,25 @@ public final class R {
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
-        public static final int add_device=0x7f060004;
         public static final int app_name=0x7f060000;
-        public static final int button_adddevice=0x7f060005;
-        public static final int button_cancel=0x7f060012;
-        public static final int button_ok=0x7f06000c;
-        public static final int button_searchdevice=0x7f060008;
-        public static final int button_speech=0x7f060006;
-        public static final int button_updatedevice=0x7f060007;
-        public static final int error_ipaddress_already_exists=0x7f06000b;
-        public static final int hello_world=0x7f060002;
-        public static final int hint_ipdevice=0x7f060009;
-        public static final int hint_location=0x7f06000e;
-        public static final int hint_name=0x7f06000d;
-        public static final int hint_passwd=0x7f060010;
-        public static final int hint_username=0x7f06000f;
-        public static final int title_activity_nodo_voice_recognition=0x7f060015;
-        public static final int title_credentials=0x7f060011;
-        public static final int title_dialog_news=0x7f060014;
-        public static final int title_dialog_problem=0x7f06000a;
-        public static final int title_newdevice=0x7f060013;
-        public static final int wifi_connection_state=0x7f060003;
+        public static final int button_adddevice=0x7f060003;
+        public static final int button_cancel=0x7f060010;
+        public static final int button_ok=0x7f06000a;
+        public static final int button_searchdevice=0x7f060006;
+        public static final int button_speech=0x7f060004;
+        public static final int button_updatedevice=0x7f060005;
+        public static final int error_ipaddress_already_exists=0x7f060009;
+        public static final int hint_ipdevice=0x7f060007;
+        public static final int hint_location=0x7f06000c;
+        public static final int hint_name=0x7f06000b;
+        public static final int hint_passwd=0x7f06000e;
+        public static final int hint_username=0x7f06000d;
+        public static final int title_activity_nodo_voice_recognition=0x7f060013;
+        public static final int title_credentials=0x7f06000f;
+        public static final int title_dialog_news=0x7f060012;
+        public static final int title_dialog_problem=0x7f060008;
+        public static final int title_newdevice=0x7f060011;
+        public static final int wifi_connection_state=0x7f060002;
     }
     public static final class style {
         /** 
