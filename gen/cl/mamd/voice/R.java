@@ -9,6 +9,8 @@ package cl.mamd.voice;
 
 public final class R {
     public static final class array {
+        /**  OPTION 
+         */
         public static final int device_options=0x7f070000;
     }
     public static final class attr {
@@ -32,58 +34,105 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0013;
-        public static final int button_adddevice=0x7f0a0008;
-        public static final int button_searchdevice=0x7f0a0007;
-        public static final int editText_ipaddress=0x7f0a000d;
-        public static final int editText_location=0x7f0a000f;
-        public static final int editText_name=0x7f0a000e;
-        public static final int editText_passwd=0x7f0a0012;
-        public static final int editText_username=0x7f0a0011;
-        public static final int edittext_ipaddress=0x7f0a0006;
-        public static final int listView=0x7f0a0009;
-        public static final int listView_voicerecognition=0x7f0a0005;
-        public static final int textView1=0x7f0a0010;
-        public static final int textViewIpAddress=0x7f0a000b;
-        public static final int textViewName=0x7f0a000a;
-        public static final int textView_Credentials=0x7f0a000c;
-        public static final int textView_nodoipaddress=0x7f0a0000;
-        public static final int textView_nodolocation=0x7f0a0002;
-        public static final int textView_nodoname=0x7f0a0001;
-        public static final int textView_nodopasswd=0x7f0a0004;
-        public static final int textView_nodousername=0x7f0a0003;
+        public static final int action_settings=0x7f0a0025;
+        public static final int button1=0x7f0a0012;
+        public static final int button_addaction=0x7f0a0022;
+        public static final int button_adddevice=0x7f0a000d;
+        public static final int button_adddeviceport=0x7f0a0003;
+        public static final int button_save=0x7f0a0023;
+        public static final int button_searchdevice=0x7f0a000c;
+        public static final int button_searchdeviceport=0x7f0a0002;
+        public static final int editText_device=0x7f0a001f;
+        public static final int editText_ipaddress=0x7f0a0019;
+        public static final int editText_location=0x7f0a001b;
+        public static final int editText_name=0x7f0a001a;
+        public static final int editText_passwd=0x7f0a001e;
+        public static final int editText_port=0x7f0a0020;
+        public static final int editText_tag=0x7f0a0021;
+        public static final int editText_username=0x7f0a001d;
+        public static final int edittext_ipaddress=0x7f0a000b;
+        public static final int edittext_tagsearch=0x7f0a0001;
+        public static final int listView=0x7f0a000e;
+        public static final int listViewDevicePort=0x7f0a0024;
+        public static final int listViewDevicePorts=0x7f0a0004;
+        public static final int listView_voicerecognition=0x7f0a000a;
+        public static final int textView1=0x7f0a001c;
+        public static final int textView1test=0x7f0a000f;
+        public static final int textView2=0x7f0a0010;
+        public static final int textView3=0x7f0a0011;
+        public static final int textViewActions=0x7f0a0018;
+        public static final int textViewIpAddress=0x7f0a0014;
+        public static final int textViewName=0x7f0a0013;
+        public static final int textViewPort=0x7f0a0016;
+        public static final int textViewTag=0x7f0a0017;
+        public static final int textView_Credentials=0x7f0a0015;
+        public static final int textView_devicenameinfo=0x7f0a0000;
+        public static final int textView_nodoipaddress=0x7f0a0005;
+        public static final int textView_nodolocation=0x7f0a0007;
+        public static final int textView_nodoname=0x7f0a0006;
+        public static final int textView_nodopasswd=0x7f0a0009;
+        public static final int textView_nodousername=0x7f0a0008;
     }
     public static final class layout {
-        public static final int activity_nodo_voice_recognition=0x7f030000;
-        public static final int activity_voice_main=0x7f030001;
-        public static final int item_nodo_device=0x7f030002;
-        public static final int nodo_device=0x7f030003;
+        public static final int activity_nodo_device_port=0x7f030000;
+        public static final int activity_nodo_voice_recognition=0x7f030001;
+        public static final int activity_voice_main=0x7f030002;
+        public static final int fragment_device=0x7f030003;
+        public static final int fragment_device_port_analog=0x7f030004;
+        public static final int item_nodo_device=0x7f030005;
+        public static final int item_nodo_device_port=0x7f030006;
+        public static final int nodo_device=0x7f030007;
+        public static final int nodo_device_port=0x7f030008;
     }
     public static final class menu {
-        public static final int nodo_voice_recognition=0x7f090000;
-        public static final int voice_main=0x7f090001;
+        public static final int nodo_device_port=0x7f090000;
+        public static final int nodo_voice_recognition=0x7f090001;
+        public static final int voice_main=0x7f090002;
     }
     public static final class string {
-        public static final int action_settings=0x7f060001;
-        public static final int app_name=0x7f060000;
-        public static final int button_adddevice=0x7f060003;
-        public static final int button_cancel=0x7f060010;
-        public static final int button_ok=0x7f06000a;
-        public static final int button_searchdevice=0x7f060006;
-        public static final int button_speech=0x7f060004;
-        public static final int button_updatedevice=0x7f060005;
-        public static final int error_ipaddress_already_exists=0x7f060009;
-        public static final int hint_ipdevice=0x7f060007;
-        public static final int hint_location=0x7f06000c;
-        public static final int hint_name=0x7f06000b;
-        public static final int hint_passwd=0x7f06000e;
-        public static final int hint_username=0x7f06000d;
-        public static final int title_activity_nodo_voice_recognition=0x7f060013;
-        public static final int title_credentials=0x7f06000f;
-        public static final int title_dialog_news=0x7f060012;
-        public static final int title_dialog_problem=0x7f060008;
-        public static final int title_newdevice=0x7f060011;
-        public static final int wifi_connection_state=0x7f060002;
+        public static final int action_settings=0x7f06000a;
+        public static final int app_name=0x7f060009;
+        public static final int button_add=0x7f060006;
+        public static final int button_addaction=0x7f060007;
+        /**  BUTTON 
+         */
+        public static final int button_adddevice=0x7f060000;
+        public static final int button_cancel=0x7f060005;
+        public static final int button_ok=0x7f060004;
+        public static final int button_save=0x7f060008;
+        public static final int button_searchdevice=0x7f060003;
+        public static final int button_speech=0x7f060001;
+        public static final int button_updatedevice=0x7f060002;
+        public static final int error_device_whitout_ports=0x7f06000d;
+        /**  ERROR 
+         */
+        public static final int error_ipaddress_already_exists=0x7f06000c;
+        /**  HINT
+         */
+        public static final int hint_ipdevice=0x7f06000e;
+        public static final int hint_location=0x7f060010;
+        public static final int hint_name=0x7f06000f;
+        public static final int hint_passwd=0x7f060012;
+        public static final int hint_port=0x7f060013;
+        public static final int hint_tag=0x7f060014;
+        public static final int hint_username=0x7f060011;
+        /**  MESSAGE 
+         */
+        public static final int message_confirmaddaction=0x7f060015;
+        public static final int tabtitle_device=0x7f060020;
+        public static final int tabtitle_port_analog=0x7f06001e;
+        public static final int tabtitle_port_digital=0x7f06001f;
+        /**   TITLE 
+         */
+        public static final int title_action=0x7f060016;
+        public static final int title_activity_nodo_device_port=0x7f060019;
+        public static final int title_activity_nodo_voice_recognition=0x7f060018;
+        public static final int title_credentials=0x7f06001a;
+        public static final int title_deviceportinformation=0x7f06001d;
+        public static final int title_dialog_news=0x7f06001c;
+        public static final int title_dialog_problem=0x7f060017;
+        public static final int title_newdevice=0x7f06001b;
+        public static final int wifi_connection_state=0x7f06000b;
     }
     public static final class style {
         /** 

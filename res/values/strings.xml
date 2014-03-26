@@ -1,27 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">opendomo-voicedemo</string>
-    <string name="action_settings">Configuracion</string>
-    <string name="wifi_connection_state">Estado de conexion WIFI:</string>
+
+    <!-- BUTTON -->
     <string name="button_adddevice">Agregar</string>
     <string name="button_speech">Habla</string>
     <string name="button_updatedevice">Actualizar</string>
     <string name="button_searchdevice">Buscar</string>
-    <string name="hint_ipdevice">Direccion IP</string>
-    <string name="title_dialog_problem">Error en ejecucion</string>
-    <string name="error_ipaddress_already_exists">La direccion IP ya se encuentra ocupada por otro equipo.</string>
     <string name="button_ok">Aceptar</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="button_add">Agregar</string>
+    <string name="button_addaction">Agregar Ac</string>
+    <string name="button_save">Guardar</string>
+    
+    <string name="app_name">opendomo-voicedemo</string>
+    <string name="action_settings">Configuracion</string>
+    <string name="wifi_connection_state">Estado de conexion WIFI:</string>
+    
+    <!-- ERROR -->
+    <string name="error_ipaddress_already_exists">La direccion IP ya se encuentra ocupada por otro equipo</string>
+    <string name="error_device_whitout_ports">El equipo no tiene una configuracion de puertos asociada. ¿Desea crear una configuracion ahora?</string>
+    
+    
+    <!-- HINT-->
+    <string name="hint_ipdevice">Direccion IP</string>
     <string name="hint_name">Nombre equipo</string>
     <string name="hint_location">Localizacion </string>
     <string name="hint_username">Nombre de usuario</string>
     <string name="hint_passwd">Contraseña</string>
-    <string name="title_credentials">Credenciales para Ingresar</string>
-    <string name="button_cancel">Cancelar</string>
-    <string name="title_newdevice">Nuevo Equipo</string>
-    <string name="title_dialog_news">Informacion</string>
+    <string name="hint_port">Puerto(Max 5 caracteres)</string>
+    <string name="hint_tag">Etiqueta</string>
+    
+    
+    <!-- MESSAGE -->
+    <string name="message_confirmaddaction">Desea agregar la siguiente ACCION al puerto?:</string>
+    
+    
+    <!-- OPTION -->
+    
     <string-array name="device_options">
         <item>Eliminar</item>
         <item>Actualizar</item>
+        <item>Configurar Puertos</item>
     </string-array>
+
+    <!--  TITLE -->
+    
+    <string name="title_action">Acciones para el Puerto</string>
+    <string name="title_dialog_problem">Error en ejecucion</string>
     <string name="title_activity_nodo_voice_recognition">NodoVoiceRecognitionActivity</string>
+    <string name="title_activity_nodo_device_port">NodoDevicePortActivity</string>
+	<string name="title_credentials">Credenciales para Ingresar</string>
+	<string name="title_newdevice">Nuevo Equipo</string>
+    <string name="title_dialog_news">Informacion</string>
+	<string name="title_deviceportinformation">Puerto/Informacion</string>
+	<string name="tabtitle_port_analog">Puerto Analogo</string>
+	<string name="tabtitle_port_digital">Puerto Digital</string> 
+	<string name="tabtitle_device">Equipo</string>
+	
+	
 </resources>
+

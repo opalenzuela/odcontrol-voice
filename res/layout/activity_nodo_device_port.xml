@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/listview_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/search_bar"
+        android:orientation="vertical" 
+        >
+
+        <TextView
+            android:id="@+id/textView_devicenameinfo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="TextView"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/edittext_tagsearch"
+            android:hint="@string/hint_tag"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10" >
+            <requestFocus />
+        </EditText>
+
+       
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/search_bar" 
+        >
+                <Button
+            android:id="@+id/button_searchdeviceport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="searchDevicePortButton"
+            android:text="@string/button_searchdevice"
+            />
+
+        <Button
+            android:id="@+id/button_adddeviceport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_adddevice"
+            android:onClick="addDevicePortButton" />
+        
+    </LinearLayout>    
+    <ListView
+        android:id="@+id/listViewDevicePorts"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:divider="#0000CC"
+        android:dividerHeight="0.1dp" >
+
+    </ListView>
+</LinearLayout>

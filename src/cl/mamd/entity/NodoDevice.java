@@ -1,5 +1,7 @@
 package cl.mamd.entity;
 
+import java.util.List;
+
 
 
 /**
@@ -15,8 +17,15 @@ public class NodoDevice {
 	private String ipaddress;
 	private String username;
 	private String passwd;
+	private List<NodoDevicePort> ports;
 	
 	
+	public List<NodoDevicePort> getPorts() {
+		return ports;
+	}
+	public void setPorts(List<NodoDevicePort> ports) {
+		this.ports = ports;
+	}
 	public NodoDevice() {
 		super();
 		// TODO Auto-generated constructor stub

@@ -46,6 +46,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	private final int NEWDEVICE_REQUEST = 1;
 	private final int UPDATEDEVICE_REQUEST = 2;
 	private final int NODOVOICE_REQUEST = 3;
+	private final int NODODEVICEPORT_REQUEST = 4;
 	private EditText ipaddress_for_add;
 	private List<NodoDevice> values;
 	
@@ -62,6 +63,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         
         dsm = new DataStoreManager(this);
         dsm.openDataBase();
+        //dsm.refreshDataBase(2,3);
         this.values = dsm.getAllNodoDevice();
         this.adapter = new NodoDeviceAdapter(this,values);
         		
@@ -281,17 +283,45 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 		Intent nodovoicerecognition = new Intent(VoiceMainActivity.this,NodoVoiceRecognitionActivity.class);
 		TextView ipvalue = (TextView)view.findViewById(R.id.textViewIpAddress);
 		dsm.openDataBase();
-		NodoDevice nodo = dsm.getDevice(ipvalue.getText().toString());
-				
-		nodovoicerecognition.putExtra("IPADDRESS",nodo.getIpaddress());
-		nodovoicerecognition.putExtra("NAME",nodo.getName());
-		nodovoicerecognition.putExtra("LOCATION",nodo.getLocation());
-		nodovoicerecognition.putExtra("USERNAME",nodo.getUsername());
-		nodovoicerecognition.putExtra("PASSWD",nodo.getPasswd());
+		final NodoDevice nodo = dsm.getDevice(ipvalue.getText().toString());
 		
-		startActivityForResult(nodovoicerecognition,NODOVOICE_REQUEST);
-		dsm.closeDataBase();
-				
+		//Check port configuration
+		dsm.openDataBase();
+		if ( dsm.checkPortOfDevice(nodo.getId()) ){
+			nodovoicerecognition.putExtra("ID",nodo.getId());
+			nodovoicerecognition.putExtra("IPADDRESS",nodo.getIpaddress());
+			nodovoicerecognition.putExtra("NAME",nodo.getName());
+			nodovoicerecognition.putExtra("LOCATION",nodo.getLocation());
+			nodovoicerecognition.putExtra("USERNAME",nodo.getUsername());
+			nodovoicerecognition.putExtra("PASSWD",nodo.getPasswd());
+			
+		
+			startActivityForResult(nodovoicerecognition,NODOVOICE_REQUEST);
+			dsm.closeDataBase();
+		}
+		else {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(R.string.error_device_whitout_ports)
+			       .setTitle(R.string.title_dialog_problem)
+			       .setPositiveButton(R.string.button_ok,new DialogInterface.OnClickListener() {
+			    	   public void onClick(DialogInterface dialog,int id) {
+			    		   Intent nododeviceport = new Intent(VoiceMainActivity.this,NodoDevicePortMainActivity.class);
+			    		   nododeviceport.putExtra("DEVICE_ID",nodo.getId());
+			    		   nododeviceport.putExtra("DEVICE_NAME",nodo.getName());
+			    		   startActivityForResult(nododeviceport,NODODEVICEPORT_REQUEST);
+			    		   
+			    	   }
+			       })
+			       .setNegativeButton(R.string.button_cancel,new DialogInterface.OnClickListener() {
+			    	   public void onClick(DialogInterface dialog, int id) {
+						// TODO Auto-generated method stub
+			    		   Toast.makeText(VoiceMainActivity.this,"Recuerde que debe asociar configuracion de puertos para acceder al equipo",Toast.LENGTH_LONG).show();
+			    	   }
+			       });
+
+			AlertDialog dialog = builder.create();
+			dialog.show();
+		}
 	}
 
 
@@ -338,6 +368,17 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	            	   			
 	            				startActivityForResult(updatedevice,UPDATEDEVICE_REQUEST);
 	            				dsm.closeDataBase();
+	            	   			break;
+	            	   		case 2:
+	            	   			dsm.openDataBase();
+	            	   			NodoDevice nodoport = dsm.getDevice(ipvalue.getText().toString());
+	            	   			Intent nododeviceport = new Intent(VoiceMainActivity.this,NodoDevicePortMainActivity.class);
+	            	   			nododeviceport.putExtra("DEVICE_ID",nodoport.getId());
+	            	   			nododeviceport.putExtra("DEVICE_NAME",nodoport.getName());
+	            	   			startActivityForResult(nododeviceport,NODODEVICEPORT_REQUEST);
+	            	   			
+	            	   			dsm.closeDataBase();
+	            	   			
 	            	   			break;
 	            	   }
 	           }

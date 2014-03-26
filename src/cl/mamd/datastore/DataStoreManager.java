@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.mamd.entity.NodoDevice;
+import cl.mamd.entity.NodoDevicePort;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -23,6 +24,7 @@ public class DataStoreManager {
 	 * allColumnsX = X Name of Entity/Table
 	 */
 	private String[] allColumnsDevice = {"ID","NAME","LOCATION","IPADDRESS","USERNAME","PASSWD"};
+	private String[] allColumnsDevicePort = {"ID","DEVICE","PORT","TAG","ACTION"};
 	private SQLiteDatabase database;
 	private DataStoreOpenHelper dbHelper;
 	private static String TAGNAME = "DataStoreManager";
@@ -55,10 +57,53 @@ public class DataStoreManager {
 	/**
 	 * 
 	 */
-	public void refreshDataBase(){
+	public void refreshDataBase(int old,int newv){
 		this.dbHelper.onUpgrade(database, 2, 2);
 	}
 	
+	
+	public boolean creatNodoDevicePort(NodoDevicePort port){
+		ContentValues values = new ContentValues();
+		
+		values.put("DEVICE", port.getDevice());
+		values.put("PORT", port.getPort());
+		values.put("TAG", port.getTag());
+		values.put("ACTION", port.getAction());
+		
+		Log.i(TAGNAME, "VALUES:"+Integer.toString(port.getDevice())+
+				"/"+port.getPort()+
+				"/"+port.getTag()+
+				"/"+port.getAction());
+				
+		
+		
+		long result = this.database.insert("nododeviceport","DEVICE,PORT,TAG,ACTION",values);
+		if ( result == -1 ){
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	/**
+	 * Function for checking if device has port configurations
+	 * @param iddevice
+	 * @return
+	 */
+	public boolean checkPortOfDevice(Integer iddevice){
+		Log.i(TAGNAME, "Checking the existance of configuration for Port");
+		Cursor cursor = database.rawQuery("select  count(*) from nododeviceport where device="+iddevice,null);
+		cursor.moveToFirst();
+		Log.i(TAGNAME,"Ports COUNT for Device("+iddevice+")="+Integer.toString(cursor.getInt(0)));
+		Integer count = cursor.getInt(0);
+		if ( count != 0 ){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	/**
 	 * Function for check if exists a device with especific ip address
 	 * @param ipaddress
@@ -116,6 +161,9 @@ public class DataStoreManager {
 	 * @return
 	 */
 	public boolean deleteDevice(String ipaddress){
+		
+		
+		
 		if (this.database.delete("nododevice","IPADDRESS = '"+ipaddress+"'",null) == 0){
 			return false;
 		}
@@ -132,8 +180,55 @@ public class DataStoreManager {
 		Log.i(TAGNAME,"Getting Device from DB for ip address:"+ipaddress);
 		Cursor cursor = database.rawQuery("SELECT * FROM nododevice WHERE IPADDRESS = '"+ipaddress+"'", null);
 		cursor.moveToFirst();
-		return this.cursorToNodo(cursor);
+		NodoDevice nodo = new NodoDevice();
+		nodo = this.cursorToNodo(cursor);
+		nodo.setPorts(this.getPortOfDevice(nodo.getId()));
+		return nodo;
 	}
+	
+	public List<NodoDevicePort> getPortOfDevice(Integer id){
+		List<NodoDevicePort> ports = new ArrayList<NodoDevicePort>();
+		
+		Log.i(TAGNAME, "TABLE NAME:"+DataStoreOpenHelper.getTableNameDeviceport());
+		Log.i(TAGNAME, "ID of Device for get PORTS:"+Integer.toString(id));
+		Cursor cursor = database.rawQuery("SELECT ID,DEVICE,PORT,TAG,ACTION FROM nododeviceport WHERE DEVICE = "+Integer.toString(id), null);
+		
+		/*Cursor cursor = database.query(DataStoreOpenHelper.getTableNameDeviceport(),
+		        this.allColumnsDevicePort,
+		        "DEVICE = "+Integer.toString(id), null, null, null, null);
+		        */
+		Log.i(TAGNAME, "CURSOR OK");
+		Log.i(TAGNAME, "count for CURSOR:"+Integer.toString(cursor.getCount()));
+		cursor.moveToFirst();
+		if ( cursor.getCount() != 0 ) {
+			Log.i(TAGNAME, "Adding Port to List");
+			while ( !cursor.isAfterLast()) {
+				ports.add(this.cursorToPort(cursor));
+				cursor.moveToNext();
+			}
+		}
+		return ports;
+	}
+	
+	public List<NodoDevicePort> getPortOfAllDevice(){
+		List<NodoDevicePort> ports = new ArrayList<NodoDevicePort>();
+		
+
+		Cursor cursor = database.query(DataStoreOpenHelper.getTableNameDeviceport(),
+		        this.allColumnsDevicePort,
+		        null, null, null, null, null);
+
+		cursor.moveToFirst();
+		if ( cursor.getCount() != 0 ) {
+			Log.i(TAGNAME, "Adding all Port to List");
+			while ( !cursor.isAfterLast()) {
+				ports.add(this.cursorToPort(cursor));
+				cursor.moveToNext();
+			}
+		}
+		return ports;
+	}
+	
 	
 	/**
 	 * Returns all device from DataBase
@@ -150,12 +245,25 @@ public class DataStoreManager {
 	    while (!cursor.isAfterLast()) {
 	    	NodoDevice device = this.cursorToNodo(cursor);
 	    	nodos.add(device);
-	      cursor.moveToNext();
+	    	cursor.moveToNext();
 	    }
 	    // make sure to close the cursor
 	    cursor.close();
 	    return nodos;
 	}
+	
+	private NodoDevicePort cursorToPort(Cursor cursor){
+		NodoDevicePort port = new NodoDevicePort();
+		
+		port.setId(cursor.getInt(0));
+		port.setDevice(cursor.getInt(1));
+		port.setPort(cursor.getString(2));
+		port.setTag(cursor.getString(3));
+		port.setAction(cursor.getString(4));
+		
+		return port;
+	}
+	
 	/**
 	 * Transform cursor to Device
 	 * @param cursor

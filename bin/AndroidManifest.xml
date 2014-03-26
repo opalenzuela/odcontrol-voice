@@ -11,13 +11,13 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name="cl.mamd.voice.VoiceMainActivity"
             android:label="@string/app_name" >
@@ -35,6 +35,14 @@
         <activity
             android:name="cl.mamd.voice.NodoVoiceRecognitionActivity"
             android:label="@string/title_activity_nodo_voice_recognition" >
+        </activity>
+        <activity
+            android:name="cl.mamd.voice.NodoDevicePortMainActivity"
+            android:label="@string/title_activity_nodo_device_port" >
+        </activity>
+        <activity
+            android:name="cl.mamd.voice.NodoDevicePortActivity"
+            android:label="@string/title_activity_nodo_device_port" >
         </activity>
     </application>
 

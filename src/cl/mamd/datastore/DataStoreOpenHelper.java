@@ -13,9 +13,10 @@ import android.util.Log;
  */
 public class DataStoreOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "voicedemo";
     private static final String TABLE_NAME_NODODEVICE = "nododevice";
+    private static final String TABLE_NAME_DEVICEPORT = "nododeviceport";
     private static final String TABLE_CREATE =
                 "CREATE TABLE " + TABLE_NAME_NODODEVICE + " (" +
                 "ID" + " integer primary key autoincrement, " +
@@ -24,6 +25,14 @@ public class DataStoreOpenHelper extends SQLiteOpenHelper {
                 "IPADDRESS" + " TEXT, " +
                 "PASSWD" + " TEXT, " +
                 "USERNAME" + " TEXT);";
+    private static final String TABLE_PORT_CREATE = 
+    		" CREATE TABLE " + TABLE_NAME_DEVICEPORT + "(" +
+    		" ID " + "integer primary key autoincrement, " +
+    		" DEVICE " + " integer, " +
+    		" PORT " + "TEXT, " +
+    		" TAG " + "TEXT, " +
+    		" ACTION " + "TEXT, " +
+    		" FOREIGN KEY (DEVICE) REFERENCES " + TABLE_NAME_NODODEVICE + "(ID))"; 
 
     public DataStoreOpenHelper(Context context) {
         super(context,DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,6 +41,7 @@ public class DataStoreOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TABLE_CREATE);
+        db.execSQL(TABLE_PORT_CREATE);
     }
 
 	@Override
@@ -40,8 +50,19 @@ public class DataStoreOpenHelper extends SQLiteOpenHelper {
 		Log.w(DataStoreOpenHelper.class.getName(),
 		        "Upgrading database from version " + oldV + " to "
 		            + newV + ", which will destroy all old data");
-		    db.execSQL("DROP TABLE IF EXISTS " + "odcontrol");
 		    db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_NODODEVICE);
+		    db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DEVICEPORT);
 		    onCreate(db);
 	}
+
+	public static String getTableNameNododevice() {
+		return TABLE_NAME_NODODEVICE;
+	}
+
+	public static String getTableNameDeviceport() {
+		return TABLE_NAME_DEVICEPORT;
+	}
+	
+	
+	
 }
