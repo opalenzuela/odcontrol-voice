@@ -1,8 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/listview_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,23 +12,20 @@
         android:background="@color/search_bar"
         android:orientation="vertical" 
         >
-
         <TextView
             android:id="@+id/textView_devicenameinfo"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="TextView"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
             android:id="@+id/edittext_tagsearch"
             android:hint="@string/hint_tag"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dip"
             android:layout_weight="1"
             android:ems="10" >
-            <requestFocus />
         </EditText>
 
        
@@ -57,10 +56,12 @@
     </LinearLayout>    
     <ListView
         android:id="@+id/listViewDevicePorts"
+        android:background="@color/listview_background"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:divider="#0000CC"
-        android:dividerHeight="0.1dp" >
+        android:layout_height="fill_parent"
+        android:layout_margin="5dp" 
+        android:dividerHeight="0.2dp"
+        android:divider="@color/search_bar" >
 
     </ListView>
 </LinearLayout>

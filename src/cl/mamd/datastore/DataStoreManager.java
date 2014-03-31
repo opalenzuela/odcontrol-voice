@@ -62,6 +62,24 @@ public class DataStoreManager {
 	}
 	
 	
+	public boolean updateNodoDevicePort(NodoDevicePort nodo){
+		ContentValues values = new ContentValues();
+		
+		values.put("ID",nodo.getId());
+		values.put("DEVICE", nodo.getDevice());
+		values.put("PORT", nodo.getPort());
+		values.put("TAG", nodo.getTag());
+		values.put("ACTION", nodo.getAction());
+		
+		long result = this.database.update("nododeviceport",values,"DEVICE="+Integer.toString(nodo.getDevice())+
+				" AND ID = "+Integer.toString(nodo.getId()),null);
+		if ( result == -1 ){
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 	public boolean creatNodoDevicePort(NodoDevicePort port){
 		ContentValues values = new ContentValues();
 		
@@ -163,8 +181,18 @@ public class DataStoreManager {
 	public boolean deleteDevice(String ipaddress){
 		
 		
-		
 		if (this.database.delete("nododevice","IPADDRESS = '"+ipaddress+"'",null) == 0){
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	public boolean deletePortOfDevice(Integer device,String port){
+		
+		
+		if (this.database.delete("nododeviceport","DEVICE = "+Integer.toString(device)
+				+ " AND PORT='"+port+"'",null) == 0){
 			return false;
 		}
 		else {
@@ -186,6 +214,14 @@ public class DataStoreManager {
 		return nodo;
 	}
 	
+	
+	
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public List<NodoDevicePort> getPortOfDevice(Integer id){
 		List<NodoDevicePort> ports = new ArrayList<NodoDevicePort>();
 		
@@ -209,7 +245,10 @@ public class DataStoreManager {
 		}
 		return ports;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<NodoDevicePort> getPortOfAllDevice(){
 		List<NodoDevicePort> ports = new ArrayList<NodoDevicePort>();
 		

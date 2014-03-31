@@ -4,20 +4,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
+import cl.mamd.communication.DeviceHttpCommunication;
 import cl.mamd.datastore.DataStoreManager;
 import cl.mamd.entity.NodoDevicePort;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +38,10 @@ public class NodoVoiceRecognitionActivity extends Activity {
 	private TextView location;
 	private TextView username;
 	private TextView passwd;
+	private EditText editText_voicerecog;
 	private ListView listview;
+	
+	
 	private List<NodoDevicePort> values;
 	private List<String> keywords;
 	private NodoDevicePortAdapter adapter;
@@ -49,7 +55,9 @@ public class NodoVoiceRecognitionActivity extends Activity {
 	
 	
 	private final String TAGNAME = "NodoVoiceRecognitionActivity";
+	private final int RESULT_BROWSER = 0;
 	private final int RESULT_SPEECH = 1;
+	
 	
 	//For voice Recognition
 	private SpeechRecognizer sr;
@@ -65,7 +73,19 @@ public class NodoVoiceRecognitionActivity extends Activity {
 	    this.location = (TextView)findViewById(R.id.textView_nodolocation);
 	    this.username = (TextView)findViewById(R.id.textView_nodousername);
 	    this.passwd = (TextView)findViewById(R.id.textView_nodopasswd);
+		this.editText_voicerecog = (EditText)findViewById(R.id.editText_voicerecog);
 		
+		this.editText_voicerecog.setFocusable(false);
+		this.editText_voicerecog.setBackgroundColor(getResources().getColor(
+				R.color.disabled_field));
+		
+	 
+		
+		
+		
+		
+		
+	    
 	    this.listview = (ListView)findViewById(R.id.listView_voicerecognition);
 	    
 	    //Keywords for voice recognition 
@@ -96,6 +116,8 @@ public class NodoVoiceRecognitionActivity extends Activity {
             this.location.setText(extras.getString("LOCATION"));
             this.username.setText(extras.getString("USERNAME"));
             this.passwd.setText(extras.getString("PASSWD"));
+            this.ipaddress.setClickable(true);
+            
             
             Log.i(TAGNAME, "ID of Device for control:"+Integer.toString(this.device_id));
             
@@ -177,6 +199,13 @@ public class NodoVoiceRecognitionActivity extends Activity {
         sr.setRecognitionListener(rlistener); 
         
 	}
+	
+	public void openBrowser(View view){
+		final Intent intent = new Intent(Intent.ACTION_VIEW)
+			.setData(Uri.parse("http://"+this.ipaddress.getText().toString()));
+		startActivityForResult(intent,RESULT_BROWSER);
+	}
+	
 	public void buttonStartSpeech(View view){
 		
 		
@@ -221,12 +250,28 @@ public class NodoVoiceRecognitionActivity extends Activity {
         							lowerTagNodo = lowerTagNodo.replace(" ","");
         							Log.i(TAGNAME, "Checkig match with tag: "+lowerTagNodo+" ? " +tag);
         							if ( lowerTagNodo.equals(tag)  ){
+        								this.editText_voicerecog.setBackgroundColor(getResources().getColor(
+        										R.color.recognition_success));
+        								this.editText_voicerecog.setText(text.get(0));
+        								
+        								
         								Log.i(TAGNAME, "Tag of port recognized:"+lowerTagNodo+"/"+this.values.get(j).getTag());
         								String url = "http://";
         								url = url+this.ipaddress.getText().toString()+"/set+";
         								url = url+this.values.get(j).getPort()+"+ON";
         								
+        								DeviceHttpCommunication http = new DeviceHttpCommunication("http://"+this.ipaddress.getText().toString(),
+        										this.username.getText().toString(),this.passwd.getText().toString());
+        								
+        								http.executeInstruction("hola");
+        								
+        								
         								Toast.makeText(this,url,Toast.LENGTH_LONG).show();
+        							}
+        							else {
+        								this.editText_voicerecog.setBackgroundColor(getResources().getColor(
+        										R.color.recognition_refuse));
+        								this.editText_voicerecog.setText(text.get(0));
         							}
         						}
         					}
@@ -246,6 +291,10 @@ public class NodoVoiceRecognitionActivity extends Activity {
         							lowerTagNodo = lowerTagNodo.replace(" ","");
         							Log.i(TAGNAME, "Checkig match with tag: "+lowerTagNodo+" ? " +tag);
         							if ( lowerTagNodo.equals(tag) ){
+        								this.editText_voicerecog.setBackgroundColor(getResources().getColor(
+        										R.color.recognition_success));
+        								this.editText_voicerecog.setText(text.get(0));
+        								
         								Log.i(TAGNAME, "Tag of port recognized:"+lowerTagNodo+"/"+this.values.get(j).getTag());
         								String url = "http://";
         								url = url+this.ipaddress.getText().toString()+"/set+";
@@ -253,6 +302,12 @@ public class NodoVoiceRecognitionActivity extends Activity {
         								
         								Toast.makeText(this,url,Toast.LENGTH_LONG).show();
         							}
+        							else {
+        								this.editText_voicerecog.setBackgroundColor(getResources().getColor(
+        										R.color.recognition_refuse));
+        								this.editText_voicerecog.setText(text.get(0));	
+        							}
+        							
         						}
         						
         					}

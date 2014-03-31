@@ -72,9 +72,10 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         this.listView.setOnItemLongClickListener(this);
         
         dsm.closeDataBase();
+        
+	
+        
     }
-    
-    
     
     /**
      * Add Line to LinearLayout like a LOG screen.
@@ -113,6 +114,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         	startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
         }
     }
+    
    /**
     * @author mmoscoso
     * Function for search devices for IP.
@@ -122,6 +124,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     public boolean searchDeviceButton(View view){
     	
     	String ipforsearch = this.ipaddress_for_add.getText().toString();
+    	
     	if (ipforsearch.equals("")){
     		dsm.openDataBase();
     		values = dsm.getAllNodoDevice();
@@ -130,9 +133,10 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     	else {
     		int i;
     		for ( i=0 ; i < this.values.size() ; i++){
+    			Log.i(TAGNAME,this.values.get(i).getIpaddress()+").contains.("+ipforsearch );
     			if ( !this.values.get(i).getIpaddress().contains(ipforsearch) ){
     				Log.i(TAGNAME, "No match with ip, and remove");    			
-    				this.values.remove(0);
+    				this.values.remove(i);
     			}
     		}
     	}
@@ -141,12 +145,20 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     	this.ipaddress_for_add.setText("");
     	return true;
     }
+    
+    /**
+     * 
+     * @param view
+     * @return
+     */
     public boolean addDeviceButton(View view){
     	
     	String[] ipaddress = ipaddress_for_add.getText().toString().split("\\.");
     	
     	if(ipaddress_for_add.getText().toString().length() > 15){
-    		Toast.makeText(this,"ERROR - Direccion muy Larga",Toast.LENGTH_LONG).show();
+    		this.ipaddress_for_add.setError(
+    				getResources().getString(R.string.error_ipaddresstolong)
+    				);
     		return false;
     	}
     	else {
@@ -185,7 +197,10 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     			}
     		}
     		else {
-    			Toast.makeText(this,"ERROR - Direccion Invalida",Toast.LENGTH_LONG).show();
+    			this.ipaddress_for_add.setError(
+        				getResources().getString(R.string.error_ipaddressinvalid)
+        				);
+    			return false;
     		}
     	}
     	return true;
@@ -199,7 +214,10 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     private String intToIp(int i) {
     	   return ( i & 0xFF) + "." + ((i >> 8 ) & 0xFF) + "." + ((i >> 16 ) & 0xFF) + "." + ((i >> 24 ) & 0xFF );
     }
-       
+     
+    /**
+     * 
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -207,6 +225,9 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         return true;
     }
     
+    /**
+     * 
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
@@ -219,24 +240,37 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         		Log.i(TAGNAME,data.getExtras().getString("LOCATION"));
         		Log.i(TAGNAME,data.getExtras().getString("USERNAME"));
         		Log.i(TAGNAME,data.getExtras().getString("PASSWD"));
-        		//INSERT INTO DATABASE
-        		this.dsm.openDataBase();
-        		ContentValues values = new ContentValues();
-        		values.put("IPADDRESS",data.getExtras().getString("IPADDRESS"));
-        		values.put("NAME",data.getExtras().getString("NAME"));
-        		values.put("LOCATION",data.getExtras().getString("LOCATION"));
-        		values.put("USERNAME",data.getExtras().getString("USERNAME"));
-        		values.put("PASSWD",data.getExtras().getString("PASSWD"));
+        		
+        		if (data.getExtras().getString("USERNAME").equals("")
+        				|| data.getExtras().getString("PASSWD").equals("")
+        				|| data.getExtras().getString("NAME").equals("")
+        				) {
+        			Toast.makeText(this,
+        					getResources().getString(R.string.error_missingdatafordevice)
+        					,Toast.LENGTH_LONG).show();
+        				
+        		}
+        		else {
+        		
+        			//INSERT INTO DATABASE
+        			this.dsm.openDataBase();
+        			ContentValues values = new ContentValues();
+        			values.put("IPADDRESS",data.getExtras().getString("IPADDRESS"));
+        			values.put("NAME",data.getExtras().getString("NAME"));
+        			values.put("LOCATION",data.getExtras().getString("LOCATION"));
+        			values.put("USERNAME",data.getExtras().getString("USERNAME"));
+        			values.put("PASSWD",data.getExtras().getString("PASSWD"));
         			
-        		boolean result = dsm.createNewDevice(values);
-        		Log.i(TAGNAME, "RESULT OF CREATE OPERATION"+String.valueOf(result));
-    			
-    	        adapter = new NodoDeviceAdapter(this,dsm.getAllNodoDevice());
-    	        this.listView.setAdapter(adapter);
-    	        this.ipaddress_for_add.setText("");
-    	        this.dsm.closeDataBase();
-    			
-    			//Refresh Adapter
+        			boolean result = dsm.createNewDevice(values);
+        			Log.i(TAGNAME, "RESULT OF CREATE OPERATION"+String.valueOf(result));
+        			
+        			//Refresh Adapter
+        			adapter = new NodoDeviceAdapter(this,dsm.getAllNodoDevice());
+        			this.listView.setAdapter(adapter);
+        			this.ipaddress_for_add.setText("");
+        			this.dsm.closeDataBase();
+        		}
+        		
         	}
         }
         if ( requestCode == UPDATEDEVICE_REQUEST) {
@@ -335,15 +369,16 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 		//Display options of device remove,update.
 		final View v = view;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    builder.setTitle(R.string.title_newdevice)
+	    builder.setTitle(R.string.title_deviceoptions)
 	           .setItems(R.array.device_options, new DialogInterface.OnClickListener() {
 	               public void onClick(DialogInterface dialog, int which) {
 	               // The 'which' argument contains the index position
 	               // of the selected item
 	               // 0 Delete,1 Update
+	            	   final int delete = 0, update = 1, ports = 2;
 	            	   TextView ipvalue = (TextView)v.findViewById(R.id.textViewIpAddress);
 	            	   switch(which){
-	            	   		case 0:
+	            	   		case delete:
 	            	   			//Deleting device
 	            	   			dsm.openDataBase();
 	            	   			dsm.deleteDevice(ipvalue.getText().toString());
@@ -353,7 +388,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	                	        ipaddress_for_add.setText("");
 	                	        dsm.closeDataBase();
 	            	   			break;
-	            	   		case 1:
+	            	   		case update:
 	            	   			Intent updatedevice = new Intent(VoiceMainActivity.this,NodoDeviceActivity.class);
 	            	   			//Getting all data from device
 	            	   			dsm.openDataBase();
@@ -369,7 +404,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	            				startActivityForResult(updatedevice,UPDATEDEVICE_REQUEST);
 	            				dsm.closeDataBase();
 	            	   			break;
-	            	   		case 2:
+	            	   		case ports:
 	            	   			dsm.openDataBase();
 	            	   			NodoDevice nodoport = dsm.getDevice(ipvalue.getText().toString());
 	            	   			Intent nododeviceport = new Intent(VoiceMainActivity.this,NodoDevicePortMainActivity.class);
@@ -388,5 +423,22 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 		
 		return true;
 	}
-    
+	
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    Log.i(TAGNAME, ":On Resumen");
+	}
+	@Override
+	protected void onPause() {
+	    super.onPause();
+	    Log.i(TAGNAME, ":On Pause");
+	}
+	@Override
+	protected void onDestroy() {
+	    super.onPause();
+	    this.dsm.closeDataBase();
+	}
+	
 }

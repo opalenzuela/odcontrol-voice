@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	<string name="app_name">opendomo-voicedemo</string>
+    <string name="action_settings">Configuracion</string>
+    <string name="wifi_connection_state">Estado de conexion WIFI:</string>
     <!-- BUTTON -->
     <string name="button_adddevice">Agregar</string>
     <string name="button_speech">Habla</string>
@@ -10,15 +12,16 @@
     <string name="button_cancel">Cancelar</string>
     <string name="button_add">Agregar</string>
     <string name="button_addaction">Agregar Ac</string>
-    <string name="button_save">Guardar</string>
-    
-    <string name="app_name">opendomo-voicedemo</string>
-    <string name="action_settings">Configuracion</string>
-    <string name="wifi_connection_state">Estado de conexion WIFI:</string>
-    
+    <string name="button_save">Guardar</string> 
     <!-- ERROR -->
+    <string name="error_ipaddresstolong">Direccion IP muy larga</string>
+    <string name="error_ipaddressinvalid">Direccion IP invalida</string>
+    <string name="error_porterror">Se debe completar el campo y debe ser inferior a 6 caracteres.</string>
     <string name="error_ipaddress_already_exists">La direccion IP ya se encuentra ocupada por otro equipo</string>
     <string name="error_device_whitout_ports">El equipo no tiene una configuracion de puertos asociada. ¿Desea crear una configuracion ahora?</string>
+    <string name="error_missingdatafordevice">Se necesitan completar obligatoriamente los datos del Equipo.</string>
+    <string name="error_portdevicesave">Error durante la creacion del puerto</string>
+    <string name="error_portdeviceupdate">Error durante la actualizacion del puerto</string>
     
     
     <!-- HINT-->
@@ -36,21 +39,29 @@
     
     
     <!-- OPTION -->
-    
     <string-array name="device_options">
         <item>Eliminar</item>
         <item>Actualizar</item>
         <item>Configurar Puertos</item>
     </string-array>
 
+    <string-array name="port_options">
+        <item>Eliminar</item>
+        <item>Actualizar</item>
+        <item>Ver instrucciones permitidas</item>
+    </string-array>
+    
     <!--  TITLE -->
     
     <string name="title_action">Acciones para el Puerto</string>
+    <string name="title_actionexecuteoption">Instrucciones de voz permitidas</string>
     <string name="title_dialog_problem">Error en ejecucion</string>
     <string name="title_activity_nodo_voice_recognition">NodoVoiceRecognitionActivity</string>
     <string name="title_activity_nodo_device_port">NodoDevicePortActivity</string>
 	<string name="title_credentials">Credenciales para Ingresar</string>
 	<string name="title_newdevice">Nuevo Equipo</string>
+	<string name="title_deviceoptions">Opciones del Equipo</string>
+	<string name="title_portoptions">Opciones del Puerto</string>
     <string name="title_dialog_news">Informacion</string>
 	<string name="title_deviceportinformation">Puerto/Informacion</string>
 	<string name="tabtitle_port_analog">Puerto Analogo</string>

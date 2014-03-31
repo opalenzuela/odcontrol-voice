@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -42,7 +43,8 @@
         </activity>
         <activity
             android:name="cl.mamd.voice.NodoDevicePortActivity"
-            android:label="@string/title_activity_nodo_device_port" >
+            android:label="@string/title_activity_nodo_device_port"
+            android:theme="@android:style/Theme.Dialog" >
         </activity>
     </application>
 
