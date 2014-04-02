@@ -1,6 +1,7 @@
 package cl.mamd.voice;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -16,14 +17,12 @@ import android.content.Intent;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * 
@@ -43,12 +42,13 @@ public class NodoVoiceRecognitionActivity extends Activity {
 	
 	
 	private List<NodoDevicePort> values;
-	private List<String> keywords;
 	private NodoDevicePortAdapter adapter;
 	private DataStoreManager dsm;
 	private HashMap<String,String[]> action_to_set; 
-	private String[] on_options = {"encender","levantar","subir"};
-	private String[] off_options = {"apagar","bajar"};
+	private String[] on_options;
+	private String[] off_options;
+	
+	
 	
 	private Integer device_id;
 	
@@ -79,22 +79,12 @@ public class NodoVoiceRecognitionActivity extends Activity {
 		this.editText_voicerecog.setBackgroundColor(getResources().getColor(
 				R.color.disabled_field));
 		
-	 
-		
-		
-		
-		
-		
+		this.on_options = getResources().getStringArray(R.array.on_options);
+		this.off_options = getResources().getStringArray(R.array.off_options);
 	    
 	    this.listview = (ListView)findViewById(R.id.listView_voicerecognition);
 	    
-	    //Keywords for voice recognition 
-	    keywords = new ArrayList<String>();
-	    this.keywords.add("apagar");
-	    this.keywords.add("encender");
-	    this.keywords.add("cortar");
-	    this.keywords.add("activar");
-	    this.keywords.add("leer");
+	    
 	    this.action_to_set = new HashMap<String,String[]>();
 	    
 	    
@@ -208,6 +198,10 @@ public class NodoVoiceRecognitionActivity extends Activity {
 	
 	public void buttonStartSpeech(View view){
 		
+		this.editText_voicerecog.setText("");
+		this.editText_voicerecog.setBackgroundColor(
+				getResources().getColor(R.color.disabled_field));
+		
 		
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);        
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -218,7 +212,6 @@ public class NodoVoiceRecognitionActivity extends Activity {
         //sr.startListening(intent);
         Log.i(TAGNAME, "Stop recognition");
         
-        
 	}
 
 	@Override
@@ -228,103 +221,62 @@ public class NodoVoiceRecognitionActivity extends Activity {
         	case RESULT_SPEECH: 
         		if (resultCode == RESULT_OK && null != data) {
         			Log.i(TAGNAME, "RESULT_OK");
-        				ArrayList<String> text = data
-        						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+        			ArrayList<String> text = data
+        					.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
  
+        			Log.i(TAGNAME, "Result of SPEECH:"+text.size());
         				
-        				Log.i(TAGNAME, "Result of SPEECH:"+text.get(0));
-        				for(int i=0 ; i < this.on_options.length ; i++ ){
-        					
-        					Log.i(TAGNAME, "Checking ON option:"+this.on_options[i]);
-        					if ( text.get(0).contains(this.on_options[i]) ){
-        						Log.i(TAGNAME, "RESULT OF SPEECH HAS ON_OPTION:"+this.on_options[i]);
-        						//Check witch port/tag was selected
-        						
-        						Locale locale = Locale.getDefault();
-        						
-        						String tag = text.get(0).replace(this.on_options[i],"");
-        						tag = tag.replace(" ","");
-        						tag = tag.toLowerCase(locale);
-        						for ( int j = 0; j < this.values.size() ; j ++ ){
-        							String lowerTagNodo = this.values.get(j).getTag().toLowerCase(locale);
-        							lowerTagNodo = lowerTagNodo.replace(" ","");
-        							Log.i(TAGNAME, "Checkig match with tag: "+lowerTagNodo+" ? " +tag);
-        							if ( lowerTagNodo.equals(tag)  ){
-        								this.editText_voicerecog.setBackgroundColor(getResources().getColor(
-        										R.color.recognition_success));
-        								this.editText_voicerecog.setText(text.get(0));
-        								
-        								
-        								Log.i(TAGNAME, "Tag of port recognized:"+lowerTagNodo+"/"+this.values.get(j).getTag());
-        								String url = "http://";
-        								url = url+this.ipaddress.getText().toString()+"/set+";
-        								url = url+this.values.get(j).getPort()+"+ON";
-        								
-        								DeviceHttpCommunication http = new DeviceHttpCommunication("http://"+this.ipaddress.getText().toString(),
-        										this.username.getText().toString(),this.passwd.getText().toString());
-        								
-        								http.executeInstruction("hola");
-        								
-        								
-        								Toast.makeText(this,url,Toast.LENGTH_LONG).show();
-        							}
-        							else {
-        								this.editText_voicerecog.setBackgroundColor(getResources().getColor(
-        										R.color.recognition_refuse));
-        								this.editText_voicerecog.setText(text.get(0));
-        							}
-        						}
-        					}
-        				}
-        				//Check OFF options
-        				for(int i=0 ; i < this.off_options.length ; i++ ){
-        					if ( text.get(0).contains(this.off_options[i]) ){
-        						Log.i(TAGNAME, "RESULT OF SPEECH HAS OFF_OPTION:"+this.off_options[i]);
-        						
-        						Locale locale = Locale.getDefault();
-        						
-        						String tag = text.get(0).replace(this.off_options[i],"");
-        						tag = tag.replace(" ","");
-        						tag = tag.toLowerCase(locale);
-        						for ( int j = 0; j < this.values.size() ; j ++ ){
-        							String lowerTagNodo = this.values.get(j).getTag().toLowerCase(locale);
-        							lowerTagNodo = lowerTagNodo.replace(" ","");
-        							Log.i(TAGNAME, "Checkig match with tag: "+lowerTagNodo+" ? " +tag);
-        							if ( lowerTagNodo.equals(tag) ){
-        								this.editText_voicerecog.setBackgroundColor(getResources().getColor(
-        										R.color.recognition_success));
-        								this.editText_voicerecog.setText(text.get(0));
-        								
-        								Log.i(TAGNAME, "Tag of port recognized:"+lowerTagNodo+"/"+this.values.get(j).getTag());
-        								String url = "http://";
-        								url = url+this.ipaddress.getText().toString()+"/set+";
-        								url = url+this.values.get(j).getPort()+"+OFF";
-        								
-        								Toast.makeText(this,url,Toast.LENGTH_LONG).show();
-        							}
-        							else {
-        								this.editText_voicerecog.setBackgroundColor(getResources().getColor(
-        										R.color.recognition_refuse));
-        								this.editText_voicerecog.setText(text.get(0));	
-        							}
-        							
-        						}
-        						
-        					}
-        				}
+        			//checking through all results
+        			int i = 0;
+        			while ( i < text.size()){
+        				Log.i(TAGNAME, "Result:'"+text.get(i)+"'");
+        				this.editText_voicerecog.setText(text.get(i));
         				
-        				/*
-        				int i;
-        				for ( i = 0; i < this.keywords.size() ; i++){
-        					if ( text.get(0).contains(this.keywords.get(i)) ){
-        						Log.i(TAGNAME,"Correct Match: '"+text.get(0)+"' contains the word:"+this.keywords.get(i));
-        						//adapter.add(text.get(0));
-        					}
-        					else {
-        						Log.i(TAGNAME, "Not match with keywords");
-        					}
-        				}
-        				*/
+        				Locale locale = Locale.getDefault();
+            			String tag = text.get(i);
+            			tag = tag.replace(" ","");
+    					tag = tag.toLowerCase(locale);
+        				
+    					for ( int j = 0; j < this.values.size() ; j ++ ){
+            				String lowerTagNodo = this.values.get(j).getTag().toLowerCase(locale);
+            				lowerTagNodo = lowerTagNodo.replace(" ","");
+            				
+            				Log.i(TAGNAME, "tag.contains ='"+tag+"'/'"+lowerTagNodo+"'");
+            				if ( tag.contains(lowerTagNodo) ){
+            					Log.i(TAGNAME, "tag.contains = TRUE");
+            					String action = tag;
+            					action = action.replace(lowerTagNodo,"");
+            					String[] actionlist = this.values.get(j).getAction().split(",");
+            					for ( int k = 0 ; k < actionlist.length ; k ++ ){
+            						Log.i(TAGNAME, "action.equals ='"+action+"'/'"+actionlist[k]+"'");
+            						if ( action.equals(actionlist[k])) {
+            							//Recognition Success
+            							Log.i(TAGNAME, "Recognition success:'"+action+"'/'"+actionlist[k]+"'");
+            							this.editText_voicerecog.setBackgroundColor(getResources().getColor(
+                    									R.color.recognition_success));
+            							
+            							List<String> list = Arrays.asList(this.off_options);
+            							if (list.contains(action)){
+            								Log.i(TAGNAME, "OFF ACTION");
+            							}
+            							list = Arrays.asList(this.on_options);
+            							if (list.contains(action)){
+            								Log.i(TAGNAME, "ON ACTION");
+            							}
+            							
+            							i = text.size();
+            							k = actionlist.length;
+            							j = this.values.size();
+            						}
+            					}
+            					}
+            			}
+    						
+    						
+    						
+        				i++;
+        			}
+        				
         		}
         		break;
         }

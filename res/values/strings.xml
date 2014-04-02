@@ -50,7 +50,17 @@
         <item>Actualizar</item>
         <item>Ver instrucciones permitidas</item>
     </string-array>
-    
+
+    <string-array name="on_options">
+        <item>encender</item>
+        <item>levantar</item>
+        <item>subir</item>
+    </string-array>
+    <string-array name="off_options">
+        <item>apagar</item>
+        <item>descender</item>
+        <item>bajar</item>
+    </string-array>
     <!--  TITLE -->
     
     <string name="title_action">Acciones para el Puerto</string>

@@ -12,6 +12,8 @@ public final class R {
         /**  OPTION 
          */
         public static final int device_options=0x7f070000;
+        public static final int off_options=0x7f070003;
+        public static final int on_options=0x7f070002;
         public static final int port_options=0x7f070001;
     }
     public static final class attr {

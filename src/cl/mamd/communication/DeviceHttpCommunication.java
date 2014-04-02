@@ -49,21 +49,21 @@ public class DeviceHttpCommunication {
 		
 	}
 
-	public boolean executeInstruction(String intruction){
+	public boolean executeInstruction(String instruction){
 		
 		final DefaultHttpClient http = new DefaultHttpClient();
 	    http.setCredentialsProvider(credProvider);
 	    
-	    String data = "YOUR REQUEST BODY HERE";
-	    URL = URL + "/?SET=luz01&option=ON";
-		 Log.i(TAGNAME, "URL for REQUEST:"+URL);
+	    String data = "";
+	    URL = URL + "/" + instruction;
+		Log.i(TAGNAME, "URL for REQUEST:"+URL);
+		 
 	    final HttpPut put = new HttpPut(URL);
 	    
 	    Thread t = new Thread(new Runnable() {
 	    	public void run() {
 	    		try {
-	    			 String data = "YOUR REQUEST BODY HERE";
-	    			 
+	    			String data = "YOUR REQUEST BODY HERE";
 	    			HttpPut put = new HttpPut(URL);
 	    	        put.setEntity(new StringEntity(data, "UTF8"));
 	    	    } catch (UnsupportedEncodingException e) {
