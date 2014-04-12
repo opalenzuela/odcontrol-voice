@@ -14,12 +14,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.speech.RecognitionListener;
+import android.content.pm.ActivityInfo;
 import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -59,14 +60,17 @@ public class NodoVoiceRecognitionActivity extends Activity {
 	private final int RESULT_SPEECH = 1;
 	
 	
-	//For voice Recognition
-	private SpeechRecognizer sr;
-	private RecognitionListener rlistener;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//Disabled screen orientation changes and remove title
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
 		setContentView(R.layout.activity_nodo_voice_recognition);
+		
+
+		
 		
 		this.ipaddress = (TextView)findViewById(R.id.textView_nodoipaddress);        
 	    this.name = (TextView)findViewById(R.id.textView_nodoname);
@@ -120,74 +124,6 @@ public class NodoVoiceRecognitionActivity extends Activity {
         this.adapter = new NodoDevicePortAdapter(this,this.values);
         this.listview.setAdapter(this.adapter);
         
-        
-        this.rlistener = new RecognitionListener(){
-			@Override
-			public void onBeginningOfSpeech() {
-				// TODO Auto-generated method stub
-				Log.i(TAGNAME, "onReadyForSpeech");
-			}
-			@Override
-			public void onBufferReceived(byte[] arg0) {
-				// TODO Auto-generated method stub
-				Log.i(TAGNAME, "onBeginningOfSpeech");
-			}
-			@Override
-			public void onEndOfSpeech() {
-				// TODO Auto-generated method stub
-				Log.i(TAGNAME, "onEndofSpeech");
-			}
-			@Override
-			public void onError(int error) {
-				// TODO Auto-generated method stub
-				Log.i(TAGNAME,  "error " +  error);
-			}
-			@Override
-			public void onEvent(int eventType, Bundle params) {
-				// TODO Auto-generated method stub
-				Log.i(TAGNAME, "onEvent " + eventType);
-			}
-			@Override
-			public void onPartialResults(Bundle partialResults) {
-				// TODO Auto-generated method stub
-				Log.i(TAGNAME, "onPartialResults");
-			}
-			@Override
-			public void onReadyForSpeech(Bundle params) {
-				// TODO Auto-generated method stub
-				Log.i(TAGNAME,"onReadyForSpeech");
-			}
-			@Override
-			public void onResults(Bundle results) {
-				// TODO Auto-generated method stub
-				String str = new String();
-                Log.i(TAGNAME, "onResults " + results);
-                ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                for (int i = 0; i < data.size(); i++)
-                {
-                	Log.i(TAGNAME,"Length of data:"+String.valueOf(data.get(i)).length());
-                	Log.i(TAGNAME, "result :" + data.get(i));
-                    str += data.get(i);
-                }
-                if (str.length() > 10){
-                	Log.i(TAGNAME, "Addign result to LISTVIEW");
-                	//values.add(str);
-                	Log.i(TAGNAME, "values count:"+Integer.toString(values.size()));
-                	//adapter.add(str);
-                	listview.setAdapter(adapter);
-           	    }
-                Log.i(TAGNAME,"results: "+String.valueOf(data.size()));
-			}
-			@Override
-			public void onRmsChanged(float rmsdB) {
-				// TODO Auto-generated method stub
-			}
-        	
-        };
-
-        sr = SpeechRecognizer.createSpeechRecognizer(this);
-        sr.setRecognitionListener(rlistener); 
-        
 	}
 	
 	public void openBrowser(View view){
@@ -199,17 +135,16 @@ public class NodoVoiceRecognitionActivity extends Activity {
 	public void buttonStartSpeech(View view){
 		
 		this.editText_voicerecog.setText("");
-		this.editText_voicerecog.setBackgroundColor(
-				getResources().getColor(R.color.disabled_field));
-		
+		this.editText_voicerecog.setVisibility(View.VISIBLE);
+		this.editText_voicerecog.setBackground(
+				getResources().getDrawable(R.drawable.round_result_default));
+		this.editText_voicerecog.setGravity(Gravity.CENTER_HORIZONTAL);
 		
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);        
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        //intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,"voice.recognition.test");
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
         startActivityForResult(intent, RESULT_SPEECH);
-        //Checking alternative with settings
-        //sr.startListening(intent);
+    
         Log.i(TAGNAME, "Stop recognition");
         
 	}
@@ -254,14 +189,20 @@ public class NodoVoiceRecognitionActivity extends Activity {
             							Log.i(TAGNAME, "Recognition success:'"+action+"'/'"+actionlist[k]+"'");
             							this.editText_voicerecog.setBackgroundColor(getResources().getColor(
                     									R.color.recognition_success));
+            							this.editText_voicerecog.setBackground(
+            									getResources().getDrawable(R.drawable.round_result_success));
             							
             							List<String> list = Arrays.asList(this.off_options);
             							if (list.contains(action)){
             								Log.i(TAGNAME, "OFF ACTION");
+            								this.executeInstructionOnDevice(this.values.get(j).getPort(),
+            										"OFF");
             							}
             							list = Arrays.asList(this.on_options);
             							if (list.contains(action)){
             								Log.i(TAGNAME, "ON ACTION");
+            								this.executeInstructionOnDevice(this.values.get(j).getPort(),
+            										"ON");
             							}
             							
             							i = text.size();
@@ -269,11 +210,8 @@ public class NodoVoiceRecognitionActivity extends Activity {
             							j = this.values.size();
             						}
             					}
-            					}
+            				}
             			}
-    						
-    						
-    						
         				i++;
         			}
         				
@@ -282,6 +220,19 @@ public class NodoVoiceRecognitionActivity extends Activity {
         }
     }
 	
+	private boolean executeInstructionOnDevice(String port,String option){
+		DeviceHttpCommunication dhc = new DeviceHttpCommunication(
+				this.ipaddress.getText().toString(),this.username.getText().toString(),
+				this.passwd.getText().toString());
+		
+		String inst = "set+"+port+"+"+option;
+		if (dhc.executeInstruction(inst)){
+			return true;
+		}
+		else {
+			return false;
+		}		
+	}
 	
 	
 	@Override
@@ -291,4 +242,22 @@ public class NodoVoiceRecognitionActivity extends Activity {
 		return true;
 	}
 
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    Log.i(TAGNAME, ":On Resumen");
+	}
+	@Override
+	protected void onPause() {
+	    super.onPause();
+	    Log.i(TAGNAME, ":On Pause");
+	}
+	@Override
+	protected void onDestroy() {
+	    super.onPause();
+	    this.dsm.closeDataBase();
+	}
+	
+	
 }

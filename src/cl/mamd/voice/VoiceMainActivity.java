@@ -19,10 +19,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -53,8 +55,13 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Disabled screen orientation changes and remove title
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
         setContentView(R.layout.activity_voice_main);
-       
+                
+        
         this.listView = (ListView)findViewById(R.id.listView);
         this.ipaddress_for_add = (EditText)findViewById(R.id.edittext_ipaddress);
 
@@ -261,6 +268,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         			values.put("USERNAME",data.getExtras().getString("USERNAME"));
         			values.put("PASSWD",data.getExtras().getString("PASSWD"));
         			
+        			Log.i(TAGNAME, "Values to String"+values.toString());
         			boolean result = dsm.createNewDevice(values);
         			Log.i(TAGNAME, "RESULT OF CREATE OPERATION"+String.valueOf(result));
         			
@@ -394,6 +402,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	            	   			dsm.openDataBase();
 	            	   			NodoDevice nodo = dsm.getDevice(ipvalue.getText().toString());
 	            	   			
+	            	   			Log.i(TAGNAME, "USER/PASS"+nodo.getUsername()+"/"+nodo.getPasswd());
 	            	   			updatedevice.putExtra("IPADDRESS",nodo.getIpaddress());
 	            	   			updatedevice.putExtra("NAME",nodo.getName());
 	            	   			updatedevice.putExtra("LOCATION",nodo.getLocation());

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- GENERIC -->
+    <string name="text_separator"> / </string>
+    
 	<string name="app_name">opendomo-voicedemo</string>
     <string name="action_settings">Configuracion</string>
     <string name="wifi_connection_state">Estado de conexion WIFI:</string>
     <!-- BUTTON -->
     <string name="button_adddevice">Agregar</string>
-    <string name="button_speech">Habla</string>
+    <string name="button_speech">Hablar!</string>
     <string name="button_updatedevice">Actualizar</string>
     <string name="button_searchdevice">Buscar</string>
     <string name="button_ok">Aceptar</string>
@@ -33,6 +36,8 @@
     <string name="hint_port">Puerto(Max 5 caracteres)</string>
     <string name="hint_tag">Etiqueta</string>
     
+    <!-- ACCESS -->
+    <string name="access_www">www</string>
     
     <!-- MESSAGE -->
     <string name="message_confirmaddaction">Desea agregar la siguiente ACCION al puerto?:</string>
@@ -69,6 +74,7 @@
     <string name="title_activity_nodo_voice_recognition">NodoVoiceRecognitionActivity</string>
     <string name="title_activity_nodo_device_port">NodoDevicePortActivity</string>
 	<string name="title_credentials">Credenciales para Ingresar</string>
+	<string name="title_credentials_message">Credencial:</string>
 	<string name="title_newdevice">Nuevo Equipo</string>
 	<string name="title_deviceoptions">Opciones del Equipo</string>
 	<string name="title_portoptions">Opciones del Puerto</string>

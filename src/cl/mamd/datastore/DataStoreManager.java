@@ -110,11 +110,14 @@ public class DataStoreManager {
 	 * @return
 	 */
 	public boolean checkPortOfDevice(Integer iddevice){
-		Log.i(TAGNAME, "Checking the existance of configuration for Port");
+		
+		
 		Cursor cursor = database.rawQuery("select  count(*) from nododeviceport where device="+iddevice,null);
 		cursor.moveToFirst();
-		Log.i(TAGNAME,"Ports COUNT for Device("+iddevice+")="+Integer.toString(cursor.getInt(0)));
+		
 		Integer count = cursor.getInt(0);
+		cursor.close();
+		
 		if ( count != 0 ){
 			return true;
 		}
@@ -128,11 +131,12 @@ public class DataStoreManager {
 	 * @return
 	 */
 	public boolean checkIfIpExists(String ipaddress){
-		Log.i(TAGNAME,"Checking if exists device with this ip address:"+ipaddress);
+		
 		Cursor cursor = database.rawQuery("select  count(*) from nododevice where ipaddress='"+ipaddress+"'",null);
 		cursor.moveToFirst();
-		Log.i(TAGNAME,"COUNT="+Integer.toString(cursor.getInt(0)));
+		
 		Integer count = cursor.getInt(0);
+		cursor.close();
 		
 		if ( count != 0 ){
 			return true;
@@ -148,6 +152,9 @@ public class DataStoreManager {
 	 * @return
 	 */
 	public boolean createNewDevice(ContentValues values){
+		
+		Log.i(TAGNAME,"IPADDRESS,NAME,LOCATION,USERNAME,PASSWD");
+		Log.i(TAGNAME, "VALUES OF DATAMANAGER"+values.toString());
 		long result = this.database.insert("nododevice","IPADDRESS,NAME,LOCATION,USERNAME,PASSWD",values);
 		if ( result == -1 ){
 			return false;
@@ -205,12 +212,13 @@ public class DataStoreManager {
 	 * @return
 	 */
 	public NodoDevice getDevice(String ipaddress){
-		Log.i(TAGNAME,"Getting Device from DB for ip address:"+ipaddress);
-		Cursor cursor = database.rawQuery("SELECT * FROM nododevice WHERE IPADDRESS = '"+ipaddress+"'", null);
+		
+		Cursor cursor = database.rawQuery("SELECT ID,NAME,LOCATION,IPADDRESS,USERNAME,PASSWD FROM nododevice WHERE IPADDRESS = '"+ipaddress+"'", null);
 		cursor.moveToFirst();
 		NodoDevice nodo = new NodoDevice();
 		nodo = this.cursorToNodo(cursor);
 		nodo.setPorts(this.getPortOfDevice(nodo.getId()));
+		cursor.close();
 		return nodo;
 	}
 	
@@ -225,16 +233,8 @@ public class DataStoreManager {
 	public List<NodoDevicePort> getPortOfDevice(Integer id){
 		List<NodoDevicePort> ports = new ArrayList<NodoDevicePort>();
 		
-		Log.i(TAGNAME, "TABLE NAME:"+DataStoreOpenHelper.getTableNameDeviceport());
-		Log.i(TAGNAME, "ID of Device for get PORTS:"+Integer.toString(id));
 		Cursor cursor = database.rawQuery("SELECT ID,DEVICE,PORT,TAG,ACTION FROM nododeviceport WHERE DEVICE = "+Integer.toString(id), null);
 		
-		/*Cursor cursor = database.query(DataStoreOpenHelper.getTableNameDeviceport(),
-		        this.allColumnsDevicePort,
-		        "DEVICE = "+Integer.toString(id), null, null, null, null);
-		        */
-		Log.i(TAGNAME, "CURSOR OK");
-		Log.i(TAGNAME, "count for CURSOR:"+Integer.toString(cursor.getCount()));
 		cursor.moveToFirst();
 		if ( cursor.getCount() != 0 ) {
 			Log.i(TAGNAME, "Adding Port to List");
@@ -243,6 +243,7 @@ public class DataStoreManager {
 				cursor.moveToNext();
 			}
 		}
+		cursor.close();
 		return ports;
 	}
 	/**
@@ -259,12 +260,13 @@ public class DataStoreManager {
 
 		cursor.moveToFirst();
 		if ( cursor.getCount() != 0 ) {
-			Log.i(TAGNAME, "Adding all Port to List");
+		
 			while ( !cursor.isAfterLast()) {
 				ports.add(this.cursorToPort(cursor));
 				cursor.moveToNext();
 			}
 		}
+		cursor.close();
 		return ports;
 	}
 	
@@ -286,13 +288,14 @@ public class DataStoreManager {
 	    	nodos.add(device);
 	    	cursor.moveToNext();
 	    }
-	    // make sure to close the cursor
+	    
 	    cursor.close();
 	    return nodos;
 	}
 	
 	private NodoDevicePort cursorToPort(Cursor cursor){
 		NodoDevicePort port = new NodoDevicePort();
+		
 		
 		port.setId(cursor.getInt(0));
 		port.setDevice(cursor.getInt(1));
@@ -311,6 +314,7 @@ public class DataStoreManager {
 	private NodoDevice cursorToNodo(Cursor cursor){
 		NodoDevice nodo = new NodoDevice();
 
+		//ID,NAME,LOCATION,IPADDRESS,USERNAME,PASSWD
 		nodo.setId(cursor.getInt(0));
 		nodo.setName(cursor.getString(1));		
 		nodo.setLocation(cursor.getString(2));

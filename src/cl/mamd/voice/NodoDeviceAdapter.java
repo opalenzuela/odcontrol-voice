@@ -5,7 +5,6 @@ import java.util.List;
 import cl.mamd.entity.NodoDevice;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,12 @@ import android.widget.TextView;
 /**
  * 
  * @author mmoscoso	
- * @version 0.1
+ * @version 0.2
  * @comment Class for create adapter of Devices
  */
 public class NodoDeviceAdapter extends BaseAdapter {
 	  private Context mcontext;
 	  private List<NodoDevice> values;
-	  private static String TAGNAME = "NodoDeviceAdapter";
 	  
 
 	  public NodoDeviceAdapter(Context context, List<NodoDevice> nodos) {
@@ -34,7 +32,6 @@ public class NodoDeviceAdapter extends BaseAdapter {
 		  
 		  LayoutInflater inflater = (LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		  
-		  Log.i(TAGNAME,"Creating textview for Nodo Device Adapter");
 		  rowView = inflater.inflate(R.layout.item_nodo_device,null);
 		  TextView textName = (TextView)rowView.findViewById(R.id.textViewName);
 		  TextView textIP = (TextView) rowView.findViewById(R.id.textViewIpAddress);

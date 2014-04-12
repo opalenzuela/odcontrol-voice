@@ -1,74 +1,135 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="@color/background_activities"
-    android:padding="10dip" >
+    >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    	<TextView
-        android:id="@+id/textView_nodoipaddress"
-        android:layout_width="wrap_content"
+        android:layout_marginTop="5dip"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Large Text"
-        android:onClick="openBrowser"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-    	<TextView
-        	android:id="@+id/textView_nodoname"
+        android:gravity="center" >
+		    <TextView
+        	android:id="@+id/textView_accesswwww"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
-        	android:text="Small Text"
-        	android:textAppearance="?android:attr/textAppearanceSmall" />
+        	android:background="@drawable/round_corners"
+        	android:clickable="true"
+			android:layout_marginRight="10dip"
+        	android:onClick="openBrowser"
+        	android:padding="5dip"
+        	android:text="@string/access_www"
+        	android:textAppearance="?android:attr/textAppearanceSmall"
+        	android:textColor="@color/accesswww_text" />
+        	<TextView
+            	android:id="@+id/textView_nodoipaddress"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:text="@string/app_name"
+            	android:textColor="@color/device_ip"
+            	android:textAppearance="?android:attr/textAppearanceLarge" />	
     </LinearLayout>
-	<TextView
-	        android:id="@+id/textView_nodolocation"
-    	    android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-        	android:text="Small Text"
-        	android:textAppearance="?android:attr/textAppearanceSmall" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
     <TextView
+        android:id="@+id/textView_nodoname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_credentials"
+        android:textColor="@color/device_name"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+	<TextView
+        android:layout_width="wrap_content"
+        android:textColor="@color/device_name"
+        android:layout_height="wrap_content"
+        android:text="@string/text_separator"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+	<TextView
+	        android:id="@+id/textView_nodolocation"
+	        android:textColor="@color/device_name"
+    	    android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+        	android:text="@string/app_name"
+        	android:textAppearance="?android:attr/textAppearanceSmall" />	
+	</LinearLayout>
+	
+    <View
+    android:layout_width="fill_parent"
+    android:layout_height="1dp"
+    android:background="@android:color/darker_gray"/>
+     
+	<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+	<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/device_name"
+        android:gravity="center_horizontal"
+        android:text="@string/title_credentials_message"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
+	
     <TextView
         android:id="@+id/textView_nodousername"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:text="Small Text"
+        android:text="@string/app_name"
+        android:textColor="@color/device_name"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-
+	<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_separator"
+        android:textColor="@color/device_name"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
     <TextView
         android:id="@+id/textView_nodopasswd"
         android:layout_width="wrap_content"
+        android:textColor="@color/device_name"
         android:layout_height="wrap_content"
-        android:text="Small Text"
+        android:text="@string/app_name"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <EditText
-        android:id="@+id/editText_voicerecog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
-
-    <Button
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center" > 
+    <EditText
+        android:id="@+id/editText_voicerecog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_result_success"
+        android:layout_margin="5dip"
+        android:text="@string/app_name"
+        android:ems="10"
+        android:hint="@string/app_name"
+        android:visibility="gone" >   
+    </EditText> 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="buttonStartSpeech"
+        android:padding="10dip"
         android:text="@string/button_speech"
+        android:layout_marginBottom="3dip"
          />
-
+   </LinearLayout>
+   <View
+    android:layout_width="fill_parent"
+    android:layout_height="1dp"
+    android:background="@android:color/darker_gray"/>
     <ListView
         android:id="@+id/listView_voicerecognition"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/listview_background" >
+        android:layout_height="fill_parent"
+        android:divider="@color/background_listviewdivider"
+        android:layout_margin="5dp" 
+        android:dividerHeight="2dip" >
     </ListView>
 
 </LinearLayout>

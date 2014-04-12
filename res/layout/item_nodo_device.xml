@@ -12,8 +12,9 @@
         android:paddingLeft="2dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="#0000FF"
         android:layout_width="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/device_name"
         android:layout_height="wrap_content"
          />
 
@@ -23,17 +24,20 @@
 
         <TextView
             android:id="@+id/textViewIpAddress"
+            android:textColor="@color/device_ip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
-            android:textColor="#5C002E"
+            android:text="@string/app_name"
             android:textSize="17sp" />
 
         <TextView
             android:id="@+id/textView_Credentials"
+            android:textColor="@color/device_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>

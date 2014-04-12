@@ -12,7 +12,8 @@
         android:paddingLeft="2dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="#0000FF"
+        android:textColor="@color/port_data"
+        android:text="@string/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
          />
@@ -23,14 +24,17 @@
 
         <TextView
             android:id="@+id/textViewTag"
+            android:text="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
-            android:textColor="#5C002E"
+            android:textColor="@color/port_data"
             android:textSize="17sp" />
 
         <TextView
             android:id="@+id/textViewActions"
+            android:text="@string/app_name"
+            android:textColor="@color/port_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
