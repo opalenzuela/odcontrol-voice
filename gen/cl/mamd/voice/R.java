@@ -19,21 +19,17 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int accesswww_background=0x7f05000d;
-        public static final int accesswww_text=0x7f05000e;
-        public static final int background_activities=0x7f050006;
-        public static final int background_listview=0x7f05000b;
-        public static final int background_listviewdivider=0x7f05000c;
-        public static final int device_data=0x7f05000a;
-        public static final int device_ip=0x7f050008;
-        public static final int device_name=0x7f050009;
-        public static final int disabled_field=0x7f050003;
-        public static final int listview_background=0x7f050001;
-        public static final int port_data=0x7f050007;
-        public static final int recognition_refuse=0x7f050005;
-        public static final int recognition_success=0x7f050004;
-        public static final int search_bar=0x7f050000;
-        public static final int viewinfo=0x7f050002;
+        public static final int black=0x7f050002;
+        public static final int blue=0x7f050003;
+        public static final int disabled_field=0x7f050000;
+        /**  PRE GREE 2cf30b 
+         */
+        public static final int green=0x7f050005;
+        public static final int grey=0x7f050006;
+        public static final int red=0x7f050004;
+        /**  COLOR  
+         */
+        public static final int white=0x7f050001;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 

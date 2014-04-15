@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp" 
+    android:background="@color/black"
     >
 
     <TextView
@@ -12,7 +13,7 @@
         android:paddingLeft="2dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/port_data"
+        android:textColor="@color/white"
         android:text="@string/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,20 +29,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
-            android:textColor="@color/port_data"
+            android:textColor="@color/white"
             android:textSize="17sp" />
 
         <TextView
             android:id="@+id/textViewActions"
             android:text="@string/app_name"
-            android:textColor="@color/port_data"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
     </LinearLayout>
-
 </LinearLayout>
     
  

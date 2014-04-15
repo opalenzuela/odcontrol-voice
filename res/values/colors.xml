@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="search_bar">#FFFFFF</color>
-    <color name="listview_background">#AEBBC9</color>
-    <color name="viewinfo">#E4F0FD</color>
     <color name="disabled_field">#c9c9c9</color>
-    <color name="recognition_success">#94f185</color>
-    <color name="recognition_refuse">#fb5050</color>
-    <color name="background_activities">#000000</color>
-    
-    <color name="port_data">#FFFFFF</color>
-    <color name="device_ip">#d2ddff</color>
-    <color name="device_name">#FFFFFF</color>
-    <color name="device_data">#e8dbdb</color>
-    <color name="background_listview">#D2DDF2</color>
-    <color name="background_listviewdivider">#FFFFFF</color>
-    <color name="accesswww_background">#0000D6</color>
-    <color name="accesswww_text">#f2f2f2</color>
+	<!-- COLOR  -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="blue">#0000D6</color>
+    <color name="red">#ef000a</color>
+    <!-- PRE GREE 2cf30b -->
+    <color name="green">#41b72d</color>
+    <color name="grey">#bfbfbf</color>
 </resources>

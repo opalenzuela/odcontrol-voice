@@ -188,7 +188,7 @@ public class NodoVoiceRecognitionActivity extends Activity {
             							//Recognition Success
             							Log.i(TAGNAME, "Recognition success:'"+action+"'/'"+actionlist[k]+"'");
             							this.editText_voicerecog.setBackgroundColor(getResources().getColor(
-                    									R.color.recognition_success));
+                    									R.color.green));
             							this.editText_voicerecog.setBackground(
             									getResources().getDrawable(R.drawable.round_result_success));
             							
@@ -196,13 +196,13 @@ public class NodoVoiceRecognitionActivity extends Activity {
             							if (list.contains(action)){
             								Log.i(TAGNAME, "OFF ACTION");
             								this.executeInstructionOnDevice(this.values.get(j).getPort(),
-            										"OFF");
+            										"off");
             							}
             							list = Arrays.asList(this.on_options);
             							if (list.contains(action)){
             								Log.i(TAGNAME, "ON ACTION");
             								this.executeInstructionOnDevice(this.values.get(j).getPort(),
-            										"ON");
+            										"on");
             							}
             							
             							i = text.size();

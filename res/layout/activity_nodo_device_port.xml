@@ -4,12 +4,12 @@
     android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:background="@color/black"
     >
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/search_bar"
+        android:background="@color/white"
         android:orientation="vertical" 
         >
         <TextView
@@ -17,51 +17,54 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
         <EditText
             android:id="@+id/edittext_tagsearch"
+            android:ems="10"
             android:hint="@string/hint_tag"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:ems="10" >
+            android:textColor="@color/black"
+             >
         </EditText>
-
-       
-
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/search_bar" 
+        android:background="@color/white" 
         >
-                <Button
+        <Button
             android:id="@+id/button_searchdeviceport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="searchDevicePortButton"
             android:text="@string/button_searchdevice"
+            style="@style/CodeFont"
             />
-
+			<View
+    			android:layout_width="1dip"
+    			android:layout_height="fill_parent"
+    			android:background="@android:color/darker_gray"
+    		/>
         <Button
             android:id="@+id/button_adddeviceport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/button_adddevice"
-            android:onClick="addDevicePortButton" />
-        
+            android:onClick="addDevicePortButton"
+            style="@style/CodeFont" />
     </LinearLayout>    
     <ListView
         android:id="@+id/listViewDevicePorts"
-        android:background="@color/listview_background"
+        android:background="@color/black"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_margin="5dp" 
         android:dividerHeight="0.2dp"
-        android:divider="@color/search_bar" >
-
+        android:divider="@color/grey" >
     </ListView>
 </LinearLayout>

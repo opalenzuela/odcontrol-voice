@@ -22,7 +22,11 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 
-
+/**
+ * 
+ * @author mmoscoso
+ * @version 0.1
+ */
 public class NodoDevicePortMainActivity extends Activity implements OnItemClickListener,
 OnItemLongClickListener {
 	
