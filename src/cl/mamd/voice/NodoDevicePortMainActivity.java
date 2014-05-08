@@ -9,17 +9,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 /**
@@ -27,8 +27,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
  * @author mmoscoso
  * @version 0.1
  */
-public class NodoDevicePortMainActivity extends Activity implements OnItemClickListener,
-OnItemLongClickListener {
+public class NodoDevicePortMainActivity extends Activity implements OnItemLongClickListener {
 	
 	private final int NEWDEVICEPORT_REQUEST = 1;
 	private final int UPDATEDEVICEPORT_REQUEST = 2;
@@ -47,6 +46,10 @@ OnItemLongClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//Disabled screen orientation changes and remove title
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
 		setContentView(R.layout.activity_nodo_device_port);
 		
 		Bundle extras = getIntent().getExtras();
@@ -69,8 +72,6 @@ OnItemLongClickListener {
 		
 		this.listView.setAdapter(adapter);
 		this.listView.setOnItemLongClickListener(this);
-		this.listView.setOnItemClickListener(this);
-		
 		
 		TextView textview = (TextView)findViewById(R.id.textView_devicenameinfo);
 		textview.setText(createTitleForDeviceInformation());
@@ -243,16 +244,6 @@ OnItemLongClickListener {
 		
 	}
 	
-	/**
-	 * 
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.nodo_device_port, menu);
-		return true;
-	}
-	
 	
 	public NodoDevicePort getPortFromList(String port){
 		NodoDevicePort nodoport = new  NodoDevicePort();
@@ -283,7 +274,7 @@ OnItemLongClickListener {
 	               public void onClick(DialogInterface dialog, int which) {
 	            	   //OPTIONS
 	            	   TextView port = (TextView)v.findViewById(R.id.textViewPort);
-	            	   final int delete = 0, update = 1;
+	            	   final int delete = 0, update = 1,detail_port = 2;
 	            	   switch(which){
 	            	   		case delete:
 	            	   			dsm.openDataBase();
@@ -304,6 +295,46 @@ OnItemLongClickListener {
 	            	   			startActivityForResult(updateport,UPDATEDEVICEPORT_REQUEST);
 	            	   			
 	            	   			break;
+	            	   		case detail_port:
+	            	   			//Show all combinations possible to execute actions
+	            	   			String message = "";
+	            	   			final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(NodoDevicePortMainActivity.this,
+	            	   					android.R.layout.simple_list_item_1);
+	            	   			
+	            	   			for ( int i = 0 ; i < values.size() ; i++ ) {
+	            	   				TextView tag = (TextView)findViewById(R.id.textViewPort);
+	            	   				if ( tag.getText().toString().equals(values.get(i).getPort())) {
+	            	   					String[] actions = values.get(i).getAction().split(",");
+	            	   					for ( int j = 0 ; j < actions.length ; j ++ ){
+	            	   						
+	            	   						message = values.get(i).getTag() + " " + actions[j] + "\n";
+	            	   						arrayAdapter.add(message);
+	            	   						message = actions[j] + " " + values.get(i).getTag() + "\n";
+	            	   						arrayAdapter.add(message);
+	            	   					}
+	            	   				}
+	            	   			}
+	            	   			
+	            	   			AlertDialog.Builder builder = new AlertDialog.Builder(NodoDevicePortMainActivity.this);
+	            	   			builder.setTitle(R.string.title_actionexecuteoption)
+	            	   				.setAdapter(arrayAdapter, new DialogInterface.OnClickListener(){
+	            	   					@Override
+	            	   					public void onClick(DialogInterface dialog, int which) {
+	            	   						// TODO Auto-generated method stub
+	            	   						dialog.dismiss();
+	            	   					}
+	            	   				})
+	            	   				.setPositiveButton(R.string.button_ok,new DialogInterface.OnClickListener() {
+	            	   					@Override
+	            	   					public void onClick(DialogInterface dialog, int which) {
+	            	   						// TODO Auto-generated method stub
+	            	   						dialog.dismiss();
+	            	   					}
+	            	   				});
+	            	   				
+	            	   			AlertDialog alert = builder.create();
+	            	   			alert.show();
+	            	   			break;
 	            	   		default:
 	            	   			break;
 	            	   }
@@ -322,51 +353,6 @@ OnItemLongClickListener {
 		return false;
 	}
 	
-	/**
-	 * 
-	 */
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		// TODO Auto-generated method stub
-		//Show all combinations possible to execute actions
-		String message = "";
-		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
-		
-		for ( int i = 0 ; i < this.values.size() ; i++ ) {
-			TextView tag = (TextView)view.findViewById(R.id.textViewPort);
-			if ( tag.getText().toString().equals(this.values.get(i).getPort())) {
-				String[] actions = this.values.get(i).getAction().split(",");
-				for ( int j = 0 ; j < actions.length ; j ++ ){
-					
-					message = this.values.get(i).getTag() + " " + actions[j] + "\n";
-					arrayAdapter.add(message);
-					message = actions[j] + " " + this.values.get(i).getTag() + "\n";
-					arrayAdapter.add(message);
-				}
-			}
-		}
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.title_actionexecuteoption)
-			.setAdapter(arrayAdapter, new DialogInterface.OnClickListener(){
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-				}
-			})
-			.setPositiveButton(R.string.button_ok,new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-				}
-			});
-			
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
 	
 	
 }//End of class

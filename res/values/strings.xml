@@ -41,7 +41,13 @@
     
     <!-- MESSAGE -->
     <string name="message_confirmaddaction">Desea agregar la siguiente ACCION al puerto?:</string>
+    <string name="message_reminder">Recuerde que debe asociar configuracion de puertos para acceder al equipo.</string>
     
+    <!-- TOAST -->
+    <string name="toast_newdevicesuccess">Se agrego el nuevo dispositivo correctamente</string>
+    <string name="toast_updatedevicesuccess">Se actualizo el dispositivo correctamente</string>
+    <string name="toast_deletedevicesuccess">Se elimino el dispositivo correctamente</string>
+    <string name="toast_newportsuccess">Se agrego un nuevo puerto correctamente</string>
     
     <!-- OPTION -->
     <string-array name="device_options">
@@ -66,8 +72,9 @@
         <item>descender</item>
         <item>bajar</item>
     </string-array>
-    <!--  TITLE -->
     
+    
+    <!--  TITLE -->
     <string name="title_action">Acciones para el Puerto</string>
     <string name="title_actionexecuteoption">Instrucciones de voz permitidas</string>
     <string name="title_dialog_problem">Error en ejecucion</string>

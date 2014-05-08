@@ -14,6 +14,8 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -43,9 +45,11 @@
         </activity>
         <activity
             android:name="cl.mamd.voice.NodoDevicePortActivity"
-            android:label="@string/title_activity_nodo_device_port"
-            android:theme="@android:style/Theme.Dialog" >
+            android:label="@string/title_activity_nodo_device_port" >
+
+            <!-- android:theme="@android:style/Theme.Dialog" -->
         </activity>
+       
     </application>
 
 </manifest>

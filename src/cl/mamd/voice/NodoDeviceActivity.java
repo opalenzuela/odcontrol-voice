@@ -2,9 +2,11 @@ package cl.mamd.voice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -25,8 +27,10 @@ public class NodoDeviceActivity extends Activity {
 	private final String TAGNAME = "NodoDeviceAddDialog";
 	
 	protected void onCreate(Bundle savedInstanceState) {
-		
 		super.onCreate(savedInstanceState);
+		//Disabled screen orientation changes and remove title
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.nodo_device);
 
         this.ipaddress = (EditText)findViewById(R.id.editText_ipaddress);        

@@ -13,14 +13,18 @@ import cl.mamd.entity.NodoDevicePort;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,7 +35,7 @@ import android.widget.TextView;
  * @version 0.1
  * @comment Activity for launch voice recognition
  */
-public class NodoVoiceRecognitionActivity extends Activity {
+public class NodoVoiceRecognitionActivity extends Activity implements OnItemClickListener {
 
 	private TextView ipaddress;
 	private TextView name;
@@ -123,6 +127,8 @@ public class NodoVoiceRecognitionActivity extends Activity {
 		
         this.adapter = new NodoDevicePortAdapter(this,this.values);
         this.listview.setAdapter(this.adapter);
+        
+        this.listview.setOnItemClickListener(this);
         
 	}
 	
@@ -221,27 +227,21 @@ public class NodoVoiceRecognitionActivity extends Activity {
     }
 	
 	private boolean executeInstructionOnDevice(String port,String option){
+		
+		
 		DeviceHttpCommunication dhc = new DeviceHttpCommunication(
 				this.ipaddress.getText().toString(),this.username.getText().toString(),
-				this.passwd.getText().toString());
+				this.passwd.getText().toString(),2);
 		
 		String inst = "set+"+port+"+"+option;
-		if (dhc.executeInstruction(inst)){
+		if ( dhc.executeInstructionSocket(inst)){
+		//if (dhc.executeInstruction(inst)){
 			return true;
 		}
 		else {
 			return false;
 		}		
 	}
-	
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.nodo_voice_recognition, menu);
-		return true;
-	}
-
 	
 	@Override
 	protected void onResume() {
@@ -257,6 +257,51 @@ public class NodoVoiceRecognitionActivity extends Activity {
 	protected void onDestroy() {
 	    super.onPause();
 	    this.dsm.closeDataBase();
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		// TODO Auto-generated method stub
+		
+		//Show all combinations possible to execute actions
+		String message = "";
+		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+				
+		for ( int i = 0 ; i < this.values.size() ; i++ ) {
+			TextView tag = (TextView)view.findViewById(R.id.textViewPort);
+			if ( tag.getText().toString().equals(this.values.get(i).getPort())) {
+				String[] actions = this.values.get(i).getAction().split(",");
+				for ( int j = 0 ; j < actions.length ; j ++ ){
+							
+					message = this.values.get(i).getTag() + " " + actions[j] + "\n";
+					arrayAdapter.add(message);
+					message = actions[j] + " " + this.values.get(i).getTag() + "\n";
+					arrayAdapter.add(message);
+				}
+			}
+		}
+			
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		builder.setTitle(R.string.title_actionexecuteoption)
+			.setAdapter(arrayAdapter, new DialogInterface.OnClickListener(){
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+				}
+			})
+			.setPositiveButton(R.string.button_ok,new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+				}
+			});
+					
+			AlertDialog alert = builder.create();
+			alert.show();
 	}
 	
 	

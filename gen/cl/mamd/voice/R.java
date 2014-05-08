@@ -15,6 +15,10 @@ public final class R {
         public static final int off_options=0x7f080003;
         public static final int on_options=0x7f080002;
         public static final int port_options=0x7f080001;
+        public static final int pref_example_list_titles=0x7f080004;
+        public static final int pref_example_list_values=0x7f080005;
+        public static final int pref_sync_frequency_titles=0x7f080006;
+        public static final int pref_sync_frequency_values=0x7f080007;
     }
     public static final class attr {
     }
@@ -48,39 +52,36 @@ public final class R {
         public static final int round_result_success=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0027;
-        public static final int button1=0x7f0a0014;
-        public static final int button_addaction=0x7f0a0024;
+        public static final int action_settings=0x7f0a0024;
+        public static final int button_addaction=0x7f0a0021;
         public static final int button_adddevice=0x7f0a000f;
         public static final int button_adddeviceport=0x7f0a0003;
-        public static final int button_save=0x7f0a0025;
+        public static final int button_save=0x7f0a0022;
         public static final int button_searchdevice=0x7f0a000e;
         public static final int button_searchdeviceport=0x7f0a0002;
-        public static final int editText_device=0x7f0a0021;
-        public static final int editText_ipaddress=0x7f0a001b;
-        public static final int editText_location=0x7f0a001d;
-        public static final int editText_name=0x7f0a001c;
-        public static final int editText_passwd=0x7f0a0020;
-        public static final int editText_port=0x7f0a0022;
-        public static final int editText_tag=0x7f0a0023;
-        public static final int editText_username=0x7f0a001f;
+        public static final int editText_device=0x7f0a001e;
+        public static final int editText_ipaddress=0x7f0a0017;
+        public static final int editText_location=0x7f0a0019;
+        public static final int editText_name=0x7f0a0018;
+        public static final int editText_passwd=0x7f0a001c;
+        public static final int editText_port=0x7f0a001f;
+        public static final int editText_tag=0x7f0a0020;
+        public static final int editText_username=0x7f0a001b;
         public static final int editText_voicerecog=0x7f0a000b;
         public static final int edittext_ipaddress=0x7f0a000d;
         public static final int edittext_tagsearch=0x7f0a0001;
         public static final int listView=0x7f0a0010;
-        public static final int listViewDevicePort=0x7f0a0026;
+        public static final int listViewDevicePort=0x7f0a0023;
         public static final int listViewDevicePorts=0x7f0a0004;
         public static final int listView_voicerecognition=0x7f0a000c;
-        public static final int textView1=0x7f0a001e;
-        public static final int textView1test=0x7f0a0011;
-        public static final int textView2=0x7f0a0012;
-        public static final int textView3=0x7f0a0013;
-        public static final int textViewActions=0x7f0a001a;
-        public static final int textViewIpAddress=0x7f0a0016;
-        public static final int textViewName=0x7f0a0015;
-        public static final int textViewPort=0x7f0a0018;
-        public static final int textViewTag=0x7f0a0019;
-        public static final int textView_Credentials=0x7f0a0017;
+        public static final int textView1=0x7f0a001a;
+        public static final int textView2=0x7f0a001d;
+        public static final int textViewActions=0x7f0a0016;
+        public static final int textViewIpAddress=0x7f0a0012;
+        public static final int textViewName=0x7f0a0011;
+        public static final int textViewPort=0x7f0a0014;
+        public static final int textViewTag=0x7f0a0015;
+        public static final int textView_Credentials=0x7f0a0013;
         public static final int textView_accesswwww=0x7f0a0005;
         public static final int textView_devicenameinfo=0x7f0a0000;
         public static final int textView_nodoipaddress=0x7f0a0006;
@@ -93,12 +94,10 @@ public final class R {
         public static final int activity_nodo_device_port=0x7f030000;
         public static final int activity_nodo_voice_recognition=0x7f030001;
         public static final int activity_voice_main=0x7f030002;
-        public static final int fragment_device=0x7f030003;
-        public static final int fragment_device_port_analog=0x7f030004;
-        public static final int item_nodo_device=0x7f030005;
-        public static final int item_nodo_device_port=0x7f030006;
-        public static final int nodo_device=0x7f030007;
-        public static final int nodo_device_port=0x7f030008;
+        public static final int item_nodo_device=0x7f030003;
+        public static final int item_nodo_device_port=0x7f030004;
+        public static final int nodo_device=0x7f030005;
+        public static final int nodo_device_port=0x7f030006;
     }
     public static final class menu {
         public static final int nodo_device_port=0x7f090000;
@@ -144,26 +143,55 @@ public final class R {
         /**  MESSAGE 
          */
         public static final int message_confirmaddaction=0x7f07001d;
-        public static final int tabtitle_device=0x7f07002c;
-        public static final int tabtitle_port_analog=0x7f07002a;
-        public static final int tabtitle_port_digital=0x7f07002b;
+        public static final int message_reminder=0x7f07001e;
+        public static final int pref_default_display_name=0x7f070037;
+        public static final int pref_description_social_recommendations=0x7f070035;
+        /**  Example settings for Data & Sync 
+         */
+        public static final int pref_header_data_sync=0x7f070039;
+        /**  Strings related to Settings 
+ Example General settings 
+         */
+        public static final int pref_header_general=0x7f070033;
+        /**  Example settings for Notifications 
+         */
+        public static final int pref_header_notifications=0x7f07003c;
+        public static final int pref_ringtone_silent=0x7f07003f;
+        public static final int pref_title_add_friends_to_messages=0x7f070038;
+        public static final int pref_title_display_name=0x7f070036;
+        public static final int pref_title_new_message_notifications=0x7f07003d;
+        public static final int pref_title_ringtone=0x7f07003e;
+        public static final int pref_title_social_recommendations=0x7f070034;
+        public static final int pref_title_sync_frequency=0x7f07003a;
+        public static final int pref_title_system_sync_settings=0x7f07003b;
+        public static final int pref_title_vibrate=0x7f070040;
+        public static final int tabtitle_device=0x7f070031;
+        public static final int tabtitle_port_analog=0x7f07002f;
+        public static final int tabtitle_port_digital=0x7f070030;
         /**  GENERIC 
          */
         public static final int text_separator=0x7f070000;
         /**   TITLE 
          */
-        public static final int title_action=0x7f07001e;
-        public static final int title_actionexecuteoption=0x7f07001f;
-        public static final int title_activity_nodo_device_port=0x7f070022;
-        public static final int title_activity_nodo_voice_recognition=0x7f070021;
-        public static final int title_credentials=0x7f070023;
-        public static final int title_credentials_message=0x7f070024;
-        public static final int title_deviceoptions=0x7f070026;
-        public static final int title_deviceportinformation=0x7f070029;
-        public static final int title_dialog_news=0x7f070028;
-        public static final int title_dialog_problem=0x7f070020;
-        public static final int title_newdevice=0x7f070025;
-        public static final int title_portoptions=0x7f070027;
+        public static final int title_action=0x7f070023;
+        public static final int title_actionexecuteoption=0x7f070024;
+        public static final int title_activity_nodo_device_port=0x7f070027;
+        public static final int title_activity_nodo_voice_recognition=0x7f070026;
+        public static final int title_activity_voice_main_settings=0x7f070032;
+        public static final int title_credentials=0x7f070028;
+        public static final int title_credentials_message=0x7f070029;
+        public static final int title_deviceoptions=0x7f07002b;
+        public static final int title_deviceportinformation=0x7f07002e;
+        public static final int title_dialog_news=0x7f07002d;
+        public static final int title_dialog_problem=0x7f070025;
+        public static final int title_newdevice=0x7f07002a;
+        public static final int title_portoptions=0x7f07002c;
+        public static final int toast_deletedevicesuccess=0x7f070021;
+        /**  TOAST 
+         */
+        public static final int toast_newdevicesuccess=0x7f07001f;
+        public static final int toast_newportsuccess=0x7f070022;
+        public static final int toast_updatedevicesuccess=0x7f070020;
         public static final int wifi_connection_state=0x7f070003;
     }
     public static final class style {

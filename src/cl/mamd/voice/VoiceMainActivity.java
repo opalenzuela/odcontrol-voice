@@ -6,6 +6,7 @@ import java.util.List;
 import cl.mamd.datastore.DataStoreManager;
 import cl.mamd.entity.NodoDevice;
 
+
 import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
 import android.net.NetworkInfo;
@@ -41,21 +42,35 @@ import android.widget.Toast;
  */
 public class VoiceMainActivity extends Activity implements OnItemClickListener,OnItemLongClickListener {
 	
+	
+	/*
+	 * Widgets of current activity
+	 */
 	private ListView listView;
-	private String TAGNAME = "VoiceMainActivity";
-	private NodoDeviceAdapter adapter;
-	private DataStoreManager dsm;
+	private EditText ipaddress_for_add;
+	
+	/*
+	 * Id for intent's recognition
+	 */
 	private final int NEWDEVICE_REQUEST = 1;
 	private final int UPDATEDEVICE_REQUEST = 2;
 	private final int NODOVOICE_REQUEST = 3;
 	private final int NODODEVICEPORT_REQUEST = 4;
-	private EditText ipaddress_for_add;
+	
+	private String TAGNAME = "VoiceMainActivity";
+	private DataStoreManager dsm;
+	private NodoDeviceAdapter adapter;
 	private List<NodoDevice> values;
+	
+	
+	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Disabled screen orientation changes and remove title
+        /*
+         * Disabled screen orientation changes and remove title
+         */
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.setContentView(R.layout.activity_voice_main);
@@ -64,23 +79,28 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         this.listView = (ListView)findViewById(R.id.listView);
         this.ipaddress_for_add = (EditText)findViewById(R.id.edittext_ipaddress);
 
-        //Checking system
+        /*
+         * Checking wifi adapter availability
+         */
         checkWifiAvailability();
         
+        
+        /*
+         * Getting device information from SQLite Database
+         */
         dsm = new DataStoreManager(this);
         dsm.openDataBase();
-        //dsm.refreshDataBase(2,3);
         this.values = dsm.getAllNodoDevice();
+        
+        /*
+         * oading all devices in listview
+         */
         this.adapter = new NodoDeviceAdapter(this,values);
-        		
         this.listView.setAdapter(adapter);
         this.listView.setOnItemClickListener(this);
         this.listView.setOnItemLongClickListener(this);
         
         dsm.closeDataBase();
-        
-	
-        
     }
     
     /**
@@ -88,15 +108,27 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
      * @param textlog
      * @return
      */
-    private boolean putLogInScreen(String textlog){
+    public boolean putLogInScreen(String textlog){
     	String mydate = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
     	Log.i(TAGNAME,mydate + ":" +textlog);   
     	return true;
     }
 
-    private void checkWifiAvailability(){
+    /**
+     * @author mmoscoso
+     * This method check if the wifi adapter is available
+     * @param
+     * @return
+     * 
+     */
+    public void checkWifiAvailability(){
+    	
+    	/*
+    	 * Getting ConnectivityManager
+    	 */
     	ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        
         
         if (mWifi.isConnected()) {
             
@@ -105,7 +137,9 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         	WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
         	DhcpInfo dhcpInfo = wifiMgr.getDhcpInfo();
                 	
-        	//Get Connection Info 
+        	/*
+        	 * Getting information of current inet connection 
+        	 */
         	String netMask = intToIp(dhcpInfo.netmask);
         	String SSID = wifiInfo.getSSID();
         	String hostaddr = intToIp(wifiInfo.getIpAddress());
@@ -153,7 +187,8 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     }
     
     /**
-     * 
+     * @author mmoscoso
+     * Method for add device to database 
      * @param view
      * @return
      */
@@ -213,30 +248,20 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     }
     
     /**
+     * @author mmoscoso
      * Function for Translate Integer to String for IpAddress 
      * @param i
      * @return
      */
-    private String intToIp(int i) {
+    public String intToIp(int i) {
     	   return ( i & 0xFF) + "." + ((i >> 8 ) & 0xFF) + "." + ((i >> 16 ) & 0xFF) + "." + ((i >> 24 ) & 0xFF );
     }
      
-    /**
-     * 
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.voice_main, menu);
-        return true;
-    }
-    
-    /**
-     * 
-     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
+        /*
+         * Check which request we're responding to
+         */
         if (requestCode == NEWDEVICE_REQUEST) {
         	Log.i(TAGNAME,"REFRESHING UI AFTER ADD NEW DEVICE");
         	if (resultCode == RESULT_OK){
@@ -276,6 +301,11 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         			this.listView.setAdapter(adapter);
         			this.ipaddress_for_add.setText("");
         			this.dsm.closeDataBase();
+        			
+        			if ( result ){
+        				Toast.makeText(this,getResources().getString(
+        						R.string.toast_newdevicesuccess),Toast.LENGTH_LONG).show();
+        			}
         		}
         		
         	}
@@ -299,8 +329,21 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     	        this.listView.setAdapter(adapter);
     	        this.ipaddress_for_add.setText("");
     	        this.dsm.closeDataBase();
+    	        
+    	        if ( result ){
+    				Toast.makeText(this,getResources().getString(
+    						R.string.toast_updatedevicesuccess),Toast.LENGTH_LONG).show();
+    			}
         	}
         }
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.voice_main, menu);
+        return true;
     }
     
     
@@ -308,8 +351,11 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     public boolean onOptionsItemSelected(MenuItem item){
     	Log.i(TAGNAME, "ID MENU ITEM:"+item.getItemId());
     	switch (item.getItemId()) {
-        	default:
-        		return super.onOptionsItemSelected(item);
+    		case R.id.action_settings:
+    			//Start Preference Activity
+        		return true;
+    		default:
+    			return super.onOptionsItemSelected(item);
     	}
     }
    
@@ -320,13 +366,17 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
 		// TODO Auto-generated method stub
-		//Access to Device
+		/*
+		 * Access to Device
+		 */
 		Intent nodovoicerecognition = new Intent(VoiceMainActivity.this,NodoVoiceRecognitionActivity.class);
 		TextView ipvalue = (TextView)view.findViewById(R.id.textViewIpAddress);
 		dsm.openDataBase();
 		final NodoDevice nodo = dsm.getDevice(ipvalue.getText().toString());
 		
-		//Check port configuration
+		/*
+		 * Check port configuration
+		 */
 		dsm.openDataBase();
 		if ( dsm.checkPortOfDevice(nodo.getId()) ){
 			nodovoicerecognition.putExtra("ID",nodo.getId());
@@ -355,8 +405,12 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 			       })
 			       .setNegativeButton(R.string.button_cancel,new DialogInterface.OnClickListener() {
 			    	   public void onClick(DialogInterface dialog, int id) {
-						// TODO Auto-generated method stub
-			    		   Toast.makeText(VoiceMainActivity.this,"Recuerde que debe asociar configuracion de puertos para acceder al equipo",Toast.LENGTH_LONG).show();
+			    		   
+			    		   /*
+			    		    * Toast with remainder information
+			    		    */
+			    		   Toast.makeText(VoiceMainActivity.this,
+			    				   getResources().getString(R.string.message_reminder),Toast.LENGTH_LONG).show();
 			    	   }
 			       });
 
@@ -364,8 +418,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 			dialog.show();
 		}
 	}
-
-
+	
 	/**
 	 * Display options of Device
 	 */
@@ -379,21 +432,29 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	    builder.setTitle(R.string.title_deviceoptions)
 	           .setItems(R.array.device_options, new DialogInterface.OnClickListener() {
 	               public void onClick(DialogInterface dialog, int which) {
-	               // The 'which' argument contains the index position
-	               // of the selected item
-	               // 0 Delete,1 Update
+	               /*
+	                *  The 'which' argument contains the index position
+	                *  of the selected item
+	                *  0 Delete,1 Update, 2 Ports  
+	                */
 	            	   final int delete = 0, update = 1, ports = 2;
 	            	   TextView ipvalue = (TextView)v.findViewById(R.id.textViewIpAddress);
 	            	   switch(which){
 	            	   		case delete:
 	            	   			//Deleting device
 	            	   			dsm.openDataBase();
-	            	   			dsm.deleteDevice(ipvalue.getText().toString());
+	            	   			boolean result = dsm.deleteDevice(ipvalue.getText().toString());
 	            	   			
 	            	   			adapter = new NodoDeviceAdapter(VoiceMainActivity.this,dsm.getAllNodoDevice());
 	                	        listView.setAdapter(adapter);
 	                	        ipaddress_for_add.setText("");
 	                	        dsm.closeDataBase();
+	                	        
+	                	        if ( result ){
+	                				Toast.makeText(VoiceMainActivity.this,getResources().getString(
+	                						R.string.toast_deletedevicesuccess),Toast.LENGTH_LONG).show();
+	                			}
+	                	        
 	            	   			break;
 	            	   		case update:
 	            	   			Intent updatedevice = new Intent(VoiceMainActivity.this,NodoDeviceActivity.class);
