@@ -34,6 +34,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -111,7 +112,14 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         /*Checking Preferences*/
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         
+        //INFO DIALOG
+        Boolean bool_dialoginfo = sharedPref.getBoolean("dialoginfo",true);
+        if ( bool_dialoginfo ){
+        	showDialogInfo();
+        }
         
+        
+        // ON AND OFF OPTIONS
         String[] on = getResources().getStringArray(R.array.on_options_values);
         Set<String> onSet = new HashSet<String>(Arrays.asList(on));
         
@@ -229,6 +237,42 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         	this.putLogInScreen(getResources().getString(R.string.wifi_connection_state)+ "OFF");
         	Log.i(TAGNAME,"No Wifi connection");
         }
+    }
+    
+    /**
+     * Show dialog info when application starts
+     */
+    private void showDialogInfo(){
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    	LayoutInflater inflater = this.getLayoutInflater();
+    	
+    	final View customView = inflater.inflate(R.layout.info_layout, null);
+    	TextView textmessage = (TextView)customView.findViewById(R.id.info_layout_message);
+    	
+    	TextView texttitle = (TextView)customView.findViewById(R.id.info_layout_title);
+    	    	
+    	textmessage.setText(getResources().getText(R.string.info_message));
+    	texttitle.setText(getResources().getText(R.string.info_title));
+    	
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(customView);
+		builder.setTitle(R.string.app_name)
+		       .setPositiveButton(R.string.button_ok,new DialogInterface.OnClickListener() {
+		    	   public void onClick(DialogInterface dialog,int id) {
+		    		   CheckBox check = (CheckBox)customView.findViewById(R.id.checkBox_dialoginfo);
+		    		   if ( !check.isChecked() ){
+		    			   
+		    			   SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		    			   SharedPreferences.Editor pref = sharedPref.edit();
+		    			   pref.putBoolean("dialoginfo",false);
+		    			   pref.commit();
+		    		   }
+		    	   }
+		       });
+		AlertDialog dialog = builder.create();
+		dialog.show();
     }
     
    /**

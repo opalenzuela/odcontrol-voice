@@ -2,9 +2,13 @@
 <resources>
 
     <!-- PREF -->
+    
+    <string name="pref_categ_title_dialog">Informaci\u00f3n</string>
     <string name="pref_title_title">Titulo Ventana</string>
     <string name="pref_title_summary">Habilitar en las ventanas de la aplicaci\u00f3n el titulo.</string>
     
+    <string name="pref_dialoginfo_title">Mensaje de bienvenida</string>
+    <string name="pref_dialoginfo_summary">Mostrar el mensaje de bienvenida a la aplicaci\u00f3 cuando esta se inicia.</string>
     
     <string name="pref_categ_title">Acciones de Ejecuci\u00f3n</string>
     <string name="pref_categ_summary">Secci\u00f3n que permite configurar las acciones soportadas para ejecutar instrucciones ON y OFF en puertos.</string>
@@ -13,6 +17,10 @@
      <string name="pref_off_title">Acciones OFF</string>
     <string name="pref_off_summary">Lista de acciones soportadas por la aplicacion para ejecutar un <b>SET OFF</b> a un puerto.</string>
     
+    <!-- INFO -->
+    <string name="info_title">ODControl - Voice</string>
+    <string name="info_message">ODControl-Voice es una aplicaci\u00f3n que permite controla equipos ODControl mediante el reconocimiento de Voz.\n\n
+        Para realizar esto debes:\n\n<b>1)</b> Agregar el equipo.\n<b>2)</b> Agregar la informaci\u00f3n de sus puertos.\n<b>3)</b> Ingresar al equipo y realizar un reconocimiento de voz.</string>
 
     <!-- HELP MESSAGE -->
     <string name="help_title_voice_main">¿C\u00f3mo agregar un Equipo?</string>
@@ -103,6 +111,7 @@
 
 
     <!-- TITLE -->
+    <string name="title_checkboxdialog">Mostrar al inicio de la aplicaci\u00f3n</string>
     <string name="title_action">Acciones para el Puerto</string>
     <string name="title_remove_action">Eliminar</string>
     <string name="title_actionexecuteoption">Instrucciones de voz permitidas</string>

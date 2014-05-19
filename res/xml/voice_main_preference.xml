@@ -17,6 +17,13 @@
     	android:entries="@array/off_options_entries"
     	android:defaultValue="@array/off_options_values">
     </MultiSelectListPreference>
+    <PreferenceCategory android:title="@string/pref_categ_title_dialog">
+        <CheckBoxPreference 
+            android:key="dialoginfo"
+            android:summary="@string/pref_dialoginfo_summary"
+            android:title="@string/pref_dialoginfo_title"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
     
     
 </PreferenceScreen>
