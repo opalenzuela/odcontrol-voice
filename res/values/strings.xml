@@ -38,7 +38,7 @@
 
     <!-- GENERIC -->
     <string name="text_separator"> / </string>
-    <string name="app_name">odcontrol voice</string>
+    <string name="app_name">ODControl Voice</string>
     <string name="action_settings">Configuracion</string>
     <string name="wifi_connection_state">Estado de conexion WIFI:</string>
 
@@ -54,6 +54,7 @@
     <string name="button_save">Guardar</string>
     <!-- ERROR -->
 
+	<string name="error_portduplicate">El nombre del puerto ya se ecuentra agregado.</string>
 	<string name="error_notnetworkconnection">No tiene conexi\u00f3n m\u00f3vil o WIFI. La aplicaci\u00f3n podra reconocer la instrucci\u00f3n pero no ejecutarla en el equipo.</string>
     <string name="error_ipaddresstolong">Direccion IP muy larga</string>
     <string name="error_ipaddressinvalid">Direccion IP invalida</string>
@@ -64,8 +65,8 @@
     <string name="error_ipaddress_already_exists">La direccion IP ya se encuentra ocupada por otro equipo</string>
     <string name="error_device_whitout_ports">El equipo no tiene una configuracion de puertos asociada. ¿Desea crear una configuracion ahora?</string>
     <string name="error_missingdatafordevice">Se necesitan completar obligatoriamente los datos del Equipo.</string>
-    <string name="error_portdevicesave">Error durante la creacion del puerto</string>
-    <string name="error_portdeviceupdate">Error durante la actualizacion del puerto</string>
+    <string name="error_portdevicesave">Atenci\u00f3n: Los datos ingresados no fueron guardados.</string>
+    <string name="error_portdeviceupdate">Atenci\u00f3n: Los datos ingresados no fueron actualizados.</string>
 
     <!-- HINT -->
     <string name="hint_ipdevice">Direccion IP</string>

@@ -5,7 +5,6 @@ import java.util.List;
 import cl.mamd.entity.NodoDevicePort;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 public class NodoDevicePortAdapter extends BaseAdapter {
 	  private Context mcontext;
 	  private List<NodoDevicePort> values;
-	  private static String TAGNAME = "NodoDeviceAdapter";
 	  
 
 	  public NodoDevicePortAdapter(Context context, List<NodoDevicePort> nodos) {
@@ -34,7 +32,6 @@ public class NodoDevicePortAdapter extends BaseAdapter {
 		  
 		  LayoutInflater inflater = (LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		  
-		  Log.i(TAGNAME,"Creating textview for Nodo Device Adapter");
 		  rowView = inflater.inflate(R.layout.item_nodo_device_port,null);
 		  TextView textPort = (TextView)rowView.findViewById(R.id.textViewPort);
 		  TextView textTag = (TextView) rowView.findViewById(R.id.textViewTag);

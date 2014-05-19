@@ -2,6 +2,7 @@ package cl.mamd.voice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import cl.mamd.datastore.DataStoreManager;
 import cl.mamd.entity.NodoDevicePort;
@@ -46,13 +47,13 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 	private DataStoreManager dsm;
 	private NodoDevicePortAdapter adapter;
 	private List<NodoDevicePort> values;
+	private String[] portnames;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//Disabled screen orientation changes and remove title
+		//Disabled screen orientation changes
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.setTitle(getResources().getString(R.string.app_name));
         
 		setContentView(R.layout.activity_nodo_device_port);
@@ -74,6 +75,17 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 		this.dsm = new DataStoreManager(this);
 		this.dsm.openDataBase();
 		this.values = dsm.getPortOfDevice(this.device_id);
+		
+		//
+		int i;
+		this.portnames = new String[this.values.size()];
+				
+		for ( i = 0 ; i < this.values.size() ; i++ ){
+			portnames[i] = this.values.get(i).getPort();
+		}
+		//
+		
+		
 		this.adapter = new NodoDevicePortAdapter(this,this.values);
 		
 		this.listView.setAdapter(adapter);
@@ -144,7 +156,8 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 		
 		int i;
 		for ( i = 0 ; i < this.values.size() ; i++ ){
-			tagport = this.values.get(i).getTag().replace(" ","").toLowerCase();
+			Locale locale = Locale.getDefault();
+			tagport = this.values.get(i).getTag().replace(" ","").toLowerCase(locale);
 			Log.i(TAGNAME,tagport+ " equals ="+tag);
 			if (tagport.equals(tag)){
 				Toast.makeText(this,
@@ -158,9 +171,10 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 		Intent newport = new Intent(this,NodoDevicePortActivity.class);
 		newport.putExtra("ID",0);
 		newport.putExtra("PORT","");
-		newport.putExtra("TAG",tag);
+		newport.putExtra("TAG",this.edittext_searchtag.getText().toString());
 		newport.putExtra("DEVICE",this.device_name);
 		newport.putExtra("DEVICE_ID",this.device_id);
+		newport.putExtra("PORTNAMES",this.portnames);
 		startActivityForResult(newport,NEWDEVICEPORT_REQUEST);
 	}
 	
@@ -235,8 +249,7 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 				}
 				else {
 					Toast.makeText(this,
-						getResources().getString(R.string.error_portdevicesave)+":CODE:"+
-								Integer.toString(resultCode)
+						getResources().getString(R.string.error_portdevicesave)
 								, Toast.LENGTH_LONG).show();
 				}
 			break;
@@ -278,8 +291,7 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 			}
 			else {
 				Toast.makeText(this,
-					getResources().getString(R.string.error_portdeviceupdate)+":CODE:"+
-							Integer.toString(resultCode)
+					getResources().getString(R.string.error_portdeviceupdate)
 							, Toast.LENGTH_LONG).show();
 			}
 			break;
@@ -369,6 +381,7 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 	            	   			updateport.putExtra("ID",nodoport.getId());
 	            	   			updateport.putExtra("PORT",nodoport.getPort());
 	            	   			updateport.putExtra("TAG",nodoport.getTag());
+	            	   			updateport.putExtra("PORTNAMES",portnames);
 	            	   			
 	            	   			startActivityForResult(updateport,UPDATEDEVICEPORT_REQUEST);
 	            	   			

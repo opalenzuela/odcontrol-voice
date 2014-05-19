@@ -73,40 +73,31 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//Disabled screen orientation changes and remove title
+		//Disabled screen orientation changes
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+        this.setTitle(getResources().getString(R.string.app_name));
+
+
 		setContentView(R.layout.activity_nodo_voice_recognition);
 		
-
-		
-		
+		//Set content to widgets
 		this.ipaddress = (TextView)findViewById(R.id.textView_nodoipaddress);        
 	    this.name = (TextView)findViewById(R.id.textView_nodoname);
 	    this.location = (TextView)findViewById(R.id.textView_nodolocation);
 	    this.username = (TextView)findViewById(R.id.textView_nodousername);
 	    this.passwd = (TextView)findViewById(R.id.textView_nodopasswd);
 		this.editText_voicerecog = (EditText)findViewById(R.id.editText_voicerecog);
-		
 		this.editText_voicerecog.setFocusable(false);
-		this.editText_voicerecog.setBackgroundColor(getResources().getColor(
-				R.color.disabled_field));
 		
-		//this.on_options = getResources().getStringArray(R.array.on_options);
-		//this.off_options = getResources().getStringArray(R.array.off_options);
-	    
+		this.editText_voicerecog.setBackground(
+				getResources().getDrawable(R.drawable.round_result_default));
 		
 		
 	    this.listview = (ListView)findViewById(R.id.listView_voicerecognition);
 	    
-	    
 	    this.action_to_set = new HashMap<String,String[]>();
-	    
-	    
 	    this.dsm = new DataStoreManager(this);
 	    this.dsm.openDataBase();
-	    
 	    this.values = new ArrayList<NodoDevicePort>();
 	    
 	    
@@ -165,10 +156,6 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
         
     }//
 	
-	
-	
-	
-	
 	/**
      * Menu of Activity
      */
@@ -197,17 +184,20 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
     	}
     }
 	
-	
-	
-	
-	
-	
+    /**
+     * This function allows to user open a web browser
+     * @param view
+     */
 	public void openBrowser(View view){
 		final Intent intent = new Intent(Intent.ACTION_VIEW)
 			.setData(Uri.parse("http://"+this.ipaddress.getText().toString()));
 		startActivityForResult(intent,RESULT_BROWSER);
 	}
 	
+	/**
+	 * This function begin the voice recognition
+	 * @param view
+	 */
 	public void buttonStartSpeech(View view){
 		
 		this.editText_voicerecog.setText("");
@@ -231,28 +221,34 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
         switch (requestCode) {
         	case RESULT_SPEECH: 
         		if (resultCode == RESULT_OK && null != data) {
+        			
         			Log.i(TAGNAME, "RESULT_OK");
         			ArrayList<String> text = data
         					.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
  
         			Log.i(TAGNAME, "Result of SPEECH:"+text.size());
-        				
+	
         			//checking through all results
         			int i = 0;
         			while ( i < text.size()){
         				Log.i(TAGNAME, "Result:'"+text.get(i)+"'");
         				this.editText_voicerecog.setText(text.get(i));
         				
+        				//Get text from voice recognition for search matches
         				Locale locale = Locale.getDefault();
             			String tag = text.get(i);
             			tag = tag.replace(" ","");
     					tag = tag.toLowerCase(locale);
         				
+    					//Search in each port of device 
     					for ( int j = 0; j < this.values.size() ; j ++ ){
+    						
+    						
             				String lowerTagNodo = this.values.get(j).getTag().toLowerCase(locale);
             				lowerTagNodo = lowerTagNodo.replace(" ","");
             				
             				Log.i(TAGNAME, "tag.contains ='"+tag+"'/'"+lowerTagNodo+"'");
+            				
             				if ( tag.contains(lowerTagNodo) ){
             					Log.i(TAGNAME, "tag.contains = TRUE");
             					String action = tag;
@@ -261,6 +257,7 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
             					for ( int k = 0 ; k < actionlist.length ; k ++ ){
             						Log.i(TAGNAME, "action.equals ='"+action+"'/'"+actionlist[k]+"'");
             						if ( action.equals(actionlist[k])) {
+            				
             							//Recognition Success
             							Log.i(TAGNAME, "Recognition success:'"+action+"'/'"+actionlist[k]+"'");
             							this.editText_voicerecog.setBackgroundColor(getResources().getColor(

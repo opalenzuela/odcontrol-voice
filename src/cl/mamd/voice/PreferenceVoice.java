@@ -12,6 +12,8 @@ public class PreferenceVoice extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.setTitle(getResources().getString(R.string.app_name));
+		
 		
 		VoicePreferenceFragment prefFrag = new VoicePreferenceFragment();
 		FragmentManager fragmentManager = getFragmentManager();

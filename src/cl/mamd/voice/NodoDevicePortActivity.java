@@ -51,7 +51,7 @@ public class NodoDevicePortActivity extends Activity implements OnItemClickListe
 	private ArrayAdapter<String> adapter;
 	private String[] on_option = {};
 	private String[] off_option = {};
-	
+	private String[] portnames = {};
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -87,6 +87,7 @@ public class NodoDevicePortActivity extends Activity implements OnItemClickListe
         				adapter.add(actions[i]);
         		
         	}
+        	this.portnames = extras.getStringArray("PORTNAMES");
         	this.port.setText(extras.getString("PORT"));        
             this.tag.setText(extras.getString("TAG"));
             this.device.setText(extras.getString("DEVICE"));
@@ -285,6 +286,18 @@ public class NodoDevicePortActivity extends Activity implements OnItemClickListe
 					,Toast.LENGTH_LONG).show();
 			return false;
 		}
+		
+		int i;
+		for ( i = 0 ; i < this.portnames.length ; i++ ) {
+			if ( this.port.getText().toString().equals(this.portnames[i]) && this.id == 0 ){
+				Log.i(TAGNAME, "ERROR:DUPLICATE PORT");
+				Toast.makeText(this,getResources().getString(R.string.error_portduplicate)
+						,Toast.LENGTH_LONG).show();
+				return false;
+			}
+		}
+		
+		
 		
 		data.putExtra("ID",this.id);
 		data.putExtra("DEVICE_ID",this.device_id);

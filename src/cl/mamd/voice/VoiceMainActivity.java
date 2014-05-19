@@ -77,8 +77,9 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
          * Disabled screen orientation changes and remove title
          */
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.setTitle(getResources().getString(R.string.app_name));
         this.setContentView(R.layout.activity_voice_main);
+        
                 
         
         this.listView = (ListView)findViewById(R.id.listView);
