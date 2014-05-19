@@ -296,41 +296,6 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 			}
 			break;
 		}
-		/*if (requestCode == this.NEWDEVICEPORT_REQUEST) {
-			if (resultCode == RESULT_OK){
-				String[] values = data.getExtras().getStringArray("ACTIONS");
-				int i;
-				String actions = "";
-				for ( i = 0 ; i < values.length ; i++ ){
-					actions = actions+values[i]+",";
-					Log.i(TAGNAME,values[i]);
-	        	}
-
-				//Comment
-				Log.i(TAGNAME,Integer.toString(data.getExtras().getInt("DEVICE_ID"))+"/"+Integer.toString(this.device_id));
-	        		
-				NodoDevicePort nodoport = new NodoDevicePort();
-	        	nodoport.setId(0);
-	        	nodoport.setDevice(data.getExtras().getInt("DEVICE_ID"));
-	        	nodoport.setTag(data.getExtras().getString("TAG"));
-	        	nodoport.setPort(data.getExtras().getString("PORT"));
-	        	nodoport.setAction(actions);
-	        		
-	        	this.dsm.openDataBase();
-	        		
-	        	if(this.dsm.creatNodoDevicePort(nodoport))
-	        		Log.i(TAGNAME,"Created NodoDevicePort");
-	        	else
-	        		Log.i(TAGNAME,"Failed NodoDevicePort");
-	        		
-	        	this.values = dsm.getPortOfDevice(this.device_id);
-	        	this.adapter = new NodoDevicePortAdapter(this,this.values);
-	        		
-	     	    this.listView.setAdapter(this.adapter);
-	     	    this.edittext_searchtag.setText("");
-	     	    this.dsm.closeDataBase();
-	        }
-		}*/
 		
 	}
 	

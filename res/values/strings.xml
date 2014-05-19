@@ -106,7 +106,7 @@
     <string name="title_action">Acciones para el Puerto</string>
     <string name="title_remove_action">Eliminar</string>
     <string name="title_actionexecuteoption">Instrucciones de voz permitidas</string>
-    <string name="title_dialog_problem">Error en ejecucion</string>
+    <string name="title_dialog_problem">Atenci\u00f3n</string>
     <string name="title_activity_nodo_voice_recognition">NodoVoiceRecognitionActivity</string>
     <string name="title_activity_nodo_device_port">NodoDevicePortActivity</string>
     <string name="title_credentials">Credenciales para Ingresar</string>
