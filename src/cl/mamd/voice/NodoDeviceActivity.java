@@ -67,6 +67,26 @@ public class NodoDeviceActivity extends Activity {
 	}
 	public void addNodoDevice(View view){
 		
+		//Validate information of fields
+		if ( this.name.getText().toString().equals("") ){
+			this.name.setError(
+					getResources().getString(R.string.error_notnamedevice)
+					);
+			return;
+		}
+		if ( this.username.getText().toString().equals("") ){
+			this.username.setError(
+					getResources().getString(R.string.error_notusernamedevice)
+					);
+			return;
+		}
+		if ( this.passwd.getText().toString().equals("") ){
+			this.passwd.setError(
+					getResources().getString(R.string.error_notpasswddevice)
+					);
+			return;
+		}
+		
 		Intent data = new Intent();
 		data.putExtra("IPADDRESS",this.ipaddress.getText().toString());
 		data.putExtra("NAME", this.name.getText().toString());

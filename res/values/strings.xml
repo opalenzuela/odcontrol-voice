@@ -52,8 +52,13 @@
     <string name="button_add">Agregar</string>
     <string name="button_addaction">Agregar Ac</string>
     <string name="button_save">Guardar</string>
-    <!-- ERROR -->
 
+    
+    <!-- ERROR -->
+    <string name="error_notnamedevice">Se debe agregar nombre del equipo.</string>
+    <string name="error_notusernamedevice">Se debe agregar el nombre de usuario del equipo.</string>
+    <string name="error_notpasswddevice">Se debe agregar la clave del equipo.</string>
+    
 	<string name="error_portduplicate">El nombre del puerto ya se ecuentra agregado.</string>
 	<string name="error_notnetworkconnection">No tiene conexi\u00f3n m\u00f3vil o WIFI. La aplicaci\u00f3n podra reconocer la instrucci\u00f3n pero no ejecutarla en el equipo.</string>
     <string name="error_ipaddresstolong">Direccion IP muy larga</string>
