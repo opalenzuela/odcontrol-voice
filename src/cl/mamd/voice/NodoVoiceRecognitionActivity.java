@@ -10,24 +10,30 @@ import cl.mamd.communication.DeviceHttpCommunication;
 import cl.mamd.datastore.DataStoreManager;
 import cl.mamd.entity.NodoDevicePort;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 
@@ -69,7 +75,7 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
 		super.onCreate(savedInstanceState);
 		//Disabled screen orientation changes and remove title
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setContentView(R.layout.activity_nodo_voice_recognition);
 		
@@ -87,9 +93,11 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
 		this.editText_voicerecog.setBackgroundColor(getResources().getColor(
 				R.color.disabled_field));
 		
-		this.on_options = getResources().getStringArray(R.array.on_options);
-		this.off_options = getResources().getStringArray(R.array.off_options);
+		//this.on_options = getResources().getStringArray(R.array.on_options);
+		//this.off_options = getResources().getStringArray(R.array.off_options);
 	    
+		
+		
 	    this.listview = (ListView)findViewById(R.id.listView_voicerecognition);
 	    
 	    
@@ -101,8 +109,6 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
 	    
 	    this.values = new ArrayList<NodoDevicePort>();
 	    
-	    this.action_to_set.put("ON",this.on_options);
-	    this.action_to_set.put("OFF",this.off_options);
 	    
 	    Log.i(TAGNAME, "SIZE OF List<NodoDevicePort>():"+Integer.toString(this.values.size()));
 	    
@@ -116,8 +122,10 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
             this.passwd.setText(extras.getString("PASSWD"));
             this.ipaddress.setClickable(true);
             
-            
-            Log.i(TAGNAME, "ID of Device for control:"+Integer.toString(this.device_id));
+            this.on_options = extras.getStringArray("ON_OPTIONS");
+            this.off_options = extras.getStringArray("OFF_OPTIONS");
+            this.action_to_set.put("ON",this.on_options);
+    	    this.action_to_set.put("OFF",this.off_options);
             
             this.values = dsm.getPortOfDevice(this.device_id); 
             if ( this.values != null )
@@ -130,7 +138,69 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
         
         this.listview.setOnItemClickListener(this);
         
+        checkWifiAvailability();
+        
 	}
+	
+    /**
+     * @author mmoscoso
+     * This method check if the wifi adapter is available
+     * @param
+     * @return
+     * 
+     */
+    public void checkWifiAvailability(){
+    	/*
+    	 * Getting ConnectivityManager
+    	 */
+    	ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        
+        NetworkInfo mMobile = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (!mMobile.isConnected() && !mWifi.isConnected() ){
+        	//Not network connection available
+        	Toast.makeText(getApplicationContext(),
+        			getResources().getString(R.string.error_notnetworkconnection),Toast.LENGTH_LONG).show();
+        }
+        
+    }//
+	
+	
+	
+	
+	
+	/**
+     * Menu of Activity
+     */
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.nodo_voice_recognition, menu);
+        return true;
+    }
+    
+    /**
+     * When item of menu is selected
+     */
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+    	Log.i(TAGNAME, "ID MENU ITEM:"+item.getItemId());
+    	switch (item.getItemId()) {
+    		case R.id.help_nodovoiceirecognition:
+    			//Start a AlertDialog with information
+    			Helpdialog();
+    			return true;
+    		default:
+    			return super.onOptionsItemSelected(item);
+    	}
+    }
+	
+	
+	
+	
+	
 	
 	public void openBrowser(View view){
 		final Intent intent = new Intent(Intent.ACTION_VIEW)
@@ -258,6 +328,35 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
 	    super.onPause();
 	    this.dsm.closeDataBase();
 	}
+	
+	/**
+	 * Show dialog for Help information
+	 */
+	public void Helpdialog(){
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    	LayoutInflater inflater = this.getLayoutInflater();
+    	
+    	View customView = inflater.inflate(R.layout.help_layout, null);
+    	TextView textmessage = (TextView)customView.findViewById(R.id.help_layout_message);
+    	
+    	TextView texttitle = (TextView)customView.findViewById(R.id.help_layout_title);
+    	    	
+    	textmessage.setText(getResources().getText(R.string.help_message_nodo_voice_recognition));
+    	texttitle.setText(getResources().getText(R.string.help_title_nodo_voice_recognition));
+    	
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(customView);
+		builder.setTitle(R.string.help_title)
+		       .setPositiveButton(R.string.button_ok,new DialogInterface.OnClickListener() {
+		    	   public void onClick(DialogInterface dialog,int id) {
+		    	   }
+		       });
+		AlertDialog dialog = builder.create();
+		dialog.show();
+    }
+	
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,

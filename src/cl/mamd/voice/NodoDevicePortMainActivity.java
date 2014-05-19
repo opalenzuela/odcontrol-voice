@@ -12,8 +12,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -35,6 +38,7 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 	
 	
 	private String device_name;
+	private String device_address;
 	private EditText edittext_searchtag;
 	private ListView listView;
 	
@@ -48,13 +52,15 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 		super.onCreate(savedInstanceState);
 		//Disabled screen orientation changes and remove title
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.setTitle(getResources().getString(R.string.app_name));
         
 		setContentView(R.layout.activity_nodo_device_port);
 		
 		Bundle extras = getIntent().getExtras();
 		this.device_id = extras.getInt("DEVICE_ID");
 		this.device_name = extras.getString("DEVICE_NAME");
+		this.device_address = extras.getString("DEVICE_ADDRESS");
 		this.values = new ArrayList<NodoDevicePort>();
 		
 		//Comment
@@ -74,16 +80,51 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 		this.listView.setOnItemLongClickListener(this);
 		
 		TextView textview = (TextView)findViewById(R.id.textView_devicenameinfo);
+		textview.setGravity(Gravity.CENTER);
 		textview.setText(createTitleForDeviceInformation());
 		
 		
 	}
+	
+	/**
+     * Menu of Activity
+     */
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.nodo_device_port_main, menu);
+        return true;
+    }
+    
+    /**
+     * When item of menu is selected
+     */
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+    	Log.i(TAGNAME, "ID MENU ITEM:"+item.getItemId());
+    	switch (item.getItemId()) {
+    		case R.id.help_nododeviceportmain:
+    			//Start a AlertDialog with information
+    			Helpdialog();
+    			return true;
+    		default:
+    			return super.onOptionsItemSelected(item);
+    	}
+    }
+
+	
+    
+	
+	
+	
 	/**
 	 * 
 	 * @return
 	 */
 	private String createTitleForDeviceInformation(){
-		return "Equipo("+Integer.toString(this.device_id)+"): "+this.device_name;
+		return this.device_name+"/"+this.device_address;
 	}
 	
 	/**
@@ -93,10 +134,26 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 	public void addDevicePortButton(View view){
 		
 		String tag = this.edittext_searchtag.getText().toString();
-		//Check length of 
-		if ( tag.length() < 3 ){
-			tag = "";
+		tag = tag.replace(" ","");
+		
+		String tagport = "";
+		//Check if Tag Exists
+		this.dsm.openDataBase();
+		this.values = dsm.getPortOfDevice(this.device_id);
+		this.dsm.closeDataBase();
+		
+		int i;
+		for ( i = 0 ; i < this.values.size() ; i++ ){
+			tagport = this.values.get(i).getTag().replace(" ","").toLowerCase();
+			Log.i(TAGNAME,tagport+ " equals ="+tag);
+			if (tagport.equals(tag)){
+				Toast.makeText(this,
+						getResources().getString(R.string.error_tagduplicate),
+						Toast.LENGTH_LONG).show();
+				return;
+			}
 		}
+		
 		
 		Intent newport = new Intent(this,NodoDevicePortActivity.class);
 		newport.putExtra("ID",0);
@@ -112,6 +169,27 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 	 * @param view
 	 */
 	public void searchDevicePortButton(View view){
+		String tagsearch = this.edittext_searchtag.getText().toString(); 
+		List<NodoDevicePort> ports = new ArrayList<NodoDevicePort>();
+		
+		
+		if (tagsearch.equals("")){
+			this.dsm.openDataBase();
+			this.values = dsm.getPortOfDevice(this.device_id);
+			this.dsm.closeDataBase();
+		}
+		else {
+			int i;
+			for ( i = 0 ; i < this.values.size() ; i++ ){
+				if (this.values.get(i).getTag().contains(tagsearch)){
+					ports.add(this.values.get(i));
+				}
+			}
+			this.values = ports;
+		}
+		this.edittext_searchtag.setText("");
+		this.adapter = new NodoDevicePortAdapter(this,this.values);
+		this.listView.setAdapter(adapter);
 		
 	}
 
@@ -353,6 +431,33 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 		return false;
 	}
 	
+	/**
+	 * Show dialog for Help information
+	 */
+	public void Helpdialog(){
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    	LayoutInflater inflater = this.getLayoutInflater();
+    	
+    	View customView = inflater.inflate(R.layout.help_layout, null);
+    	TextView textmessage = (TextView)customView.findViewById(R.id.help_layout_message);
+    	
+    	TextView texttitle = (TextView)customView.findViewById(R.id.help_layout_title);
+    	    	
+    	textmessage.setText(getResources().getText(R.string.help_message_nodo_device_port_main));
+    	texttitle.setText(getResources().getText(R.string.help_title_nodo_device_port_main));
+    	
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(customView);
+		builder.setTitle(R.string.help_title)
+		       .setPositiveButton(R.string.button_ok,new DialogInterface.OnClickListener() {
+		    	   public void onClick(DialogInterface dialog,int id) {
+		    	   }
+		       });
+		AlertDialog dialog = builder.create();
+		dialog.show();
+    }
 	
 	
 }//End of class

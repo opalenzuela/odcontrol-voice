@@ -1,7 +1,11 @@
 package cl.mamd.voice;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import cl.mamd.datastore.DataStoreManager;
 import cl.mamd.entity.NodoDevice;
@@ -13,19 +17,20 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -56,14 +61,14 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	private final int UPDATEDEVICE_REQUEST = 2;
 	private final int NODOVOICE_REQUEST = 3;
 	private final int NODODEVICEPORT_REQUEST = 4;
+	private final int PREFERENCE = 5;
 	
 	private String TAGNAME = "VoiceMainActivity";
 	private DataStoreManager dsm;
 	private NodoDeviceAdapter adapter;
 	private List<NodoDevice> values;
-	
-	
-	
+	private String[] on_options = {};
+	private String[] off_options = {};
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +77,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
          * Disabled screen orientation changes and remove title
          */
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.setContentView(R.layout.activity_voice_main);
                 
         
@@ -93,7 +98,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         this.values = dsm.getAllNodoDevice();
         
         /*
-         * oading all devices in listview
+         * Loading all devices in list view
          */
         this.adapter = new NodoDeviceAdapter(this,values);
         this.listView.setAdapter(adapter);
@@ -101,6 +106,74 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         this.listView.setOnItemLongClickListener(this);
         
         dsm.closeDataBase();
+        
+        /*Checking Preferences*/
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        
+        
+        String[] on = getResources().getStringArray(R.array.on_options_values);
+        Set<String> onSet = new HashSet<String>(Arrays.asList(on));
+        
+        String[] off = getResources().getStringArray(R.array.off_options_values);
+        Set<String> offSet = new HashSet<String>(Arrays.asList(off));
+        
+        Set<String> on_list = sharedPref.getStringSet("on_options_list",onSet);
+        Set<String> off_list = sharedPref.getStringSet("off_options_list",offSet);
+        
+        if (on_list != null && off_list != null ) 
+        {
+        	
+        	this.on_options = new String[on_list.size()];
+        	this.off_options = new String[off_list.size()];
+        	int position = 0;
+        
+        	for (String stron : on_list) {
+        		on_options[position] = stron;
+        		position++;
+        	}
+        
+        	position = 0;
+        
+        	for (String stroff : off_list) {
+        		off_options[position] = stroff;
+        		position++;
+        	}
+        	
+        }
+    }
+    
+    /**
+     * Menu of Activity
+     */
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.voice_main, menu);
+        return true;
+    }
+    
+    /**
+     * When item of menu is selected
+     */
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+    	Log.i(TAGNAME, "ID MENU ITEM:"+item.getItemId());
+    	switch (item.getItemId()) {
+    		case R.id.action_settings:
+    			//Start Preference Activity
+    			Intent intentSetPref = new Intent(getApplicationContext(), PreferenceVoice.class);
+    		    startActivityForResult(intentSetPref,PREFERENCE);
+    			
+        		return true;
+    		case R.id.help:
+    			//Start a AlertDialog with information
+    			Helpdialog();
+    			return true;
+    		default:
+    			return super.onOptionsItemSelected(item);
+    	}
     }
     
     /**
@@ -129,9 +202,12 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     	ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         
+        NetworkInfo mMobile = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (!mMobile.isConnected()){
+        	Log.i(TAGNAME,"No mobile connection");
+        }
         
         if (mWifi.isConnected()) {
-            
         	this.putLogInScreen(getResources().getString(R.string.wifi_connection_state)+ "OK");
         	WifiManager wifiMgr = (WifiManager) getSystemService(WIFI_SERVICE);
         	WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
@@ -150,8 +226,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         }
         else {
         	this.putLogInScreen(getResources().getString(R.string.wifi_connection_state)+ "OFF");
-        	//Check if 
-        	startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+        	Log.i(TAGNAME,"No Wifi connection");
         }
     }
     
@@ -163,7 +238,8 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     */
     public boolean searchDeviceButton(View view){
     	
-    	String ipforsearch = this.ipaddress_for_add.getText().toString();
+    	String ipforsearch = this.ipaddress_for_add.getText().toString();   	
+    	List<NodoDevice> nodos = new ArrayList<NodoDevice>();
     	
     	if (ipforsearch.equals("")){
     		dsm.openDataBase();
@@ -174,12 +250,15 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     		int i;
     		for ( i=0 ; i < this.values.size() ; i++){
     			Log.i(TAGNAME,this.values.get(i).getIpaddress()+").contains.("+ipforsearch );
-    			if ( !this.values.get(i).getIpaddress().contains(ipforsearch) ){
-    				Log.i(TAGNAME, "No match with ip, and remove");    			
-    				this.values.remove(i);
+    			if ( this.values.get(i).getIpaddress().contains(ipforsearch) ){
+    				Log.i(TAGNAME, "Match!");
+    				nodos.add(this.values.get(i));
     			}
     		}
+    		values = nodos;
     	}
+
+    	//Updating adapter
     	adapter = new NodoDeviceAdapter(this,values);
     	this.listView.setAdapter(adapter);
     	this.ipaddress_for_add.setText("");
@@ -338,27 +417,8 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         }
     }
     
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.voice_main, menu);
-        return true;
-    }
     
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-    	Log.i(TAGNAME, "ID MENU ITEM:"+item.getItemId());
-    	switch (item.getItemId()) {
-    		case R.id.action_settings:
-    			//Start Preference Activity
-        		return true;
-    		default:
-    			return super.onOptionsItemSelected(item);
-    	}
-    }
-   
+       
 
     /**
      * Item Click - Select device
@@ -385,8 +445,12 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 			nodovoicerecognition.putExtra("LOCATION",nodo.getLocation());
 			nodovoicerecognition.putExtra("USERNAME",nodo.getUsername());
 			nodovoicerecognition.putExtra("PASSWD",nodo.getPasswd());
+			nodovoicerecognition.putExtra("ON_OPTIONS", this.on_options);
+			nodovoicerecognition.putExtra("OFF_OPTIONS", this.off_options);
+			Log.i(TAGNAME, "OFF:"+this.off_options[2]);
+            Log.i(TAGNAME, "ON:"+this.on_options[2]);
 			
-		
+			
 			startActivityForResult(nodovoicerecognition,NODOVOICE_REQUEST);
 			dsm.closeDataBase();
 		}
@@ -399,6 +463,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 			    		   Intent nododeviceport = new Intent(VoiceMainActivity.this,NodoDevicePortMainActivity.class);
 			    		   nododeviceport.putExtra("DEVICE_ID",nodo.getId());
 			    		   nododeviceport.putExtra("DEVICE_NAME",nodo.getName());
+			    		   nododeviceport.putExtra("DEVICE_ADDRESS",nodo.getIpaddress());
 			    		   startActivityForResult(nododeviceport,NODODEVICEPORT_REQUEST);
 			    		   
 			    	   }
@@ -479,6 +544,7 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	            	   			Intent nododeviceport = new Intent(VoiceMainActivity.this,NodoDevicePortMainActivity.class);
 	            	   			nododeviceport.putExtra("DEVICE_ID",nodoport.getId());
 	            	   			nododeviceport.putExtra("DEVICE_NAME",nodoport.getName());
+	            	   			nododeviceport.putExtra("DEVICE_ADDRESS",nodoport.getIpaddress());
 	            	   			startActivityForResult(nododeviceport,NODODEVICEPORT_REQUEST);
 	            	   			
 	            	   			dsm.closeDataBase();
@@ -492,6 +558,38 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 		
 		return true;
 	}
+	
+	/**
+	 * Show dialog for Help information
+	 */
+	public void Helpdialog(){
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    	LayoutInflater inflater = this.getLayoutInflater();
+    	
+    	View customView = inflater.inflate(R.layout.help_layout, null);
+    	TextView textmessage = (TextView)customView.findViewById(R.id.help_layout_message);
+    	
+    	TextView texttitle = (TextView)customView.findViewById(R.id.help_layout_title);
+    	    	
+    	textmessage.setText(getResources().getText(R.string.help_message_voice_main));
+    	texttitle.setText(getResources().getText(R.string.help_title_voice_main));
+    	
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(customView);
+		builder.setTitle(R.string.help_title)
+		       .setPositiveButton(R.string.button_ok,new DialogInterface.OnClickListener() {
+		    	   public void onClick(DialogInterface dialog,int id) {
+		    	   }
+		       });
+		AlertDialog dialog = builder.create();
+		dialog.show();
+    }
+	
+	
+	
+	
 	
 	
 	@Override

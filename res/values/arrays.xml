@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="empty_array"/>
+    <string-array name="on_options_entries">
+        <item >"Encender"</item>
+        <item >"Subir"</item>
+        <item >"Levantar"</item>
+        <item >"Activar"</item>
+        <item >"Prender"</item>
+        <item >"Iluminar"</item>
+    </string-array>
+    <string-array name="on_options_values">
+        <item >"encender"</item>
+        <item >"subir"</item>
+        <item >"levantar"</item>
+        <item >"activar"</item>
+        <item >"prender"</item>
+        <item >"iluminar"</item>
+    </string-array>
+    <string-array name="off_options_entries">
+        <item >"Apagar"</item>
+        <item >"Bajar"</item>
+        <item >"Descender"</item>
+        <item >"Desactivar"</item>
+        <item >"Soltar"</item>
+        <item >"Oscurecer"</item>
+    </string-array>
+    <string-array name="off_options_values">
+        <item >"apagar"</item>
+        <item >"bajar"</item>
+        <item >"descender"</item>
+        <item >"desactivar"</item>
+        <item >"soltar"</item>
+        <item >"oscurecer"</item>
+    </string-array>
+    
+    <!-- OPTION -->
+    <string-array name="device_options">
+        <item>Eliminar</item>
+        <item>Actualizar</item>
+        <item>Configurar Puertos</item>
+    </string-array>
+    
+    
+    <string-array name="port_options">
+        <item>Eliminar</item>
+        <item>Actualizar</item>
+        <item>Ver instrucciones permitidas</item>
+    </string-array>
+    
+    
+</resources>

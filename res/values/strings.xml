@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- PREF -->
+    <string name="pref_title_title">Titulo Ventana</string>
+    <string name="pref_title_summary">Habilitar en las ventanas de la aplicaci\u00f3n el titulo.</string>
+    
+    
+    <string name="pref_categ_title">Acciones de Ejecuci\u00f3n</string>
+    <string name="pref_categ_summary">Secci\u00f3n que permite configurar las acciones soportadas para ejecutar instrucciones ON y OFF en puertos.</string>
+    <string name="pref_on_title">Acciones ON</string>
+    <string name="pref_on_summary">Lista de acciones soportadas por la aplicacion para ejecutar un <b>SET ON</b> a un puerto</string>
+     <string name="pref_off_title">Acciones OFF</string>
+    <string name="pref_off_summary">Lista de acciones soportadas por la aplicacion para ejecutar un <b>SET OFF</b> a un puerto.</string>
+    
+
+    <!-- HELP MESSAGE -->
+    <string name="help_title_voice_main">¿C\u00f3mo agregar un Equipo?</string>
+    <string name="help_message_voice_main">En esta secci\u00f3n puedes agregar equipos ODControl. Para esto <b>debes ingresar su direcci\u00f3n IP</b> y luego 
+        pulsar Agregar. \n\nPara acceder a m\u00e1s opciones de cada equipo <b>debes mantener seleccionado su Nombre</b>.</string>
+    <string name="help_title_nodo_voice_recognition">¿C\u00f3mo ejecutar una Instrucci\u00f3n?</string>
+    <string name="help_message_nodo_voice_recognition">Al Pulsar Hablar comienza <b>el reconocimiento de Voz</b> para ejecutar instrucciones.\n\nPara saber que 
+        instrucciones pueden ser reconocidas; selecciona uno de los puertos y podras encontrar las combinaciones posibles.\n\nSi el reconocimiento es exitoso 
+        la casilla con el resultado del reconocimiento se vuelve de color Verde</string>
+    <string name="help_title_nodo_device_port_main">¿C\u00f3mo agregar un puerto al Equipo?</string>
+    <string name="help_message_nodo_device_port_main">El puerto es identificado mediante una etiqueta, la cual permite al usuario reconocer
+        que se tiene conectado al puerto.(ejemplo; luz comedor, ventana cocina, etc.)<b>No puede existir la misma etiqueta para dos puertos.</b>\n\nAl pulsar Agregar
+        puedes acceder a la pantalla para Agregar un puerto nuevo.\n\nPara acceder a m\u00e1s opciones de cada puerto <b>debes mantener seleccionado su Nombre</b>.</string>
+	
+	<string name="help_title_nodo_device_port">¿C\u00f3mo puedo agregar una Acci\u00f3n al Puerto?</string>
+	<string name="help_message_nodo_device_port">El puerto necesita, adem\u00e1 del puerto y etiqueta, las acciones que pueden ser ejecutadas.\n\n Las acciones son traducidas en intrucciones <b>SET ON o SET OFF </b> sobre cada puerto.
+	     La lista de acciones para cada SET se encuentran en las preferencias de la aplicaci\u00f3n. \n\nPara agregar una acciones, debes pulsar agregar y decir la acci\u00f3n cuando comienze el reconocieminto de voz.</string>
+    
+    
+    <!-- MENU ITEM -->
+    <string name="menuitem_help">Ayuda</string>
+    <string name="menuitem_about">Acerca de</string>
+
     <!-- GENERIC -->
     <string name="text_separator"> / </string>
-    
-	<string name="app_name">opendomo-voicedemo</string>
+    <string name="app_name">odcontrol voice</string>
     <string name="action_settings">Configuracion</string>
     <string name="wifi_connection_state">Estado de conexion WIFI:</string>
+
     <!-- BUTTON -->
     <string name="button_adddevice">Agregar</string>
     <string name="button_speech">Hablar!</string>
@@ -15,19 +51,23 @@
     <string name="button_cancel">Cancelar</string>
     <string name="button_add">Agregar</string>
     <string name="button_addaction">Agregar Ac</string>
-    <string name="button_save">Guardar</string> 
+    <string name="button_save">Guardar</string>
     <!-- ERROR -->
+
+	<string name="error_notnetworkconnection">No tiene conexi\u00f3n m\u00f3vil o WIFI. La aplicaci\u00f3n podra reconocer la instrucci\u00f3n pero no ejecutarla en el equipo.</string>
     <string name="error_ipaddresstolong">Direccion IP muy larga</string>
     <string name="error_ipaddressinvalid">Direccion IP invalida</string>
     <string name="error_porterror">Se debe completar el campo y debe ser inferior a 6 caracteres.</string>
+    <string name="error_tagerror">Se debe agregar una Etiqueta al Puerto. Como Luz, Ventana, etc.</string>
+    <string name="error_tagduplicate">No se puede agregar la etiqueta debido a que ya esta asociada a un puerto.</string>
+    <string name="error_actionerror">Sebe agregar como m\u00ednimo una acci\u00f3n para el Puerto.</string>
     <string name="error_ipaddress_already_exists">La direccion IP ya se encuentra ocupada por otro equipo</string>
     <string name="error_device_whitout_ports">El equipo no tiene una configuracion de puertos asociada. ¿Desea crear una configuracion ahora?</string>
     <string name="error_missingdatafordevice">Se necesitan completar obligatoriamente los datos del Equipo.</string>
     <string name="error_portdevicesave">Error durante la creacion del puerto</string>
     <string name="error_portdeviceupdate">Error durante la actualizacion del puerto</string>
-    
-    
-    <!-- HINT-->
+
+    <!-- HINT -->
     <string name="hint_ipdevice">Direccion IP</string>
     <string name="hint_name">Nombre equipo</string>
     <string name="hint_location">Localizacion </string>
@@ -35,62 +75,46 @@
     <string name="hint_passwd">Contraseña</string>
     <string name="hint_port">Puerto(Max 5 caracteres)</string>
     <string name="hint_tag">Etiqueta</string>
-    
+
     <!-- ACCESS -->
     <string name="access_www">www</string>
-    
+
     <!-- MESSAGE -->
-    <string name="message_confirmaddaction">Desea agregar la siguiente ACCION al puerto?:</string>
-    <string name="message_reminder">Recuerde que debe asociar configuracion de puertos para acceder al equipo.</string>
+    <string name="message_confirmaddactionbegin">¿Agregar la accion (</string>
+    <string name="message_confirmaddactionend">) al puerto?</string>
+    <string name="message_refuseactionbegin">La acciones reconocida (</string>
+    <string name="message_refuseactionend">) <b>no se encuentra en la Lista de SET ON o OFF</b>. Por favor revisar la configuraci\u00f3n.</string>
     
+    
+    <string name="message_remove_action_port">¿Seguro de eliminar la accion? </string>
+    <string name="message_reminder">Recuerde que debe asociar configuracion de puertos para acceder al equipo.</string>
+
     <!-- TOAST -->
     <string name="toast_newdevicesuccess">Se agrego el nuevo dispositivo correctamente</string>
     <string name="toast_updatedevicesuccess">Se actualizo el dispositivo correctamente</string>
     <string name="toast_deletedevicesuccess">Se elimino el dispositivo correctamente</string>
     <string name="toast_newportsuccess">Se agrego un nuevo puerto correctamente</string>
-    
-    <!-- OPTION -->
-    <string-array name="device_options">
-        <item>Eliminar</item>
-        <item>Actualizar</item>
-        <item>Configurar Puertos</item>
-    </string-array>
 
-    <string-array name="port_options">
-        <item>Eliminar</item>
-        <item>Actualizar</item>
-        <item>Ver instrucciones permitidas</item>
-    </string-array>
 
-    <string-array name="on_options">
-        <item>encender</item>
-        <item>levantar</item>
-        <item>subir</item>
-    </string-array>
-    <string-array name="off_options">
-        <item>apagar</item>
-        <item>descender</item>
-        <item>bajar</item>
-    </string-array>
-    
-    
-    <!--  TITLE -->
+    <!-- TITLE -->
     <string name="title_action">Acciones para el Puerto</string>
+    <string name="title_remove_action">Eliminar</string>
     <string name="title_actionexecuteoption">Instrucciones de voz permitidas</string>
     <string name="title_dialog_problem">Error en ejecucion</string>
     <string name="title_activity_nodo_voice_recognition">NodoVoiceRecognitionActivity</string>
     <string name="title_activity_nodo_device_port">NodoDevicePortActivity</string>
-	<string name="title_credentials">Credenciales para Ingresar</string>
-	<string name="title_credentials_message">Credencial:</string>
-	<string name="title_newdevice">Nuevo Equipo</string>
-	<string name="title_deviceoptions">Opciones del Equipo</string>
-	<string name="title_portoptions">Opciones del Puerto</string>
+    <string name="title_credentials">Credenciales para Ingresar</string>
+    <string name="title_credentials_message">Credencial:</string>
+    <string name="title_newdevice">Nuevo Equipo</string>
+    <string name="title_deviceoptions">Opciones del Equipo</string>
+    <string name="title_portoptions">Opciones del Puerto</string>
     <string name="title_dialog_news">Informacion</string>
-	<string name="title_deviceportinformation">Puerto/Informacion</string>
-	<string name="tabtitle_port_analog">Puerto Analogo</string>
-	<string name="tabtitle_port_digital">Puerto Digital</string> 
-	<string name="tabtitle_device">Equipo</string>
-	
-	
-</resources>
+    <string name="title_deviceportinformation">Puerto: Acciones</string>
+    <string name="tabtitle_port_analog">Puerto Analogo</string>
+    <string name="tabtitle_port_digital">Puerto Digital</string>
+    <string name="tabtitle_device">Equipo</string>
+    <string name="help_title">Ayuda</string>
+    <string name="title_activity_preference_voice">PreferenceVoice</string>
+    <string name="hello_world">Hello world!</string>
 
+</resources>

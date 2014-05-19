@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <PreferenceCategory android:summary="@string/pref_categ_summary" android:title="@string/pref_categ_title"></PreferenceCategory><MultiSelectListPreference
+        android:key="on_options_list"
+        android:title="@string/pref_on_title"
+        android:summary="@string/pref_on_summary"
+    	android:entryValues="@array/on_options_values"
+    	android:entries="@array/on_options_entries"
+    	android:defaultValue="@array/on_options_values">
+    </MultiSelectListPreference>
+    <MultiSelectListPreference
+        android:key="off_options_list"
+        android:title="@string/pref_off_title"
+        android:summary="@string/pref_off_summary"
+    	android:entryValues="@array/off_options_values"
+    	android:entries="@array/off_options_entries"
+    	android:defaultValue="@array/off_options_values">
+    </MultiSelectListPreference>
+    
+    
+</PreferenceScreen>

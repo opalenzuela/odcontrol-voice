@@ -3,16 +3,11 @@ package cl.mamd.communication;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -22,23 +17,22 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.params.ClientPNames;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
+
 
 import android.util.Base64;
 import android.util.Log;
-import java.net.URL;
+
 
 public class DeviceHttpCommunication {
 	
 	private final String TAGNAME = "DeviceHttpCommunication";
 	
 	private String URL;
+	private String ip;
 	private String username;
 	private String passwd;
 	// 1 PUT / 2 GET
@@ -53,6 +47,7 @@ public class DeviceHttpCommunication {
 		this.passwd = passwd;
 		//this.URL = "http://"+IP;
 		this.URL = IP;
+		this.ip = IP;
 		this.option = opt;
 		
 		this.credProvider = new BasicCredentialsProvider();
@@ -85,19 +80,20 @@ public class DeviceHttpCommunication {
 	    	public void run() {
 		
 		try {
-			String params = URLEncoder.encode("param1", "UTF-8")
-					+ "=" + URLEncoder.encode("value1", "UTF-8");
-					            params += "&" + URLEncoder.encode("param2", "UTF-8")
-					+ "=" + URLEncoder.encode("value2", "UTF-8");
 					  
 					            int port = 80;
 					            InetAddress addr = InetAddress.getByName("local.opendomo.com");
-					            Socket socket = new Socket(addr, port);
 					            
-					            BufferedWriter wr =
-					     new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF8"));
+					            
+					            
+					            Log.i(TAGNAME, "addr:"+addr);
+					            InetAddress addr_test = InetAddress.getByName(ip);
+					            Log.i(TAGNAME, "addr_test:"+addr_test);
+					            
+					            Socket socket = new Socket(addr_test, port);
+					            
+					            BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF8"));
 					            wr.write("GET "+path+" HTTP/1.0rn");
-					            //wr.write("Content-Length: "+params.length()+"rn");
 					            wr.write("Content-Type: text/plain");
 					            wr.write("Authorization: Basic "+author_String);
 					            wr.write("rn");

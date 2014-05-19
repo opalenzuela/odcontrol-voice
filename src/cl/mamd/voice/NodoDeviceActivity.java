@@ -48,7 +48,6 @@ public class NodoDeviceActivity extends Activity {
             this.passwd.setText(extras.getString("PASSWD"));
             this.button_action = (Button)findViewById(R.id.button_adddevice);
             this.button_action.setText(R.string.button_updatedevice);
-            
         }
         else {
         	setIpToEditText();
