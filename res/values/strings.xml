@@ -63,6 +63,8 @@
 
     
     <!-- ERROR -->
+    <string name="error_accessdenied">Las credenciales de acceso se encuentra incorrectas, no podra ejecutar instrucciones sobre el equipo.</string>
+    <string name="error_econnrefused">Conexi\u00f3n rechazada por el equipo, por favor verificar direcci\u00f3n ip del equipo.</string>
     <string name="error_notnamedevice">Se debe agregar nombre del equipo.</string>
     <string name="error_notusernamedevice">Se debe agregar el nombre de usuario del equipo.</string>
     <string name="error_notpasswddevice">Se debe agregar la clave del equipo.</string>
@@ -108,7 +110,7 @@
     <string name="toast_updatedevicesuccess">Se actualizo el dispositivo correctamente</string>
     <string name="toast_deletedevicesuccess">Se elimino el dispositivo correctamente</string>
     <string name="toast_newportsuccess">Se agrego un nuevo puerto correctamente</string>
-
+	<string name="toast_accessgranted">El acceso al equipo fue exitoso</string>
 
     <!-- TITLE -->
     <string name="title_checkboxdialog">Mostrar al inicio de la aplicaci\u00f3n</string>

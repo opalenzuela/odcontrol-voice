@@ -38,6 +38,7 @@ public class DeviceHttpCommunication {
 	// 1 PUT / 2 GET
 	private Integer option;
 	private String author_String;
+	private String results;
 	
 
 	private CredentialsProvider credProvider;
@@ -104,10 +105,11 @@ public class DeviceHttpCommunication {
 					            BufferedReader rd = new BufferedReader(
 					            		new InputStreamReader(socket.getInputStream()));
 					            String line;
+					            results = "";
 					            Log.i(TAGNAME,"Start reading response");
 					            while ((line = rd.readLine()) != null) {
 					                Log.i(TAGNAME,"line:"+line);
-					
+					                results = results + line;
 					            }
 					            Log.i(TAGNAME,"Stop reading response");
 					             
@@ -258,10 +260,6 @@ public class DeviceHttpCommunication {
 	    	
 	    	
 	    }
-
-	    
-		
-	    
 	    
 		return false;
 	    

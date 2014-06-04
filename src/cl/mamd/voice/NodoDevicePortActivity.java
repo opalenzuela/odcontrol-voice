@@ -57,8 +57,8 @@ public class NodoDevicePortActivity extends Activity implements OnItemClickListe
 		super.onCreate(savedInstanceState);
 		//Disabled screen orientation changes and remove title
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+		this.setTitle(getResources().getString(R.string.app_name));
+        
 		setContentView(R.layout.nodo_device_port);
 
         this.port = (EditText)findViewById(R.id.editText_port);        

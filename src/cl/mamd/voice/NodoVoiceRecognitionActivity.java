@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Locale;
 
 import cl.mamd.communication.DeviceHttpCommunication;
+import cl.mamd.communication.HTTPExecuteInstruction;
 import cl.mamd.datastore.DataStoreManager;
+import cl.mamd.entity.NodoDevice;
 import cl.mamd.entity.NodoDevicePort;
 
 import android.net.ConnectivityManager;
@@ -58,6 +60,7 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
 	private HashMap<String,String[]> action_to_set; 
 	private String[] on_options;
 	private String[] off_options;
+	private NodoDevice nodo;
 	
 	
 	
@@ -93,6 +96,8 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
 				getResources().getDrawable(R.drawable.round_result_default));
 		
 		
+		
+		
 	    this.listview = (ListView)findViewById(R.id.listView_voicerecognition);
 	    
 	    this.action_to_set = new HashMap<String,String[]>();
@@ -115,6 +120,10 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
             
             this.on_options = extras.getStringArray("ON_OPTIONS");
             this.off_options = extras.getStringArray("OFF_OPTIONS");
+            
+            Log.i(TAGNAME, "size of on_options:"+this.on_options.length);
+            Log.i(TAGNAME, "size of off_options:"+this.off_options.length);
+            
             this.action_to_set.put("ON",this.on_options);
     	    this.action_to_set.put("OFF",this.off_options);
             
@@ -122,6 +131,15 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
             if ( this.values != null )
             	Log.i(TAGNAME,"Size of arraylist port"+Integer.toString(this.values.size()));
             
+          //Nodo
+    		this.nodo = new NodoDevice();
+    		this.nodo.setIpaddress(ipaddress.getText().toString());
+    		this.nodo.setUsername(this.username.getText().toString());
+    		this.nodo.setPasswd(this.passwd.getText().toString());
+    		this.nodo.setName(this.name.getText().toString());
+    		this.nodo.setLocation(this.location.getText().toString());
+    		this.nodo.setId(this.device_id);
+    		
         }
 		
         this.adapter = new NodoDevicePortAdapter(this,this.values);
@@ -260,10 +278,10 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
             				
             							//Recognition Success
             							Log.i(TAGNAME, "Recognition success:'"+action+"'/'"+actionlist[k]+"'");
-            							this.editText_voicerecog.setBackgroundColor(getResources().getColor(
-                    									R.color.green));
-            							this.editText_voicerecog.setBackground(
-            									getResources().getDrawable(R.drawable.round_result_success));
+            							//this.editText_voicerecog.setBackgroundColor(getResources().getColor(
+                    					//				R.color.green));
+            							//this.editText_voicerecog.setBackground(
+            							//		getResources().getDrawable(R.drawable.round_result_success));
             							
             							List<String> list = Arrays.asList(this.off_options);
             							if (list.contains(action)){
@@ -271,11 +289,17 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
             								this.executeInstructionOnDevice(this.values.get(j).getPort(),
             										"off");
             							}
+            							else {
+            								Log.i(TAGNAME, "Is not in off_options");
+            							}
             							list = Arrays.asList(this.on_options);
             							if (list.contains(action)){
             								Log.i(TAGNAME, "ON ACTION");
             								this.executeInstructionOnDevice(this.values.get(j).getPort(),
             										"on");
+            							}
+            							else {
+            								Log.i(TAGNAME, "Is not in on_options");
             							}
             							
             							i = text.size();
@@ -295,12 +319,17 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
 	
 	private boolean executeInstructionOnDevice(String port,String option){
 		
+		Log.i(TAGNAME, "executeInstructionOnDevice");
 		
 		DeviceHttpCommunication dhc = new DeviceHttpCommunication(
 				this.ipaddress.getText().toString(),this.username.getText().toString(),
 				this.passwd.getText().toString(),2);
 		
 		String inst = "set+"+port+"+"+option;
+		
+		new HTTPExecuteInstruction(NodoVoiceRecognitionActivity.this,nodo,inst,this.editText_voicerecog)
+			.execute();
+		
 		if ( dhc.executeInstructionSocket(inst)){
 		//if (dhc.executeInstruction(inst)){
 			return true;

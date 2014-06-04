@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import cl.mamd.communication.HTTPCheckAuthentication;
 import cl.mamd.datastore.DataStoreManager;
 import cl.mamd.entity.NodoDevice;
 
@@ -388,6 +389,8 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
          */
         if (requestCode == NEWDEVICE_REQUEST) {
         	Log.i(TAGNAME,"REFRESHING UI AFTER ADD NEW DEVICE");
+        	Log.i(TAGNAME, "RESULTCODE="+Integer.toString(resultCode));
+        	
         	if (resultCode == RESULT_OK){
         		data.getExtras().getString("IPADDRESS");
         		Log.i(TAGNAME,data.getExtras().getString("IPADDRESS"));
@@ -459,6 +462,42 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     						R.string.toast_updatedevicesuccess),Toast.LENGTH_LONG).show();
     			}
         	}
+        }
+        if ( requestCode == PREFERENCE ) {
+        	/*Checking Preferences*/
+        	Log.i(TAGNAME, "Getting preference for update");
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+                      
+            // ON AND OFF OPTIONS
+            String[] on = getResources().getStringArray(R.array.on_options_values);
+            Set<String> onSet = new HashSet<String>(Arrays.asList(on));
+            
+            String[] off = getResources().getStringArray(R.array.off_options_values);
+            Set<String> offSet = new HashSet<String>(Arrays.asList(off));
+            
+            Set<String> on_list = sharedPref.getStringSet("on_options_list",onSet);
+            Set<String> off_list = sharedPref.getStringSet("off_options_list",offSet);
+            
+            if (on_list != null && off_list != null ) 
+            {
+            	
+            	this.on_options = new String[on_list.size()];
+            	this.off_options = new String[off_list.size()];
+            	int position = 0;
+            
+            	for (String stron : on_list) {
+            		on_options[position] = stron;
+            		position++;
+            	}
+            
+            	position = 0;
+            
+            	for (String stroff : off_list) {
+            		off_options[position] = stroff;
+            		position++;
+            	}
+            	
+            }
         }
     }
     
@@ -545,9 +584,9 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	               /*
 	                *  The 'which' argument contains the index position
 	                *  of the selected item
-	                *  0 Delete,1 Update, 2 Ports  
+	                *  0 Delete,1 Update, 2 Ports , 3 Check Credentials 
 	                */
-	            	   final int delete = 0, update = 1, ports = 2;
+	            	   final int delete = 0, update = 1, ports = 2, cred = 3;
 	            	   TextView ipvalue = (TextView)v.findViewById(R.id.textViewIpAddress);
 	            	   switch(which){
 	            	   		case delete:
@@ -593,6 +632,15 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
 	            	   			startActivityForResult(nododeviceport,NODODEVICEPORT_REQUEST);
 	            	   			
 	            	   			dsm.closeDataBase();
+	            	   			
+	            	   			break;
+	            	   		case cred:
+	            	   			dsm.openDataBase();
+	            	   			NodoDevice nodocred = dsm.getDevice(ipvalue.getText().toString());
+	            	   			
+	            	   			dsm.closeDataBase();
+	            	   			new HTTPCheckAuthentication(VoiceMainActivity.this,nodocred)
+	            	   			.execute();
 	            	   			
 	            	   			break;
 	            	   }
