@@ -1,3 +1,21 @@
+/**
+Copyright 2014 Manuel Moscoso Dominguez
+This file is part of ODControl-Voice.
+
+ODCOntrol-Voice is free software: you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published by 
+the Free Software Foundation, either version 3 of the License, or 
+(at your option) any later version.
+
+ODControl-Voice is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License 
+along with ODControl-Voice.  If not, see <http://www.gnu.org/licenses/>.
+
+**/
 package cl.mamd.voice;
 
 import java.util.ArrayList;
@@ -6,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import cl.mamd.communication.DeviceHttpCommunication;
 import cl.mamd.communication.HTTPExecuteInstruction;
 import cl.mamd.datastore.DataStoreManager;
 import cl.mamd.entity.NodoDevice;
@@ -321,23 +338,26 @@ public class NodoVoiceRecognitionActivity extends Activity implements OnItemClic
 		
 		Log.i(TAGNAME, "executeInstructionOnDevice");
 		
-		DeviceHttpCommunication dhc = new DeviceHttpCommunication(
+	/*	DeviceHttpCommunication dhc = new DeviceHttpCommunication(
 				this.ipaddress.getText().toString(),this.username.getText().toString(),
 				this.passwd.getText().toString(),2);
-		
+		*/
 		String inst = "set+"+port+"+"+option;
 		
 		new HTTPExecuteInstruction(NodoVoiceRecognitionActivity.this,nodo,inst,this.editText_voicerecog)
 			.execute();
-		
+		/*
 		if ( dhc.executeInstructionSocket(inst)){
 		//if (dhc.executeInstruction(inst)){
 			return true;
 		}
 		else {
 			return false;
-		}		
+		}
+		*/
+		return true;
 	}
+	
 	
 	@Override
 	protected void onResume() {

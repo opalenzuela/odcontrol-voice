@@ -1,3 +1,21 @@
+/**
+Copyright 2014 Manuel Moscoso Dominguez
+This file is part of ODControl-Voice.
+
+ODCOntrol-Voice is free software: you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published by 
+the Free Software Foundation, either version 3 of the License, or 
+(at your option) any later version.
+
+ODControl-Voice is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License 
+along with ODControl-Voice.  If not, see <http://www.gnu.org/licenses/>.
+
+**/
 package cl.mamd.communication;
 
 import java.io.BufferedReader;
@@ -122,6 +140,9 @@ public class HTTPExecuteInstruction extends AsyncTask<String, Void, String> {
 			if ( e.getMessage().toString().contains("ECONNREFUSED")) {
 				error = 1;
 			}
+			if ( e.getMessage().toString().contains("failed to connect to")) {
+				error = 2;
+			}
 		}
 		
 		
@@ -136,12 +157,16 @@ public class HTTPExecuteInstruction extends AsyncTask<String, Void, String> {
 	    			this.context.getResources().getDrawable(R.drawable.round_result_success));
 	    }
 	    else { 
+	    	Log.i(TAGNAME,"Error:"+Integer.toString(error));
 	    	if ( error == 0)
 	    	Toast.makeText(this.context,this.context.getResources().getString(
 	    			R.string.error_accessdenied),Toast.LENGTH_LONG).show();
-	    	else
+	    	if ( error == 1)
 	    		Toast.makeText(this.context,this.context.getResources().getString(
 		    			R.string.error_econnrefused),Toast.LENGTH_LONG).show();
+	    	if ( error == 2)
+	    		Toast.makeText(this.context,this.context.getResources().getString(
+		    			R.string.error_failconn),Toast.LENGTH_LONG).show();
 	    }
 	}
 }
