@@ -66,6 +66,10 @@
     <string name="error_accessdenied">Las credenciales de acceso se encuentra incorrectas, no podra ejecutar instrucciones sobre el equipo.</string>
     <string name="error_failconn">No se puede establer Conexi\u00f3n con el equipo, por favor verificar direcci\u00f3n ip del equipo y su disponibilidad.</string>
     <string name="error_econnrefused">Conexi\u00f3n rechazada por el equipo, por favor verificar direcci\u00f3n ip del equipo.</string>
+    <string name="error_ehostunreach">No se puede alcanzar el equipo,por favor verificar direcci\u00f3n ip y tu conexi\u00f3n.</string>
+    <string name="error_etimedout">Se cumplio el tiempo limite para la conex\u00f3n. Verificar estado conexi\u00f3n.</string>
+    <string name="error_enetunreach">Red inalcanzable. Verificar el estado de la conex\u00f3n. .</string>
+    
     <string name="error_notnamedevice">Se debe agregar nombre del equipo.</string>
     <string name="error_notusernamedevice">Se debe agregar el nombre de usuario del equipo.</string>
     <string name="error_notpasswddevice">Se debe agregar la clave del equipo.</string>
@@ -77,13 +81,15 @@
     <string name="error_porterror">Se debe completar el campo y debe ser inferior a 6 caracteres.</string>
     <string name="error_tagerror">Se debe agregar una Etiqueta al Puerto. Como Luz, Ventana, etc.</string>
     <string name="error_tagduplicate">No se puede agregar la etiqueta debido a que ya esta asociada a un puerto.</string>
-    <string name="error_actionerror">Sebe agregar como m\u00ednimo una acci\u00f3n para el Puerto.</string>
+    <string name="error_actionerror">Se debe agregar como m\u00ednimo una acci\u00f3n para el Puerto.</string>
     <string name="error_ipaddress_already_exists">La direccion IP ya se encuentra ocupada por otro equipo</string>
     <string name="error_device_whitout_ports">El equipo no tiene una configuracion de puertos asociada. ¿Desea crear una configuracion ahora?</string>
     <string name="error_missingdatafordevice">Se necesitan completar obligatoriamente los datos del Equipo.</string>
     <string name="error_portdevicesave">Atenci\u00f3n: Los datos ingresados no fueron guardados.</string>
     <string name="error_portdeviceupdate">Atenci\u00f3n: Los datos ingresados no fueron actualizados.</string>
-
+	<string name="error_devicesave">Atenci\u00f3n: Los datos ingresados no fueron guardados.</string>
+    <string name="error_deviceupdate">Atenci\u00f3n: Los datos ingresados no fueron actualizados.</string>
+    
     <!-- HINT -->
     <string name="hint_ipdevice">Direccion IP</string>
     <string name="hint_name">Nombre equipo</string>

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    <PreferenceCategory android:summary="@string/pref_categ_summary" android:title="@string/pref_categ_title"></PreferenceCategory><MultiSelectListPreference
+    <PreferenceCategory android:summary="@string/pref_categ_summary" 
+        android:title="@string/pref_categ_title">
+		</PreferenceCategory>
+	<MultiSelectListPreference
         android:key="on_options_list"
         android:title="@string/pref_on_title"
         android:summary="@string/pref_on_summary"

@@ -147,6 +147,16 @@ public class HTTPCheckAuthentication extends AsyncTask<String, Void, String> {
 			if ( e.getMessage().toString().contains("ECONNREFUSED")) {
 				error = 1;
 			}
+			if ( e.getMessage().toString().contains("EHOSTUNREACH")) {
+				error = 2;
+			}
+			if ( e.getMessage().toString().contains("ETIMEDOUT")) {
+				error = 3;
+			}	
+			if ( e.getMessage().toString().contains("ENETUNREACH")) {
+				error = 4;
+			}
+			this.results = false;
 		}
 		
 		
@@ -165,9 +175,19 @@ public class HTTPCheckAuthentication extends AsyncTask<String, Void, String> {
 	    	if ( error == 0)
 	    	Toast.makeText(this.context,this.context.getResources().getString(
 	    			R.string.error_accessdenied),Toast.LENGTH_LONG).show();
-	    	else
+	    	if ( error == 1)
 	    		Toast.makeText(this.context,this.context.getResources().getString(
 		    			R.string.error_econnrefused),Toast.LENGTH_LONG).show();
+	    	if ( error == 2)
+	    		Toast.makeText(this.context,this.context.getResources().getString(
+		    			R.string.error_ehostunreach),Toast.LENGTH_LONG).show();
+	    	if ( error == 3)
+	    		Toast.makeText(this.context,this.context.getResources().getString(
+		    			R.string.error_etimedout),Toast.LENGTH_LONG).show();
+	    	if ( error == 4)
+	    		Toast.makeText(this.context,this.context.getResources().getString(
+		    			R.string.error_enetunreach),Toast.LENGTH_LONG).show();
+	    	
 	    }
 	}
 }

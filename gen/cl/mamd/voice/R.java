@@ -138,7 +138,7 @@ containing a value of this type.
     public static final class string {
         /**  ACCESS 
          */
-        public static final int access_www=0x7f09003e;
+        public static final int access_www=0x7f090043;
         public static final int action_settings=0x7f090019;
         public static final int app_name=0x7f090018;
         public static final int button_add=0x7f090021;
@@ -155,30 +155,35 @@ containing a value of this type.
         /**  ERROR 
          */
         public static final int error_accessdenied=0x7f090024;
-        public static final int error_actionerror=0x7f090031;
-        public static final int error_device_whitout_ports=0x7f090033;
+        public static final int error_actionerror=0x7f090034;
+        public static final int error_device_whitout_ports=0x7f090036;
+        public static final int error_devicesave=0x7f09003a;
+        public static final int error_deviceupdate=0x7f09003b;
         public static final int error_econnrefused=0x7f090026;
+        public static final int error_ehostunreach=0x7f090027;
+        public static final int error_enetunreach=0x7f090029;
+        public static final int error_etimedout=0x7f090028;
         public static final int error_failconn=0x7f090025;
-        public static final int error_ipaddress_already_exists=0x7f090032;
-        public static final int error_ipaddressinvalid=0x7f09002d;
-        public static final int error_ipaddresstolong=0x7f09002c;
-        public static final int error_missingdatafordevice=0x7f090034;
-        public static final int error_notnamedevice=0x7f090027;
-        public static final int error_notnetworkconnection=0x7f09002b;
-        public static final int error_notpasswddevice=0x7f090029;
-        public static final int error_notusernamedevice=0x7f090028;
-        public static final int error_portdevicesave=0x7f090035;
-        public static final int error_portdeviceupdate=0x7f090036;
-        public static final int error_portduplicate=0x7f09002a;
-        public static final int error_porterror=0x7f09002e;
-        public static final int error_tagduplicate=0x7f090030;
-        public static final int error_tagerror=0x7f09002f;
-        public static final int hello_world=0x7f09005d;
+        public static final int error_ipaddress_already_exists=0x7f090035;
+        public static final int error_ipaddressinvalid=0x7f090030;
+        public static final int error_ipaddresstolong=0x7f09002f;
+        public static final int error_missingdatafordevice=0x7f090037;
+        public static final int error_notnamedevice=0x7f09002a;
+        public static final int error_notnetworkconnection=0x7f09002e;
+        public static final int error_notpasswddevice=0x7f09002c;
+        public static final int error_notusernamedevice=0x7f09002b;
+        public static final int error_portdevicesave=0x7f090038;
+        public static final int error_portdeviceupdate=0x7f090039;
+        public static final int error_portduplicate=0x7f09002d;
+        public static final int error_porterror=0x7f090031;
+        public static final int error_tagduplicate=0x7f090033;
+        public static final int error_tagerror=0x7f090032;
+        public static final int hello_world=0x7f090062;
         public static final int help_message_nodo_device_port=0x7f090014;
         public static final int help_message_nodo_device_port_main=0x7f090012;
         public static final int help_message_nodo_voice_recognition=0x7f090010;
         public static final int help_message_voice_main=0x7f09000e;
-        public static final int help_title=0x7f09005b;
+        public static final int help_title=0x7f090060;
         public static final int help_title_nodo_device_port=0x7f090013;
         public static final int help_title_nodo_device_port_main=0x7f090011;
         public static final int help_title_nodo_voice_recognition=0x7f09000f;
@@ -187,13 +192,13 @@ containing a value of this type.
         public static final int help_title_voice_main=0x7f09000d;
         /**  HINT 
          */
-        public static final int hint_ipdevice=0x7f090037;
-        public static final int hint_location=0x7f090039;
-        public static final int hint_name=0x7f090038;
-        public static final int hint_passwd=0x7f09003b;
-        public static final int hint_port=0x7f09003c;
-        public static final int hint_tag=0x7f09003d;
-        public static final int hint_username=0x7f09003a;
+        public static final int hint_ipdevice=0x7f09003c;
+        public static final int hint_location=0x7f09003e;
+        public static final int hint_name=0x7f09003d;
+        public static final int hint_passwd=0x7f090040;
+        public static final int hint_port=0x7f090041;
+        public static final int hint_tag=0x7f090042;
+        public static final int hint_username=0x7f09003f;
         public static final int info_message=0x7f09000c;
         /**  INFO 
          */
@@ -204,77 +209,77 @@ containing a value of this type.
         public static final int menuitem_help=0x7f090015;
         /**  MESSAGE 
          */
-        public static final int message_confirmaddactionbegin=0x7f09003f;
-        public static final int message_confirmaddactionend=0x7f090040;
-        public static final int message_refuseactionbegin=0x7f090041;
-        public static final int message_refuseactionend=0x7f090042;
-        public static final int message_reminder=0x7f090044;
-        public static final int message_remove_action_port=0x7f090043;
+        public static final int message_confirmaddactionbegin=0x7f090044;
+        public static final int message_confirmaddactionend=0x7f090045;
+        public static final int message_refuseactionbegin=0x7f090046;
+        public static final int message_refuseactionend=0x7f090047;
+        public static final int message_reminder=0x7f090049;
+        public static final int message_remove_action_port=0x7f090048;
         public static final int pref_categ_summary=0x7f090006;
         public static final int pref_categ_title=0x7f090005;
         /**  PREF 
          */
         public static final int pref_categ_title_dialog=0x7f090000;
-        public static final int pref_default_display_name=0x7f090063;
-        public static final int pref_description_social_recommendations=0x7f090061;
+        public static final int pref_default_display_name=0x7f090068;
+        public static final int pref_description_social_recommendations=0x7f090066;
         public static final int pref_dialoginfo_summary=0x7f090004;
         public static final int pref_dialoginfo_title=0x7f090003;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f090065;
+        public static final int pref_header_data_sync=0x7f09006a;
         /**  Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f09005f;
+        public static final int pref_header_general=0x7f090064;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f090068;
+        public static final int pref_header_notifications=0x7f09006d;
         public static final int pref_off_summary=0x7f09000a;
         public static final int pref_off_title=0x7f090009;
         public static final int pref_on_summary=0x7f090008;
         public static final int pref_on_title=0x7f090007;
-        public static final int pref_ringtone_silent=0x7f09006b;
-        public static final int pref_title_add_friends_to_messages=0x7f090064;
-        public static final int pref_title_display_name=0x7f090062;
-        public static final int pref_title_new_message_notifications=0x7f090069;
-        public static final int pref_title_ringtone=0x7f09006a;
-        public static final int pref_title_social_recommendations=0x7f090060;
+        public static final int pref_ringtone_silent=0x7f090070;
+        public static final int pref_title_add_friends_to_messages=0x7f090069;
+        public static final int pref_title_display_name=0x7f090067;
+        public static final int pref_title_new_message_notifications=0x7f09006e;
+        public static final int pref_title_ringtone=0x7f09006f;
+        public static final int pref_title_social_recommendations=0x7f090065;
         public static final int pref_title_summary=0x7f090002;
-        public static final int pref_title_sync_frequency=0x7f090066;
-        public static final int pref_title_system_sync_settings=0x7f090067;
+        public static final int pref_title_sync_frequency=0x7f09006b;
+        public static final int pref_title_system_sync_settings=0x7f09006c;
         public static final int pref_title_title=0x7f090001;
-        public static final int pref_title_vibrate=0x7f09006c;
-        public static final int tabtitle_device=0x7f09005a;
-        public static final int tabtitle_port_analog=0x7f090058;
-        public static final int tabtitle_port_digital=0x7f090059;
+        public static final int pref_title_vibrate=0x7f090071;
+        public static final int tabtitle_device=0x7f09005f;
+        public static final int tabtitle_port_analog=0x7f09005d;
+        public static final int tabtitle_port_digital=0x7f09005e;
         /**  GENERIC 
          */
         public static final int text_separator=0x7f090017;
-        public static final int title_action=0x7f09004b;
-        public static final int title_actionexecuteoption=0x7f09004d;
-        public static final int title_activity_nodo_device_port=0x7f090050;
-        public static final int title_activity_nodo_voice_recognition=0x7f09004f;
-        public static final int title_activity_preference_voice=0x7f09005c;
-        public static final int title_activity_voice_main_settings=0x7f09005e;
+        public static final int title_action=0x7f090050;
+        public static final int title_actionexecuteoption=0x7f090052;
+        public static final int title_activity_nodo_device_port=0x7f090055;
+        public static final int title_activity_nodo_voice_recognition=0x7f090054;
+        public static final int title_activity_preference_voice=0x7f090061;
+        public static final int title_activity_voice_main_settings=0x7f090063;
         /**  TITLE 
          */
-        public static final int title_checkboxdialog=0x7f09004a;
-        public static final int title_credentials=0x7f090051;
-        public static final int title_credentials_message=0x7f090052;
-        public static final int title_deviceoptions=0x7f090054;
-        public static final int title_deviceportinformation=0x7f090057;
-        public static final int title_dialog_news=0x7f090056;
-        public static final int title_dialog_problem=0x7f09004e;
-        public static final int title_newdevice=0x7f090053;
-        public static final int title_portoptions=0x7f090055;
-        public static final int title_remove_action=0x7f09004c;
-        public static final int toast_accessgranted=0x7f090049;
-        public static final int toast_deletedevicesuccess=0x7f090047;
+        public static final int title_checkboxdialog=0x7f09004f;
+        public static final int title_credentials=0x7f090056;
+        public static final int title_credentials_message=0x7f090057;
+        public static final int title_deviceoptions=0x7f090059;
+        public static final int title_deviceportinformation=0x7f09005c;
+        public static final int title_dialog_news=0x7f09005b;
+        public static final int title_dialog_problem=0x7f090053;
+        public static final int title_newdevice=0x7f090058;
+        public static final int title_portoptions=0x7f09005a;
+        public static final int title_remove_action=0x7f090051;
+        public static final int toast_accessgranted=0x7f09004e;
+        public static final int toast_deletedevicesuccess=0x7f09004c;
         /**  TOAST 
          */
-        public static final int toast_newdevicesuccess=0x7f090045;
-        public static final int toast_newportsuccess=0x7f090048;
-        public static final int toast_updatedevicesuccess=0x7f090046;
+        public static final int toast_newdevicesuccess=0x7f09004a;
+        public static final int toast_newportsuccess=0x7f09004d;
+        public static final int toast_updatedevicesuccess=0x7f09004b;
         public static final int wifi_connection_state=0x7f09001a;
     }
     public static final class style {

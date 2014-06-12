@@ -339,7 +339,14 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     	
     	String[] ipaddress = ipaddress_for_add.getText().toString().split("\\.");
     	
-    	if(ipaddress_for_add.getText().toString().length() > 15){
+    	
+    	
+    	if(ipaddress_for_add.getText().toString().length() > 15 ||
+    			ipaddress[0].length() > 3 ||
+    			ipaddress[1].length() > 3 ||
+    			ipaddress[2].length() > 3 ||
+    			ipaddress[3].length() > 3){
+    		
     		this.ipaddress_for_add.setError(
     				getResources().getString(R.string.error_ipaddresstolong)
     				);
@@ -454,6 +461,12 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
         		}
         		
         	}
+        	else {
+				Toast.makeText(this,
+					getResources().getString(R.string.error_devicesave)
+							, Toast.LENGTH_LONG).show();
+			}
+        	
         }
         if ( requestCode == UPDATEDEVICE_REQUEST) {
         	Log.i(TAGNAME,"REFRESHING UI AFTER ADD NEW DEVICE");
@@ -480,6 +493,11 @@ public class VoiceMainActivity extends Activity implements OnItemClickListener,O
     						R.string.toast_updatedevicesuccess),Toast.LENGTH_LONG).show();
     			}
         	}
+        	else {
+				Toast.makeText(this,
+					getResources().getString(R.string.error_deviceupdate)
+							, Toast.LENGTH_LONG).show();
+			}
         }
         if ( requestCode == PREFERENCE ) {
         	/*Checking Preferences*/

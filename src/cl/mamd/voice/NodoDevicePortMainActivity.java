@@ -376,7 +376,8 @@ public class NodoDevicePortMainActivity extends Activity implements OnItemLongCl
 	            	   					android.R.layout.simple_list_item_1);
 	            	   			
 	            	   			for ( int i = 0 ; i < values.size() ; i++ ) {
-	            	   				TextView tag = (TextView)findViewById(R.id.textViewPort);
+	            	   				//TextView tag = (TextView)v.findViewById(R.id.textViewPort);
+	            	   				TextView tag = port;
 	            	   				if ( tag.getText().toString().equals(values.get(i).getPort())) {
 	            	   					String[] actions = values.get(i).getAction().split(",");
 	            	   					for ( int j = 0 ; j < actions.length ; j ++ ){
